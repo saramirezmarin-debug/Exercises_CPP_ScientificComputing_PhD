@@ -26,8 +26,9 @@ int main(int argc, char *argv[])
 
     std::string file_name = argv[1]; // Copy the file name argument into a string variable.
 
-    // Open the file for reading
-    std::ifstream file(file_name);
+
+    std::ifstream file(file_name);     // Open the file for reading
+    std::string line; // Variable to store line read from the file
 
     // Check if the file was opened successfully
     if (!file)
@@ -36,7 +37,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    std::cout << "File opened successfully: " << file_name << "\n";
+    // Read the file line by line
+    while (std::getline(file, line))
+    {
+        std::cout << line << "\n";
+    }
 
     return 0;
 }
