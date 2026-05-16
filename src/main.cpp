@@ -1,7 +1,13 @@
 #include "Zipf.hh"
 
-int main() {
 
+// ./exe/Zipf.exe test.txt
+// argc is the argument count  -> 2
+// argv is the argument vector -> argv[0] = "./exe/Zipf.exe", argv[1] = "test.txt"
+int main( int argc, char *argv[] ) 
+{
+
+  /*
   std::map<std::string,int> words; // map to store word frequencies
 
   add_word( "hello", words );
@@ -11,8 +17,18 @@ int main() {
   for ( auto const & item : words ) {
     std::cout << item.first << ": " << item.second << '\n';
   }
+  */
 
- 
+  if (argc != 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " <file>\n";
+    return 1;
+  }
+
+
+  std::string file_name = argv[1]; // Copy the file name argument into a string variable.
+
+  std::cout << "File received: " << file_name << "\n";
 
   return 0;
 }

@@ -17,7 +17,6 @@ void add_word(std::string const & w, std::map<std::string, int> & m)
         m[w] = 1;         // if not found, add the word with frequency 1
     }
 
-     std::cout << "TEST\n";
-
+    
 }
 
