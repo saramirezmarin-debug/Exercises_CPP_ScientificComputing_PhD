@@ -2,9 +2,15 @@
 
 int main() {
 
-    Zipf z;
+  std::map<std::string,int> words;
 
-    z.print();
+  add_word( "hello", words );
+  add_word( "hello", words );
+  add_word( "world", words );
 
-    return 0;
+  for ( auto const & item : words ) {
+    std::cout << item.first << ": " << item.second << '\n';
+  }
+
+  return 0;
 }
