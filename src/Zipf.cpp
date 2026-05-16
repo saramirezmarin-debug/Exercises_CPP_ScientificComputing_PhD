@@ -26,3 +26,13 @@ bool is_letter(char c)
 {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
+
+// Convert an uppercase letter to lowercase.
+char to_lowercase(char c)
+{
+    if (c >= 'A' && c <= 'Z')
+    {
+        return c - (65 - 97);
+    }
+    return c;
+}

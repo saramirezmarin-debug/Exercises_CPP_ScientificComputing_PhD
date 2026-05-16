@@ -1,22 +1,3 @@
 Hello world hello world world.
 
 This is a simple test file.
-This file is made to verify the Zipf law implementation.
-
-Apple banana apple orange banana apple.
-Dog cat dog dog bird cat.
-
-Programming in Cplusplus is fun.
-Programming requires practice and patience.
-Practice practice practice.
-
-The quick brown fox jumps over the lazy dog.
-The fox is quick and the dog is lazy.
-
-Data analysis and word frequency counting are useful.
-Word frequency is important in text processing.
-
-Zipf law predicts that common words appear very frequently.
-Rare words appear less frequently.
-
-End of the test file.

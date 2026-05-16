@@ -5,7 +5,7 @@
 // argv is the argument vector -> argv[0] = "./exe/Zipf.exe", argv[1] = "test.txt"
 int main(int argc, char *argv[])
 {
-
+    std::cout << "Program started\n";
     
     std::map<std::string,int> words; // map to store word frequencies
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     // Read the file line by line
     while (std::getline(file, line))
     {
-        std::cout << line << "\n";
+        std::cout << "\n[DEBUG] New line read: \"" << line << "\"\n";
         // update words
         std::string word; // Variable to build the current word
 
@@ -39,13 +39,14 @@ int main(int argc, char *argv[])
         {
             if (is_letter(c)) // If the character is a letter, add it to the current word
             {
-                word += c; 
+                //std::cout << c <<" -> is letter\n";
+                word += to_lowercase(c);
             }
             else              // If not is a letter, is a separator
             {
+                //std::cout << c << " -> separator\n";
                 if (!word.empty())
                 {
-                   std::cout << word << '\n';
                    add_word(word, words); // Add the word to the frequency map
                    word.clear();
                 }
@@ -56,10 +57,12 @@ int main(int argc, char *argv[])
 
         if (!word.empty())
         {
-            std::cout << word << '\n';
+            //std::cout << "Last word: " << word << '\n';
             add_word(word, words); // Add the last word to the frequency map
         }
     }
+
+    std::cout << "\n\n\nWord frequencies:\n";
 
     for (auto const & item : words)
     {
