@@ -6,17 +6,8 @@
 int main(int argc, char *argv[])
 {
 
-    /*
+    
     std::map<std::string,int> words; // map to store word frequencies
-
-    add_word( "hello", words );
-    add_word( "hello", words );
-    add_word( "world", words );
-
-    for ( auto const & item : words ) {
-      std::cout << item.first << ": " << item.second << '\n';
-    }
-    */
 
     if (argc != 2)
     {
@@ -55,6 +46,7 @@ int main(int argc, char *argv[])
                 if (!word.empty())
                 {
                    std::cout << word << '\n';
+                   add_word(word, words); // Add the word to the frequency map
                    word.clear();
                 }
             }
@@ -65,7 +57,13 @@ int main(int argc, char *argv[])
         if (!word.empty())
         {
             std::cout << word << '\n';
+            add_word(word, words); // Add the last word to the frequency map
         }
+    }
+
+    for (auto const & item : words)
+    {
+        std::cout << item.first << ": " << item.second << '\n';
     }
 
     return 0;
