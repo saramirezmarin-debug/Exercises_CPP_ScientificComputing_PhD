@@ -17,6 +17,12 @@ void add_word(std::string const & w, std::map<std::string, int> & m)
         m[w] = 1;         // if not found, add the word with frequency 1
     }
 
-    
+
 }
 
+// Tokenize 
+// Check if a character is a letter (either uppercase or lowercase).
+bool is_letter(char c)
+{
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}

@@ -11,3 +11,4 @@
 void add_word(std::string const & w, 
               std::map<std::string, int> & m);
 
+bool is_letter(char c);

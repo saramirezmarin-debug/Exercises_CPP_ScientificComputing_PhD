@@ -41,6 +41,31 @@ int main(int argc, char *argv[])
     while (std::getline(file, line))
     {
         std::cout << line << "\n";
+        // update words
+        std::string word; // Variable to build the current word
+
+        for (auto c : line)
+        {
+            if (is_letter(c)) // If the character is a letter, add it to the current word
+            {
+                word += c; 
+            }
+            else              // If not is a letter, is a separator
+            {
+                if (!word.empty())
+                {
+                   std::cout << word << '\n';
+                   word.clear();
+                }
+            }
+        }
+
+        // After the loop, check if there is a last word that was being built
+
+        if (!word.empty())
+        {
+            std::cout << word << '\n';
+        }
     }
 
     return 0;
