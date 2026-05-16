@@ -1,0 +1,3 @@
+C:/CPP_Projects/CPP_Course/Exercise1/build/CMakeFiles/Zipf.dir
+C:/CPP_Projects/CPP_Course/Exercise1/build/CMakeFiles/edit_cache.dir
+C:/CPP_Projects/CPP_Course/Exercise1/build/CMakeFiles/rebuild_cache.dir
