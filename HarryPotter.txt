@@ -1,4 +1,4 @@
-#https://dgoldberg.sdsu.edu/515/harrypotter.txt
+# Source: https://dgoldberg.sdsu.edu/515/harrypotter.txt
 
 Harry Potter and the Sorcerer's Stone 
 

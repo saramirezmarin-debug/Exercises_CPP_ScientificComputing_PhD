@@ -37,3 +37,27 @@ char to_lowercase(char c)
     return c;
 }
 
+void write_csv(const std::vector<std::pair<std::string, int>> & ranking)
+{
+    std::ofstream out("output/zipf.csv"); // Open a file for writing
+
+    //check if the file was opened successfully
+    if (!out)
+    {
+        std::cerr << "Error: Could not open file zipf.csv for writing\n";
+        return;
+    }
+
+    //Header of the CSV file
+    out << "rank,word,frequency\n";
+
+    // Write the word frequencies to the CSV file
+    for (size_t i = 0; i < ranking.size(); ++i)
+    {
+        out << (i + 1) << "," << ranking[i].first << "," << ranking[i].second << "\n";
+    }
+
+    out.close(); // Close the file
+
+    std::cout << "zipf.csv generated successfully.\n";
+}

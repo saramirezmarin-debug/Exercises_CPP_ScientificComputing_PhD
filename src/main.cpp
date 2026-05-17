@@ -62,7 +62,6 @@ int main(int argc, char *argv[])
         }
 
         // After the loop, check if there is a last word that was being built
-
         if (!word.empty())
         {
             //std::cout << "Last word: " << word << '\n';
@@ -85,7 +84,7 @@ int main(int argc, char *argv[])
     // Print vector sorting frequencies.
     std::cout << "\nWord frequencies:\n";
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 20; i++)
     {
         std::cout << ranking[i].first
                   << " -> "
@@ -93,9 +92,10 @@ int main(int argc, char *argv[])
                   << '\n';
     }
 
+    write_csv(ranking); // Write the ranking to a CSV file
+
     return 0;
 }
-
 
 // map is used for search, insert and update -> O(log n)
 // vector is used for ranking  -> O(n)
