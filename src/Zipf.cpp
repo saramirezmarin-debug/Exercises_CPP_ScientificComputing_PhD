@@ -37,14 +37,28 @@ char to_lowercase(char c)
     return c;
 }
 
-void write_csv(const std::vector<std::pair<std::string, int>> & ranking)
+void write_csv(const std::vector<std::pair<std::string, int>> & ranking, const std::string & file_name)
 {
-    std::ofstream out("output/zipf.csv"); // Open a file for writing
+    // Reename the output file based on the input file name (without extension)
+    std::string output_name = file_name;
+
+    size_t pos = output_name.find(".txt");
+
+    if(pos != std::string::npos)
+    {
+        output_name.replace(pos, 4, ".csv");
+    }
+    else
+    {
+        output_name += ".csv"; // If no .txt extension, just add .csv
+    }
+
+    std::ofstream out("output/" + output_name); // Open a file for writing
 
     //check if the file was opened successfully
     if (!out)
     {
-        std::cerr << "Error: Could not open file zipf.csv for writing\n";
+        std::cerr << "Error: Could not open file " << output_name << " for writing\n";
         return;
     }
 
@@ -59,5 +73,5 @@ void write_csv(const std::vector<std::pair<std::string, int>> & ranking)
 
     out.close(); // Close the file
 
-    std::cout << "zipf.csv generated successfully.\n";
+    std::cout << output_name << " generated successfully.\n";
 }

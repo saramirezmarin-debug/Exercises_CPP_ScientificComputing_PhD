@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
                   << '\n';
     }
 
-    write_csv(ranking); // Write the ranking to a CSV file
+    write_csv(ranking, file_name); // Write the ranking to a CSV file
 
     return 0;
 }
