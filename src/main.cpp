@@ -32,9 +32,16 @@ int main(int argc, char *argv[])
     // Read the file line by line
     while (std::getline(file, line))
     {
-        std::cout << "[DEBUG] New line read: \"" << line << "\"\n";
+        // std::cout << "[DEBUG] New line read: \"" << line << "\"\n";
         // update words
         std::string word; // Variable to build the current word
+
+        // ignore comment lines
+        if (!line.empty() && line[0] == '#')
+        {
+            std::cout << "Comment line ignored: " << line << '\n';
+            continue;
+        }
 
         for (auto c : line)
         {
@@ -76,13 +83,13 @@ int main(int argc, char *argv[])
     });
 
     // Print vector sorting frequencies.
-    std::cout << "\n\n\nWord frequencies:\n";
+    std::cout << "\nWord frequencies:\n";
 
-    for (auto const & item : ranking)
+    for (int i = 0; i < 10; i++)
     {
-        std::cout << item.first
+        std::cout << ranking[i].first
                   << " -> "
-                  << item.second
+                  << ranking[i].second
                   << '\n';
     }
 
