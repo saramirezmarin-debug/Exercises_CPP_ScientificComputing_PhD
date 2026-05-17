@@ -39,14 +39,22 @@ char to_lowercase(char c)
 
 void write_csv(const std::vector<std::pair<std::string, int>> & ranking, const std::string & file_name)
 {
-    // Reename the output file based on the input file name (without extension)
+    // Reename the output file based on the input file name (without extension and folder)
     std::string output_name = file_name;
 
-    size_t pos = output_name.find(".txt");
-
-    if(pos != std::string::npos)
+    //Remove directory path if present
+    size_t slash_pos = output_name.find_last_of("/\\");
+    if (slash_pos != std::string::npos)
     {
-        output_name.replace(pos, 4, ".csv");
+        output_name = output_name.substr(slash_pos + 1);
+    }
+
+    //Remove extension  
+    size_t dot_pos = output_name.find_last_of('.');
+
+    if(dot_pos != std::string::npos)
+    {
+        output_name.replace(dot_pos, 4, ".csv");
     }
     else
     {
