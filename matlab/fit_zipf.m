@@ -4,8 +4,6 @@ close all;
 
 files = dir("../output/*.csv");
 
-Nmax = 300;
-
 results = table();
 
 for k = 1:length(files)
@@ -13,10 +11,8 @@ for k = 1:length(files)
     filepath = fullfile(files(k).folder, files(k).name);
     T = readtable(filepath);
 
-    N = min(Nmax, height(T));
-
-    r = T.rank(1:N);
-    f = T.frequency(1:N);
+    r = T.rank;
+    f = T.frequency;
 
     % Normalize frequency
     f = f / sum(f);
@@ -88,3 +84,7 @@ for k = 1:length(files)
 end
 
 disp(results);
+% Save fitted parameters table
+writetable(results, "../output/zipf_fit_results.csv");
+
+fprintf("Saved table: zipf_fit_results.csv\n");
