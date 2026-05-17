@@ -5,6 +5,8 @@
 #include <string>     // for string handling
 #include <utility>    // for std::pair
 #include <map>        // for std::map   word -> frequency
+#include <vector>     // for std::vector
+#include <algorithm>  // for std::sort
 
 // std::string const & w : for passing by reference without copying, and to prevent modification of the argument (more efficient for large objects like std::string)
 // std::map<std::string, int> & m : for passing by reference to allow modification of the map 

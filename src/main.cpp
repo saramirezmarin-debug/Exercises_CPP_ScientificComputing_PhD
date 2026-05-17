@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
     std::cout << "Program started\n";
     
     std::map<std::string,int> words; // map to store word frequencies
+    std::vector<std::pair<std::string, int>> ranking; // vector to store word frequencies for ranking
 
     if (argc != 2)
     {
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
     // Read the file line by line
     while (std::getline(file, line))
     {
-        std::cout << "\n[DEBUG] New line read: \"" << line << "\"\n";
+        std::cout << "[DEBUG] New line read: \"" << line << "\"\n";
         // update words
         std::string word; // Variable to build the current word
 
@@ -62,12 +63,32 @@ int main(int argc, char *argv[])
         }
     }
 
-    std::cout << "\n\n\nWord frequencies:\n";
-
+    // Copy map content into vector.
     for (auto const & item : words)
     {
-        std::cout << item.first << ": " << item.second << '\n';
+        ranking.push_back(item);   // similar to append()
+    }
+
+    // begin, end, comparator (lambda)
+    std::sort(ranking.begin(), ranking.end(), [](auto &left, auto &right)
+    {
+        return left.second > right.second; // Sort in descending order of frequency
+    });
+
+    // Print vector sorting frequencies.
+    std::cout << "\n\n\nWord frequencies:\n";
+
+    for (auto const & item : ranking)
+    {
+        std::cout << item.first
+                  << " -> "
+                  << item.second
+                  << '\n';
     }
 
     return 0;
 }
+
+
+// map is used for search, insert and update -> O(log n)
+// vector is used for ranking  -> O(n)

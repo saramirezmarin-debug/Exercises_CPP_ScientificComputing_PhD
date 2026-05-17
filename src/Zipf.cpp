@@ -36,3 +36,4 @@ char to_lowercase(char c)
     }
     return c;
 }
+
