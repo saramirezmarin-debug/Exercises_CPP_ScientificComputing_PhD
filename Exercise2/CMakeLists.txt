@@ -22,16 +22,21 @@ else()
   add_subdirectory("${LOCAL_FMT_DIR}" "${CMAKE_BINARY_DIR}/fmt-build")
 endif()
 
-add_executable(out
-    src/main.cpp
+add_executable(BVP
+    src/BVP.cpp
+    include/BVP.hh
 )
 
-target_include_directories(out PRIVATE 
+target_include_directories(BVP PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${EIGEN3_INCLUDE_DIR}
 )
-target_link_libraries(out PRIVATE fmt::fmt)
-target_compile_options(out PRIVATE -O2 -Wall -Wextra)
+target_link_libraries(BVP PRIVATE fmt::fmt)
+
+
+if(UNIX)
+  target_compile_options(BVP PRIVATE -Wall -Wextra -Wpedantic)
+endif()
 
 message(STATUS "Eigen:     ${EIGEN3_INCLUDE_DIR}")
 message(STATUS "{fmt}:      ${LOCAL_FMT_DIR}")
