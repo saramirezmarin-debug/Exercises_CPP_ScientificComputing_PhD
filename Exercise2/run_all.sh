@@ -27,4 +27,4 @@ echo "=============================="
 echo "Running executable..."
 echo "=============================="
 
-./build/out.exe
+./build/Exercise2.exe

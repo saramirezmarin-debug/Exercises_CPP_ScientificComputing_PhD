@@ -1,6 +1,6 @@
-#include "BVP.hh"
+#include "Exercise2.hh"
 
-namespace BVP 
+namespace Exercise2 
 {
     //timing
     void tic();
