@@ -24,7 +24,21 @@ cmake --build build
 
 echo ""
 echo "=============================="
+echo "Generating Doxygen docs..."
+echo "=============================="
+
+cmake --build build --target docs
+
+echo ""
+echo "=============================="
+echo "Opening documentation..."
+echo "=============================="
+
+start docs/html/index.html
+
+echo ""
+echo "=============================="
 echo "Running executable..."
 echo "=============================="
 
-./build/Exercise2.exe
+./exe/Exercise2.exe
