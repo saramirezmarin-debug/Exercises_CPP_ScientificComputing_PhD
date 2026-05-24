@@ -1,7 +1,8 @@
 #include "Exercise2.hh"
 
-#include <cstdlib>
-#include <limits>
+#include <cstdlib> // for std::atoi -> convert string to integer
+#include <limits> // for std::numeric_limits -> get the largest representable value of a type
+#include <fstream> // for std::ofstream -> write to files
 
 namespace Exercise2
 {
@@ -238,6 +239,17 @@ int main(int argc, char **argv)
     /// List of `N` values used to assess convergence and timings.
     std::vector<integer> grid_sizes;
 
+    // Store in csv file the convergence history for plotting.
+    std::ofstream csv("output/convergence.csv");
+
+    if(!csv)
+    {
+        fmt::print(fg(fmt::color::red), "Error: could not open output/convergence.csv for writing\n");
+        return 1;
+    }
+
+    csv << "N,h,max_error,order,cpu_ms\n";
+
     // If command-line arguments are provided, interpret them as grid sizes;
     // otherwise use the sequence requested in the assignment text.
     if (argc > 1)
@@ -255,7 +267,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        grid_sizes = {20, 40, 80, 160, 320, 640};
+        grid_sizes = {20, 40, 80, 160, 320, 640, 1280, 2560};
     }
 
     fmt::print("Coupled BVP solved with centered finite differences and block Thomas-LDU\n");
@@ -285,9 +297,17 @@ int main(int argc, char **argv)
             res.cpu_ms);
 
         prev_error = res.max_error;
+
+        csv << res.N << ","
+            << res.h << ","
+            << res.max_error << "," 
+            << (std::isfinite(res.order) ? res.order : std::numeric_limits<real_type>::quiet_NaN()) << ","
+            << res.cpu_ms << "\n";
     }
 
     fmt::print("└──────────┴────────────────┴──────────────────┴──────────────┴────────────┘\n");
+
+    fmt::print("\nResults exported to output/convergence.csv\n");
 
     return 0;
 }

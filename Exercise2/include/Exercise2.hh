@@ -44,6 +44,7 @@
  * relation between mathematics and implementation clearer.
  */
 
+ // Namespace avoid put: Exercise2::real_type, Exercise2::Block_Tridiagonal, etc.
 namespace Exercise2
 {
     /// Floating point type used throughout the project.
@@ -53,10 +54,10 @@ namespace Exercise2
     using integer = int;
 
     /// Dynamic dense matrix of real scalars
-    using mat_type = Eigen::Matrix<real_type, Eigen::Dynamic, Eigen::Dynamic>;
+    using mat_type = Eigen::Matrix<real_type, Eigen::Dynamic, Eigen::Dynamic>;  // Define a dynamic matrix type using Eigen
 
     /// Dynamic columns vector of real scalars
-    using vec_type = Eigen::Matrix<real_type, Eigen::Dynamic, 1>;
+    using vec_type = Eigen::Matrix<real_type, Eigen::Dynamic, 1>;               // Define a dynamic vector type using Eigen
 
     /**
      * @brief Start a lightweight global timer.
@@ -135,11 +136,12 @@ namespace Exercise2
          *
          * After `setup`, all arrays are reset to zero.
          */
-        void setup(integer n, integer n_blk);
+        void setup(integer n, integer n_blk); // funtion to allocate the data structure
 
+
+        // Getters
         /// @return block size.
         integer block_size() const { return _n; }
-
         /// @return number of diagonal blocks.
         integer num_blocks() const { return _n_blk; }
 
@@ -154,7 +156,24 @@ namespace Exercise2
          * @throw std::runtime_error if the structure is not initialized or
          *         if one of the modified diagonal blocks is singular.
          */
-        void solve();
+        void solve(); // For solve Ax = b 
+
+        // Block accessors
+        // N = 3
+        // D_blocks = [D_0 | D_1 | D_2]
+        // D_0 = | 1   2 |
+        //       | 3   4 |
+        // D_1 = | 5   6 |    
+        //       | 7   8 |
+        // D_2 = | 9  10 |
+        //       | 11 12 |
+        // D_blocks = [D_0 | D_1 | D_2] = | 1   2 | 5   6 | 9  10 |
+        //                                | 3   4 | 7   8 | 11 12 |
+        // columns 0-1 -> D_0, columns 2-3 -> D_1, columns 4-5 -> D_2
+        // if _n = 2
+        // For obtain D_0:
+        // D_0 = D_blocks.middleCols(0, 2) -> return columns 0-1 -> put the start column = 0, number of columns = 2
+
 
         /// @brief Extract a copy of diagonal block `blk`.
         mat_type diagonal_block(integer blk) const { return D_bloks.middleCols(blk * _n, _n); }
@@ -171,10 +190,13 @@ namespace Exercise2
         /// @brief Extract a copy of solution block `blk`.
         vec_type solution_block(integer blk) const { return X_bloks.segment(blk * _n, _n); }
 
+        // For access element by element 
         /// @name Pointwise coefficient access
         /// @{
-        real_type D(integer blk, integer i, integer j) const { return D_bloks(i, blk * _n + j); }
-        real_type &D(integer blk, integer i, integer j) { return D_bloks(i, blk * _n + j); }
+        // D_bloks(i, blk * _n + j) -> return the element (i, blk * _n + j) of D_bloks 
+        //-> system.D(3, 1, 0) -> return diagonal block 1, row 1, column 0
+        real_type D(integer blk, integer i, integer j) const { return D_bloks(i, blk * _n + j); } // read  an element of D
+        real_type &D(integer blk, integer i, integer j) { return D_bloks(i, blk * _n + j); }      // write an element of D
 
         real_type L(integer blk, integer i, integer j) const { return L_bloks(i, blk * _n + j); }
         real_type &L(integer blk, integer i, integer j) { return L_bloks(i, blk * _n + j); }
@@ -211,12 +233,13 @@ namespace Exercise2
         /// Default constructor.
         BVP_Problem_base() = default;
 
+        // How many equations/components in the system?
         /// @return number of components of the unknown vector `Y(x)`.
-        virtual integer n() const = 0;
+        virtual integer n() const = 0;       
 
+        // Define the interval [a,b]
         /// @return left endpoint `a` of the interval `[a,b]`.
-        virtual real_type a() const = 0;
-
+        virtual real_type a() const = 0; 
         /// @return right endpoint `b` of the interval `[a,b]`.
         virtual real_type b() const = 0;
 
@@ -237,12 +260,14 @@ namespace Exercise2
          */
         virtual real_type F(real_type x, integer i) const = 0;
 
+
+        // Boundary conditions
         /// @brief Value of component `i` at the left boundary `x = a`.
         virtual real_type left_BC(integer i) const = 0;
-
         /// @brief Value of component `i` at the right boundary `x = b`.
         virtual real_type right_BC(integer i) const = 0;
 
+        // Exact solution (optional)
         /// @return `true` if an analytical exact solution is available.
         virtual bool has_exact_solution() const { return false; }
 
@@ -255,6 +280,7 @@ namespace Exercise2
          * The default is `0`, a neutral fallback when the exact solution
          * is not known.
          */
+        // exact solution, when available 
         virtual real_type exact([[maybe_unused]] real_type x, [[maybe_unused]] integer i) const { return 0; }
     };
 }

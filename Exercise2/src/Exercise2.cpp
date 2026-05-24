@@ -40,13 +40,18 @@ namespace Exercise2 {
   void Block_Tridiagonal::setup( integer n, integer n_blk ) {
     if ( n <= 0 )     throw std::invalid_argument("Block_Tridiagonal::setup: block size must be positive");
     if ( n_blk <= 0 ) throw std::invalid_argument("Block_Tridiagonal::setup: number of blocks must be positive");
+    // Store the internal dimensions
     _n     = n;
     _n_blk = n_blk;
+
+    // Resize the arrays
     D_bloks.resize( n, n*n_blk );
     L_bloks.resize( n, n*std::max<integer>(n_blk-1,0) );
     U_bloks.resize( n, n*std::max<integer>(n_blk-1,0) );
     B_bloks.resize( n*n_blk );
     X_bloks.resize( n*n_blk );
+
+    // Reset all entries to zero.
     D_bloks.setZero();
     L_bloks.setZero();
     U_bloks.setZero();
@@ -71,6 +76,7 @@ namespace Exercise2 {
       throw std::runtime_error("Block_Tridiagonal::solve: system not initialized");
     }
 
+    // Using LU with full pivoting -> A = LU or PAQ = LU with pivotings P and Q.
     /// `FullPivLU` is robust and simple for small dense blocks.
     using LU_type = Eigen::FullPivLU<mat_type>;
 
@@ -81,7 +87,7 @@ namespace Exercise2 {
     std::vector<vec_type> rhs_hat( _n_blk );
 
     /// First modified diagonal block: it coincides with `D₀`.
-    mat_type D_hat = diagonal_block(0);
+    mat_type D_hat = diagonal_block(0); 
     LU_type  lu( D_hat );
     if ( !lu.isInvertible() ) {
       throw std::runtime_error("Block_Tridiagonal::solve: singular first diagonal block");
