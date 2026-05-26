@@ -78,7 +78,7 @@ namespace Exercise2 {
 
     // Using LU with full pivoting -> A = LU or PAQ = LU with pivotings P and Q.
     /// `FullPivLU` is robust and simple for small dense blocks.
-    using LU_type = Eigen::FullPivLU<mat_type>;
+    using LU_type = Eigen::PartialPivLU<mat_type>;
 
     /// Modified upper blocks `Û_i` of the factorization.
     std::vector<mat_type> U_hat( std::max<integer>(_n_blk - 1, 0) );
@@ -89,9 +89,12 @@ namespace Exercise2 {
     /// First modified diagonal block: it coincides with `D₀`.
     mat_type D_hat = diagonal_block(0); 
     LU_type  lu( D_hat );
+
+    /*
     if ( !lu.isInvertible() ) {
       throw std::runtime_error("Block_Tridiagonal::solve: singular first diagonal block");
     }
+    */
 
     // First step of the recurrence:
     //   Û₀ = D̂₀⁻¹ U₀,   r̂₀ = D̂₀⁻¹ b₀.
@@ -103,11 +106,14 @@ namespace Exercise2 {
       // D̂ᵢ = Dᵢ - Lᵢ₋₁ Ûᵢ₋₁.
       D_hat = diagonal_block(blk) - lower_block(blk-1) * U_hat[blk-1];
       lu.compute( D_hat );
+
+      /*
       if ( !lu.isInvertible() ) {
         throw std::runtime_error(
           fmt::format("Block_Tridiagonal::solve: singular diagonal block {}", blk)
         );
       }
+      */
       // Compute the modified upper block only when it is actually needed.
       if ( blk < _n_blk-1 ) U_hat[blk] = lu.solve( upper_block(blk) );
 

@@ -267,7 +267,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        grid_sizes = {20, 40, 80, 160, 320, 640, 1280, 2560};
+        grid_sizes = {5, 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120, 10240, 20480};
     }
 
     fmt::print("Coupled BVP solved with centered finite differences and block Thomas-LDU\n");
@@ -280,9 +280,26 @@ int main(int argc, char **argv)
 
     /// Error from the previous run, used for the asymptotic order estimate.
     real_type prev_error = std::numeric_limits<real_type>::quiet_NaN();
+    integer const repeats = 20; // number of runs to average timings and mitigate outliers
     for (integer N : grid_sizes)
     {
-        Experiment_Result res = run_experiment(problem, N);
+        // Run various experiments and collect the mean error and CPU time.
+        Experiment_Result best_res;
+        real_type total_time = 0;
+
+        for(int k = 0; k < repeats; ++k)
+        {
+            Experiment_Result tmp = run_experiment(problem, N);
+            total_time += tmp.cpu_ms;
+            if (k == 0)
+            {
+                best_res = tmp;
+            }
+        }
+
+        best_res.cpu_ms = total_time / repeats;
+
+        Experiment_Result res = best_res;
         if (std::isfinite(prev_error) && std::isfinite(res.max_error))
         {
             res.order = std::log2(prev_error / res.max_error);
