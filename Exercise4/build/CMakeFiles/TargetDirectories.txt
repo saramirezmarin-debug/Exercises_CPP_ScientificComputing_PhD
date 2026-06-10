@@ -1,0 +1,7 @@
+C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/CMakeFiles/Exercise4.dir
+C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/CMakeFiles/docs.dir
+C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/CMakeFiles/edit_cache.dir
+C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/CMakeFiles/rebuild_cache.dir
+C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/fmt-build/CMakeFiles/fmt.dir
+C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/fmt-build/CMakeFiles/edit_cache.dir
+C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/fmt-build/CMakeFiles/rebuild_cache.dir

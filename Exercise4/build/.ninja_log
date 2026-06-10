@@ -1,0 +1,8 @@
+# ninja log v7
+39	1753	8017509622373624	fmt-build/CMakeFiles/fmt.dir/src/os.cc.obj	981e976635879248
+30	2278	8017509622287040	fmt-build/CMakeFiles/fmt.dir/src/format.cc.obj	8cae15ba9c64a45f
+2279	2405	8017509644767313	fmt-build/libfmt.a	d09d7336d843e0f6
+48	4315	8017509622463544	CMakeFiles/Exercise4.dir/src/test1.cpp.obj	c28507efc4c5606e
+4318	4771	8017509665161950	Exercise4.exe	6729b60a415974
+57	407	8017509672306497	CMakeFiles/docs	b47c79b49788e58c
+57	407	8017509672306497	C:/CPP_Projects/CPP_Course/Exercises/Exercise4/build/CMakeFiles/docs	b47c79b49788e58c
