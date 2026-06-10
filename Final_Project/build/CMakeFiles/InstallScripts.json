@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/cmake_install.cmake",
+		"C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/fmt-build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
