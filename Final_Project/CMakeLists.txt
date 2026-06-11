@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set( TARGET CSC)
+set( TARGET ODE4)
 
 project(${TARGET} VERSION 1.0.0 LANGUAGES CXX)
 
@@ -25,7 +25,8 @@ else()
 endif()
 
 add_executable(${TARGET}
-    src/${TARGET}.cpp
+    src/${TARGET}.cc
+    src/main.cpp
     include/${TARGET}.hh
 )
 
@@ -47,7 +48,7 @@ find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
   set(DOXYGEN_PROJECT_NAME           "${PROJECT_NAME}")
-  set(DOXYGEN_PROJECT_BRIEF          "Currnt source converter dynamic simulation")
+  set(DOXYGEN_PROJECT_BRIEF          "Current source converter dynamic simulation")
   set(DOXYGEN_PROJECT_NUMBER         "${PROJECT_VERSION}")
   set(DOXYGEN_OUTPUT_DIRECTORY       "${CMAKE_CURRENT_SOURCE_DIR}/docs")
   set(DOXYGEN_CREATE_SUBDIRS         NO)

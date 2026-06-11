@@ -41,4 +41,4 @@ echo "=============================="
 echo "Running executable..."
 echo "=============================="
 
-./exe/CSC.exe
+./exe/ODE4.exe

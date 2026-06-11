@@ -3,9 +3,9 @@
 #
 
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = CSC
+PROJECT_NAME           = ODE4
 PROJECT_NUMBER         = 1.0.0
-PROJECT_BRIEF          = "Currnt source converter dynamic simulation"
+PROJECT_BRIEF          = "Current source converter dynamic simulation"
 PROJECT_LOGO           = 
 PROJECT_ICON           = 
 OUTPUT_DIRECTORY       = C:/CPP_Projects/CPP_Course/Exercises/Final_Project/docs

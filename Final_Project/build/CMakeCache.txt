@@ -120,7 +120,7 @@ CMAKE_INSTALL_MANDIR:PATH=
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/CSC
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/ODE4
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
@@ -179,7 +179,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=CSC
+CMAKE_PROJECT_NAME:STATIC=ODE4
 
 //Value Computed by CMake
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
@@ -282,15 +282,6 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
-//Value Computed by CMake
-CSC_BINARY_DIR:STATIC=C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build
-
-//Value Computed by CMake
-CSC_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-CSC_SOURCE_DIR:STATIC=C:/CPP_Projects/CPP_Course/Exercises/Final_Project
-
 //Dot tool for use with Doxygen
 DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
 
@@ -313,7 +304,7 @@ FMT_DOC:BOOL=OFF
 FMT_FUZZ:BOOL=OFF
 
 //Installation directory for include files, a relative path that
-// will be joined with C:/Program Files (x86)/CSC or an absolute
+// will be joined with C:/Program Files (x86)/ODE4 or an absolute
 // path.
 FMT_INC_DIR:STRING=include
 
@@ -346,6 +337,15 @@ FMT_UNICODE:BOOL=ON
 
 //Halt the compilation with an error on compiler warnings.
 FMT_WERROR:BOOL=OFF
+
+//Value Computed by CMake
+ODE4_BINARY_DIR:STATIC=C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build
+
+//Value Computed by CMake
+ODE4_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+ODE4_SOURCE_DIR:STATIC=C:/CPP_Projects/CPP_Course/Exercises/Final_Project
 
 
 ########################
@@ -535,5 +535,5 @@ DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
 //Details about finding Doxygen
 FIND_PACKAGE_MESSAGE_DETAILS_Doxygen:INTERNAL=[C:/Program Files/doxygen/bin/doxygen.exe][found components: doxygen missing components: dot][v1.17.0()]
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/CSC
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/ODE4
 

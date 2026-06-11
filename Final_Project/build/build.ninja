@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: CSC
+# Project: ODE4
 # Configurations: 
 # =============================================================================
 
@@ -36,42 +36,52 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/
 # =============================================================================
-# Object build statements for EXECUTABLE target CSC
+# Object build statements for EXECUTABLE target ODE4
 
 
 #############################################
-# Order-only phony target for CSC
+# Order-only phony target for ODE4
 
-build cmake_object_order_depends_target_CSC: phony || cmake_object_order_depends_target_fmt
+build cmake_object_order_depends_target_ODE4: phony || cmake_object_order_depends_target_fmt
 
-build CMakeFiles/CSC.dir/src/CSC.cpp.obj: CXX_COMPILER__CSC_unscanned_ C$:/CPP_Projects/CPP_Course/Exercises/Final_Project/src/CSC.cpp || cmake_object_order_depends_target_CSC
-  DEP_FILE = CMakeFiles\CSC.dir\src\CSC.cpp.obj.d
+build CMakeFiles/ODE4.dir/src/ODE4.cc.obj: CXX_COMPILER__ODE4_unscanned_ C$:/CPP_Projects/CPP_Course/Exercises/Final_Project/src/ODE4.cc || cmake_object_order_depends_target_ODE4
+  DEP_FILE = CMakeFiles\ODE4.dir\src\ODE4.cc.obj.d
   FLAGS = -std=c++17
   INCLUDES = -IC:/CPP_Projects/CPP_Course/Exercises/Final_Project/include -IC:/CPP_Projects/CPP_Course/Exercises/Final_Project/external/eigen-5.0.1 -IC:/CPP_Projects/CPP_Course/Exercises/Final_Project/external/fmt-12.1.0/include
-  OBJECT_DIR = CMakeFiles\CSC.dir
-  OBJECT_FILE_DIR = CMakeFiles\CSC.dir\src
-  TARGET_COMPILE_PDB = CMakeFiles\CSC.dir\
-  TARGET_PDB = CSC.pdb
-  TARGET_SUPPORT_DIR = CMakeFiles\CSC.dir
+  OBJECT_DIR = CMakeFiles\ODE4.dir
+  OBJECT_FILE_DIR = CMakeFiles\ODE4.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\ODE4.dir\
+  TARGET_PDB = ODE4.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\ODE4.dir
+
+build CMakeFiles/ODE4.dir/src/main.cpp.obj: CXX_COMPILER__ODE4_unscanned_ C$:/CPP_Projects/CPP_Course/Exercises/Final_Project/src/main.cpp || cmake_object_order_depends_target_ODE4
+  DEP_FILE = CMakeFiles\ODE4.dir\src\main.cpp.obj.d
+  FLAGS = -std=c++17
+  INCLUDES = -IC:/CPP_Projects/CPP_Course/Exercises/Final_Project/include -IC:/CPP_Projects/CPP_Course/Exercises/Final_Project/external/eigen-5.0.1 -IC:/CPP_Projects/CPP_Course/Exercises/Final_Project/external/fmt-12.1.0/include
+  OBJECT_DIR = CMakeFiles\ODE4.dir
+  OBJECT_FILE_DIR = CMakeFiles\ODE4.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\ODE4.dir\
+  TARGET_PDB = ODE4.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\ODE4.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target CSC
+# Link build statements for EXECUTABLE target ODE4
 
 
 #############################################
-# Link the executable CSC.exe
+# Link the executable ODE4.exe
 
-build CSC.exe: CXX_EXECUTABLE_LINKER__CSC_ CMakeFiles/CSC.dir/src/CSC.cpp.obj | fmt-build/libfmt.a || fmt-build/libfmt.a
+build ODE4.exe: CXX_EXECUTABLE_LINKER__ODE4_ CMakeFiles/ODE4.dir/src/ODE4.cc.obj CMakeFiles/ODE4.dir/src/main.cpp.obj | fmt-build/libfmt.a || fmt-build/libfmt.a
   LINK_LIBRARIES = fmt-build/libfmt.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\CSC.dir
-  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\CPP_Projects\CPP_Course\Exercises\Final_Project\build && "C:\Program Files\CMake\bin\cmake.exe" -E make_directory C:/CPP_Projects/CPP_Course/Exercises/Final_Project/exe && "C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CSC.exe C:/CPP_Projects/CPP_Course/Exercises/Final_Project/exe/CSC.exe"
+  OBJECT_DIR = CMakeFiles\ODE4.dir
+  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\CPP_Projects\CPP_Course\Exercises\Final_Project\build && "C:\Program Files\CMake\bin\cmake.exe" -E make_directory C:/CPP_Projects/CPP_Course/Exercises/Final_Project/exe && "C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/ODE4.exe C:/CPP_Projects/CPP_Course/Exercises/Final_Project/exe/ODE4.exe"
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\CSC.dir\
-  TARGET_FILE = CSC.exe
-  TARGET_IMPLIB = libCSC.dll.a
-  TARGET_PDB = CSC.pdb
-  TARGET_SUPPORT_DIR = CMakeFiles\CSC.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ODE4.dir\
+  TARGET_FILE = ODE4.exe
+  TARGET_IMPLIB = libODE4.dll.a
+  TARGET_PDB = ODE4.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\ODE4.dir
 
 
 #############################################
@@ -189,7 +199,7 @@ build fmt-build/rebuild_cache: phony fmt-build/CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build CSC: phony CSC.exe
+build ODE4: phony ODE4.exe
 
 build fmt: phony fmt-build/libfmt.a
 
@@ -203,7 +213,7 @@ build libfmt.a: phony fmt-build/libfmt.a
 #############################################
 # Folder: C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build
 
-build all: phony CSC.exe fmt-build/all
+build all: phony ODE4.exe fmt-build/all
 
 # =============================================================================
 

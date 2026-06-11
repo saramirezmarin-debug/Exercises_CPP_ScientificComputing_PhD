@@ -1,21 +1,30 @@
 var indexSectionsWithContent =
 {
-  0: "cmr",
-  1: "c",
-  2: "mr"
+  0: "ehimnorstv~",
+  1: "o",
+  2: "o",
+  3: "mo",
+  4: "ehimnorst~",
+  5: "imrv"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "files",
-  2: "functions"
+  1: "classes",
+  2: "namespaces",
+  3: "files",
+  4: "functions",
+  5: "typedefs"
 };
 
 var indexSectionLabels =
 {
   0: "All",
-  1: "Files",
-  2: "Functions"
+  1: "Classes",
+  2: "Namespaces",
+  3: "Files",
+  4: "Functions",
+  5: "Typedefs"
 };
 
