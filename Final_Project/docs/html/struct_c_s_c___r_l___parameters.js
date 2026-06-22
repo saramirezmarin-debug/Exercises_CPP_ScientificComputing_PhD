@@ -24,8 +24,6 @@ var struct_c_s_c___r_l___parameters =
     [ "Ldc", "struct_c_s_c___r_l___parameters.html#aa66d988faf527617b06ddca1b9ae158b", null ],
     [ "Lf", "struct_c_s_c___r_l___parameters.html#a0d25f3a7a6f9793cb2e50386bf80031c", null ],
     [ "Lg", "struct_c_s_c___r_l___parameters.html#a6be622fdaaabb1bdad38de2967a6963d", null ],
-    [ "md", "struct_c_s_c___r_l___parameters.html#a204afb3b95ef53676db555a6192a1136", null ],
-    [ "mq", "struct_c_s_c___r_l___parameters.html#a2f04aa85fc0c193df898e4ce4ecbb1ea", null ],
     [ "omega", "struct_c_s_c___r_l___parameters.html#a026b7daf593f475add0de9db4f58a6f4", null ],
     [ "Q_ref", "struct_c_s_c___r_l___parameters.html#a3ef0171fb1e851ca9a88e9a5ba6738e0", null ],
     [ "Rf", "struct_c_s_c___r_l___parameters.html#a1073363dcd9554defdc15e5fd422fe73", null ],

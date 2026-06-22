@@ -5,6 +5,5 @@ var annotated_dup =
     ] ],
     [ "CSC_RL", "class_c_s_c___r_l.html", "class_c_s_c___r_l" ],
     [ "CSC_RL_Parameters", "struct_c_s_c___r_l___parameters.html", "struct_c_s_c___r_l___parameters" ],
-    [ "Oscillator2D", "class_oscillator2_d.html", "class_oscillator2_d" ],
     [ "StairSignal", "struct_stair_signal.html", "struct_stair_signal" ]
 ];
