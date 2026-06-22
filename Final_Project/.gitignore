@@ -1,0 +1,19 @@
+# Build folders
+build/
+cmake-build-*/
+Final_Project/build/
+
+# Simulation results
+Final_Project/results/
+
+# IDE files
+.vscode/
+.idea/
+
+# Compiled binaries
+*.exe
+*.o
+*.obj
+*.dll
+*.a
+*.lib
