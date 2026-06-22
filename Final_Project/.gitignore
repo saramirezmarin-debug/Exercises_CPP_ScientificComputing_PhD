@@ -4,7 +4,7 @@ cmake-build-*/
 build/
 
 # Simulation results
-results/
+# results/
 
 # IDE files
 .vscode/
@@ -17,4 +17,4 @@ results/
 *.dll
 *.a
 *.lib
-*.csv
+# *.csv
