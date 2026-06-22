@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['omega_0',['omega',['../struct_c_s_c___r_l___parameters.html#a026b7daf593f475add0de9db4f58a6f4',1,'CSC_RL_Parameters']]]
+  ['md_0',['md',['../struct_control_output.html#a41f85ce11b359417900641ba86f32b41',1,'ControlOutput']]],
+  ['mq_1',['mq',['../struct_control_output.html#a1191c1bb7810bc9dda26c0ab3a4ba772',1,'ControlOutput']]]
 ];

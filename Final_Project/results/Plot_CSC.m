@@ -48,19 +48,23 @@ tp = t(idx_plot);
 %
 % x = [igd, igq, ed, eq, id, iq, vd, vq, istk, theta_hat, xi_pll]^T
 % ------------------------------------------------------------
-igd       = data.x1;
-igq       = data.x2;
-ed        = data.x3;
-eq        = data.x4;
+igd  = data.igd;
+igq  = data.igq;
+ed   = data.ed;
+eq   = data.eq;
+id   = data.id;
+iq   = data.iq;
+vd   = data.vd;
+vq   = data.vq;
+istk = data.istk;
 
-id        = data.x5;
-iq        = data.x6;
-vd        = data.x7;
-vq        = data.x8;
-istk      = data.x9;
-
-theta_hat = data.x10;
-xi_pll    = data.x11;
+theta_hat = data.theta_hat;
+xi_pll    = data.xi_pll;
+xi_ucd    = data.xi_ucd;
+xi_ucq    = data.xi_ucq;
+xi_isd    = data.xi_isd;
+xi_isq    = data.xi_isq;
+xi_idc2   = data.xi_idc2;
 
 % ------------------------------------------------------------
 % Algebraic outputs in abc

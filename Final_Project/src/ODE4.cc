@@ -59,11 +59,17 @@ namespace ODE
 
     void solve_rk4(const ODE_Problem_base& problem,
                    real_type h,
-                   const std::string& filename)
+                   const std::string& filename,
+                   integer save_every)
     {
         if (h <= 0.0) // Check that step size is positive
         {
             throw std::runtime_error("solve_rk4: step size must be positive");
+        }
+
+        if (save_every <= 0)
+        {
+            throw std::runtime_error("solve_rk4: save_every must be positive");
         }
 
         const integer n = problem.n(); // Get problem dimension
@@ -105,7 +111,7 @@ namespace ODE
         csv << "t"; // Time column
         for (integer i = 0; i < n; ++i) // State columns
         {
-            csv << ",x" << i + 1;
+            csv << "," << problem.state_name(i);
         }
 
         // write algebraic output names if available
@@ -119,7 +125,7 @@ namespace ODE
         {
             for (integer i = 0; i < n; ++i)
             {
-                csv << ",x" << i + 1 << "_exact"; // Exact solution columns
+                csv << "," << problem.state_name(i);
             }
 
             for (integer i = 0; i < n; ++i)
@@ -130,59 +136,65 @@ namespace ODE
         csv << "\n";
 
 
-        real_type t = t0; // Initial time
+        real_type t = t0;
+        integer step = 0;
 
-        while (t <= tf + 1e-12) // Main integration loop (with small tolerance to include tf)
+        while (t <= tf + 1e-12)
         {
-            csv << t; // Write current time to CSV
+            const bool save_this_step = (step % save_every == 0) || (t >= tf);
 
-            for (integer i = 0; i < n; ++i) 
+            if (save_this_step)
             {
-                csv << "," << x(i); // Write current state to CSV
-            }
-            
-            for (integer i = 0; i < n_outputs; ++i)
-            {
-                csv << "," << problem.output(t, x, i); // write algebraic outputs evaluated at current time/state to CSV
-            }
-
-            if (has_exact)
-            {
-                for (integer i = 0; i < n; ++i)
-                {
-                    x_exact(i) = problem.exact(t, i); // Compute exact solution
-                    csv << "," << x_exact(i); // Write exact solution to CSV
-                }
+                csv << t;
 
                 for (integer i = 0; i < n; ++i)
                 {
-                    csv << "," << std::abs(x(i) - x_exact(i));    // Write error to CSV
+                    csv << "," << x(i);
                 }
+
+                for (integer i = 0; i < n_outputs; ++i)
+                {
+                    csv << "," << problem.output(t, x, i);
+                }
+
+                if (has_exact)
+                {
+                    for (integer i = 0; i < n; ++i)
+                    {
+                        x_exact(i) = problem.exact(t, i);
+                        csv << "," << x_exact(i);
+                    }
+
+                    for (integer i = 0; i < n; ++i)
+                    {
+                        csv << "," << std::abs(x(i) - x_exact(i));
+                    }
+                }
+
+                csv << "\n";
             }
 
-            csv << "\n";
-
-            if(t >= tf) // If we've reached or exceeded final time, break the loop
+            if (t >= tf)
             {
                 break;
             }
 
-            const real_type h_step = std::min(h, tf - t); // Adjust step size to not overshoot tf
+            const real_type h_step = std::min(h, tf - t);
 
             rk4_step_inplace(problem,
-                             t,
-                             x,
-                             h_step,
-                             x_next,
-                             k1,
-                             k2,
-                             k3,
-                             k4,
-                             xtmp);
+                            t,
+                            x,
+                            h_step,
+                            x_next,
+                            k1,
+                            k2,
+                            k3,
+                            k4,
+                            xtmp);
 
-            x.swap(x_next); // Update state for next iteration
-
-            t += h_step; // Increment time
+            x.swap(x_next);
+            t += h_step;
+            ++step;
         }
     }
 }

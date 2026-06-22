@@ -10,6 +10,7 @@ var class_o_d_e_1_1_o_d_e___problem__base =
     [ "output", "class_o_d_e_1_1_o_d_e___problem__base.html#ad5d3be9ec75f9f25696c341ee2cab512", null ],
     [ "output_name", "class_o_d_e_1_1_o_d_e___problem__base.html#a07f896f350ac43eea7b14d6fa7b967ea", null ],
     [ "rhs", "class_o_d_e_1_1_o_d_e___problem__base.html#aa9d0c8ef14303b3b2a0c930a65fdb214", null ],
+    [ "state_name", "class_o_d_e_1_1_o_d_e___problem__base.html#a83fa3e860dcf5830483e730a3bae26ef", null ],
     [ "t0", "class_o_d_e_1_1_o_d_e___problem__base.html#a5e229f66b71444f00bcb70b25604236c", null ],
     [ "tf", "class_o_d_e_1_1_o_d_e___problem__base.html#a8971fa43a46ec639d6837b10c01b2698", null ]
 ];

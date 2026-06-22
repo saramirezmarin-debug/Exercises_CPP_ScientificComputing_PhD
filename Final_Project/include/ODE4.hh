@@ -48,6 +48,11 @@ namespace ODE
          */
         virtual real_type initial_condition(integer i) const = 0;
 
+        virtual std::string state_name([[maybe_unused]] integer i) const
+        {
+            return "x" + std::to_string(i + 1);
+        }
+
         /**
          * @brief Initial time.
          */
@@ -133,5 +138,6 @@ namespace ODE
      */
     void solve_rk4(const ODE_Problem_base& problem,
                    real_type h,
-                   const std::string& filename);
+                   const std::string& filename,
+                   integer save_every = 1);
 }

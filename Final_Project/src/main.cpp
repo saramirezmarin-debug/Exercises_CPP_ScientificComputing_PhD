@@ -145,7 +145,7 @@ int main()
 
     const ODE::real_type h = 1e-5;
 
-    ODE::solve_rk4(problem, h, "results/csc_rl.csv");
+    ODE::solve_rk4(problem, h, "results/csc_rl.csv", 20);
 
     return 0;
 }

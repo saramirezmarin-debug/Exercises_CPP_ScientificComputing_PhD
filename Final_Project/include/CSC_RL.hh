@@ -35,31 +35,16 @@ struct StairSignal
 
     ODE::real_type value(ODE::real_type t) const
     {
-        if (times.empty() && values.empty())
+        if (times.empty())
         {
-            return constant_value; // Return constant value if no stair is defined
+            return constant_value;
         }
 
-        if (times.empty() || values.empty())
-        {
-            throw std::runtime_error("StairSignal: times and values must both be non-empty or both empty");
-        }
-
-        // Ensure times and values have the same size
-        if (times.size() != values.size())
-        {
-            throw std::runtime_error("StairSignal: times and values must have the same size");
-        }
-
-        // If t is before the first switching time,
-        // use the first defined value.
         if (t < times.front())
         {
             return values.front();
         }
 
-        // upper_bound gives the first switching time strictly greater than t.
-        // The active value is therefore one index before that.
         auto it = std::upper_bound(times.begin(), times.end(), t);
 
         const std::size_t index =
@@ -167,10 +152,6 @@ struct CSC_RL_Parameters
 
     ODE::real_type Idc_min;
 
-    // // Current references
-    // StairSignal id_r;
-    // StairSignal iq_r;
-
     // ------------------------------------------------------------
     // Inner loop initial conditions
     // x_inner = [xi_ucd, xi_ucq, xi_isd, xi_isq]^T
@@ -199,12 +180,80 @@ struct CSC_RL_Parameters
     ODE::real_type tf;
 };
 
+enum StateIndex
+{
+    IGD = 0,
+    IGQ,
+    ED,
+    EQ,
+    ID,
+    IQ,
+    VD,
+    VQ,
+    ISTK,
+    THETA_HAT,
+    XI_PLL,
+    XI_ECD,
+    XI_ECQ,
+    XI_ISD,
+    XI_ISQ,
+    XI_IDC2,
+    NSTATES
+};
+
+enum OutputIndex
+{
+    IA = 0,
+    IB,
+    IC,
+    VA,
+    VB,
+    VC,
+    ID_R,
+    IQ_R,
+    IDC_REF,
+    Q_REF,
+    PREF,
+    P_OUT,
+    Q_OUT,
+    NOUTPUTS
+};
+
+struct ControlOutput
+{
+    ODE::real_type e_pll;
+    ODE::real_type w_hat;
+
+    ODE::real_type idc_ref;
+    ODE::real_type Qref;
+    ODE::real_type Pref;
+
+    ODE::real_type idr;
+    ODE::real_type iqr;
+
+    ODE::real_type Eid;
+    ODE::real_type Eiq;
+
+    ODE::real_type vdr;
+    ODE::real_type vqr;
+
+    ODE::real_type Evd;
+    ODE::real_type Evq;
+
+    ODE::real_type md;
+    ODE::real_type mq;
+
+    ODE::real_type Eidc2;
+};
+
 class CSC_RL : public ODE::ODE_Problem_base
 {
 private:
     CSC_RL_Parameters p_;
 
     void validate_parameters() const;
+
+    ControlOutput compute_control(ODE::real_type t, const ODE::vec_type& x) const;
 
 public:
     explicit CSC_RL(const CSC_RL_Parameters& parameters);
@@ -216,6 +265,8 @@ public:
     ODE::real_type tf() const override;
 
     ODE::real_type initial_condition(ODE::integer i) const override;
+
+    std::string state_name(ODE::integer i) const override;
 
     void rhs(ODE::real_type t,
              const ODE::vec_type& x,

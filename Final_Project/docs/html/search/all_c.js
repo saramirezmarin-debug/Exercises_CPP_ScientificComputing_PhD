@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['t0_0',['t0',['../struct_c_s_c___r_l___parameters.html#a586deae2a953e321627a719e9a9aff09',1,'CSC_RL_Parameters::t0'],['../class_c_s_c___r_l.html#a683a683aa57bbaa36d99c58e2f6e390a',1,'CSC_RL::t0()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a5e229f66b71444f00bcb70b25604236c',1,'ODE::ODE_Problem_base::t0()']]],
-  ['tf_1',['tf',['../struct_c_s_c___r_l___parameters.html#ad18ac63f0c7bd77b9c9c51b7739d16e5',1,'CSC_RL_Parameters::tf'],['../class_c_s_c___r_l.html#aa410a6ac373415b924270737c1db704e',1,'CSC_RL::tf()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a8971fa43a46ec639d6837b10c01b2698',1,'ODE::ODE_Problem_base::tf()']]],
-  ['theta_5fhat0_2',['theta_hat0',['../struct_c_s_c___r_l___parameters.html#abdc2bfb514d876ba16275d7c1ccd3d7e',1,'CSC_RL_Parameters']]],
-  ['times_3',['times',['../struct_stair_signal.html#afe47ac45f99f007c7cd38e97501fdb7e',1,'StairSignal']]]
+  ['solve_5frk4_0',['solve_rk4',['../namespace_o_d_e.html#ab751763d0de7abe289caedd85bc9a206',1,'ODE']]],
+  ['stairsignal_1',['StairSignal',['../struct_stair_signal.html',1,'']]],
+  ['state_5fname_2',['state_name',['../class_c_s_c___r_l.html#ac84965d628b5c8e5f7908bba6a1ba1a6',1,'CSC_RL::state_name()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a83fa3e860dcf5830483e730a3bae26ef',1,'ODE::ODE_Problem_base::state_name()']]],
+  ['stateindex_3',['StateIndex',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1',1,'CSC_RL.hh']]]
 ];

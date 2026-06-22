@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['v2_5fmin_0',['V2_min',['../struct_c_s_c___r_l___parameters.html#ae9926dcaab1d9db06e815d68c97c7bdb',1,'CSC_RL_Parameters']]],
-  ['validate_1',['validate',['../struct_stair_signal.html#a2d4ad0f1de35cd04e744959eeb14999f',1,'StairSignal']]],
-  ['value_2',['value',['../struct_stair_signal.html#a2cd3eb519a88f89b23005e28dc52e103',1,'StairSignal']]],
-  ['values_3',['values',['../struct_stair_signal.html#a2856ae22f39a35cbfc751098ff8dcf73',1,'StairSignal']]],
-  ['vd0_4',['vd0',['../struct_c_s_c___r_l___parameters.html#abb05e69d3ef693c1b68dcfd76da564d2',1,'CSC_RL_Parameters']]],
-  ['vdq_5fnom_5',['Vdq_nom',['../struct_c_s_c___r_l___parameters.html#aba9ef38b9e72cc2c9261b186f93e412f',1,'CSC_RL_Parameters']]],
-  ['vec_5ftype_6',['vec_type',['../namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821',1,'ODE']]],
-  ['vq0_7',['vq0',['../struct_c_s_c___r_l___parameters.html#aef069872f664e5044716ac67e955c19a',1,'CSC_RL_Parameters']]]
+  ['t0_0',['t0',['../struct_c_s_c___r_l___parameters.html#a586deae2a953e321627a719e9a9aff09',1,'CSC_RL_Parameters::t0'],['../class_c_s_c___r_l.html#a683a683aa57bbaa36d99c58e2f6e390a',1,'CSC_RL::t0()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a5e229f66b71444f00bcb70b25604236c',1,'ODE::ODE_Problem_base::t0()']]],
+  ['tf_1',['tf',['../struct_c_s_c___r_l___parameters.html#ad18ac63f0c7bd77b9c9c51b7739d16e5',1,'CSC_RL_Parameters::tf'],['../class_c_s_c___r_l.html#aa410a6ac373415b924270737c1db704e',1,'CSC_RL::tf()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a8971fa43a46ec639d6837b10c01b2698',1,'ODE::ODE_Problem_base::tf()']]],
+  ['theta_5fhat_2',['THETA_HAT',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a45fd3c5e69014f954b855c051560a504',1,'CSC_RL.hh']]],
+  ['theta_5fhat0_3',['theta_hat0',['../struct_c_s_c___r_l___parameters.html#abdc2bfb514d876ba16275d7c1ccd3d7e',1,'CSC_RL_Parameters']]],
+  ['times_4',['times',['../struct_stair_signal.html#afe47ac45f99f007c7cd38e97501fdb7e',1,'StairSignal']]]
 ];

@@ -47,8 +47,6 @@ void CSC_RL::validate_parameters() const
     if (p_.V2_min <= 0.0)   throw std::runtime_error("CSC_RL: V2_min must be positive");
 
     // Validate the generic stair references
-    // p_.id_r.validate("CSC_RL: id_r");
-    // p_.iq_r.validate("CSC_RL: iq_r");
     p_.idc_ref.validate("CSC_RL: idc_ref");
     p_.Q_ref.validate("CSC_RL: Q_ref");
 }
@@ -72,144 +70,170 @@ ODE::real_type CSC_RL::initial_condition(ODE::integer i) const
 {
     switch (i)
     {
-    case 0:  return p_.igd0;
-    case 1:  return p_.igq0;
-    case 2:  return p_.ed0;
-    case 3:  return p_.eq0;
-    case 4:  return p_.id0;
-    case 5:  return p_.iq0;
-    case 6:  return p_.vd0;
-    case 7:  return p_.vq0;
-    case 8:  return p_.istk0;
-    case 9:  return p_.theta_hat0;
-    case 10: return p_.xi_pll0;
-    case 11: return p_.xi_ucd0;
-    case 12: return p_.xi_ucq0;
-    case 13: return p_.xi_isd0;
-    case 14: return p_.xi_isq0;
-    case 15: return p_.xi_idc2_0;
+    case IGD:  return p_.igd0;
+    case IGQ:  return p_.igq0;
+    case ED:  return p_.ed0;
+    case EQ:  return p_.eq0;
+    case ID:  return p_.id0;
+    case IQ:  return p_.iq0;
+    case VD:  return p_.vd0;
+    case VQ:  return p_.vq0;
+    case ISTK:  return p_.istk0;
+    case THETA_HAT:  return p_.theta_hat0;
+    case XI_PLL: return p_.xi_pll0;
+    case XI_ECD: return p_.xi_ucd0;
+    case XI_ECQ: return p_.xi_ucq0;
+    case XI_ISD: return p_.xi_isd0;
+    case XI_ISQ: return p_.xi_isq0;
+    case XI_IDC2: return p_.xi_idc2_0;
     default: throw std::out_of_range("CSC_RL: invalid state index");
     }
+}
+
+ControlOutput CSC_RL::compute_control(ODE::real_type t,
+                                      const ODE::vec_type& x) const
+{
+    ControlOutput c;
+
+    const ODE::real_type ed   = x(ED);
+    const ODE::real_type eq   = x(EQ);
+    const ODE::real_type id   = x(ID);
+    const ODE::real_type iq   = x(IQ);
+    const ODE::real_type vd   = x(VD);
+    const ODE::real_type vq   = x(VQ);
+    const ODE::real_type istk = x(ISTK);
+
+    const ODE::real_type xi_pll  = x(XI_PLL);
+    const ODE::real_type xi_ucd  = x(XI_ECD);
+    const ODE::real_type xi_ucq  = x(XI_ECQ);
+    const ODE::real_type xi_isd  = x(XI_ISD);
+    const ODE::real_type xi_isq  = x(XI_ISQ);
+    const ODE::real_type xi_idc2 = x(XI_IDC2);
+
+    // ------------------------------------------------------------
+    // PLL
+    // ------------------------------------------------------------
+    c.e_pll = eq / p_.Vdq_nom;
+    c.w_hat = p_.w0_pll + p_.kp_pll * c.e_pll + p_.ki_pll * xi_pll;
+
+    // ------------------------------------------------------------
+    // Outer loop: i_dc reference -> active power reference
+    // ------------------------------------------------------------
+    c.idc_ref = p_.idc_ref.value(t);
+    c.Qref    = p_.Q_ref.value(t);
+
+    c.Eidc2 = c.idc_ref * c.idc_ref - istk * istk;
+    c.Pref  = p_.kpO * c.Eidc2 + p_.kiO * xi_idc2;
+
+    // ------------------------------------------------------------
+    // P/Q reference -> current references
+    // ------------------------------------------------------------
+    const ODE::real_type V2_eff =
+        std::max(ed * ed + eq * eq, p_.V2_min);
+
+    c.idr = (c.Pref * ed + c.Qref * eq) / V2_eff;
+    c.iqr = (c.Pref * eq - c.Qref * ed) / V2_eff;
+
+    // ------------------------------------------------------------
+    // Inner loop stage 2: current error -> voltage reference
+    // ------------------------------------------------------------
+    c.Eid = c.idr - id;
+    c.Eiq = c.iqr - iq;
+
+    c.vdr = ed + p_.Lf * c.w_hat * iq
+          - (p_.kp2 * c.Eid + p_.ki2 * xi_isd);
+
+    c.vqr = eq - p_.Lf * c.w_hat * id
+          - (p_.kp2 * c.Eiq + p_.ki2 * xi_isq);
+
+    // ------------------------------------------------------------
+    // Inner loop stage 1: voltage error -> modulation index
+    // ------------------------------------------------------------
+    c.Evd = c.vdr - vd;
+    c.Evq = c.vqr - vq;
+
+    const ODE::real_type Idc_eff =
+        std::max(std::abs(istk), p_.Idc_min);
+
+    c.md = 0.0;
+    c.mq = 0.0;
+
+    if (std::abs(istk) >= p_.Idc_min)
+    {
+        c.md = (id + p_.Cf * c.w_hat * iq
+             - (p_.kp1 * c.Evd + p_.ki1 * xi_ucd)) / Idc_eff;
+
+        c.mq = (iq - p_.Cf * c.w_hat * id
+             - (p_.kp1 * c.Evq + p_.ki1 * xi_ucq)) / Idc_eff;
+    }
+
+    return c;
 }
 
 void CSC_RL::rhs(ODE::real_type t,
                  const ODE::vec_type& x,
                  ODE::vec_type& dxdt) const
 {
-    (void)t;
+    const ODE::real_type igd  = x(IGD);
+    const ODE::real_type igq  = x(IGQ);
+    const ODE::real_type ed   = x(ED);
+    const ODE::real_type eq   = x(EQ);
+
+    const ODE::real_type id   = x(ID);
+    const ODE::real_type iq   = x(IQ);
+    const ODE::real_type vd   = x(VD);
+    const ODE::real_type vq   = x(VQ);
+    const ODE::real_type istk = x(ISTK);
+
+    const ControlOutput c = compute_control(t, x);
 
     // ------------------------------------------------------------
-    // State vector
-    // x = [igd, igq, ed, eq, id, iq, vd, vq, istk, theta_hat, xi_pll, xi_ucd, xi_ucq, xi_isd, xi_isq, xi_idc2]^T
+    // PCC dynamics
     // ------------------------------------------------------------
+    dxdt(IGD) = (p_.egd - p_.Rg * igd - ed
+              + c.w_hat * p_.Lg * igq) / p_.Lg;
 
-    // PCC states
-    const ODE::real_type igd  = x(0);
-    const ODE::real_type igq  = x(1);
-    const ODE::real_type ed   = x(2);
-    const ODE::real_type eq   = x(3);
+    dxdt(IGQ) = (p_.egq - p_.Rg * igq - eq
+              - c.w_hat * p_.Lg * igd) / p_.Lg;
 
-    // CSC states
-    const ODE::real_type id   = x(4);
-    const ODE::real_type iq   = x(5);
-    const ODE::real_type vd   = x(6);
-    const ODE::real_type vq   = x(7);
-    const ODE::real_type istk = x(8);
+    dxdt(ED) = (igd - id
+             + c.w_hat * p_.Cg * eq) / p_.Cg;
 
-    const ODE::real_type xi_pll    = x(10);
-
-    // Inner loop controller states
-    const ODE::real_type xi_ucd = x(11);
-    const ODE::real_type xi_ucq = x(12);
-    const ODE::real_type xi_isd = x(13);
-    const ODE::real_type xi_isq = x(14);
-
-    // Outer loop controller state
-    const ODE::real_type xi_idc2 = x(15);
-
-    // PLL
-    const ODE::real_type e_pll = eq / p_.Vdq_nom; 
-    const ODE::real_type w_hat = p_.w0_pll + p_.kp_pll * e_pll + p_.ki_pll * xi_pll;
+    dxdt(EQ) = (igq - iq
+             - c.w_hat * p_.Cg * ed) / p_.Cg;
 
     // ------------------------------------------------------------
-    // OUTER LOOP CONTROLLER
+    // CSC AC-side and DC-side dynamics
     // ------------------------------------------------------------
-    const ODE::real_type idc_ref = p_.idc_ref.value(t);
-    const ODE::real_type Qref   = p_.Q_ref.value(t);
+    dxdt(ID) = (ed - vd - p_.Rf * id
+             + c.w_hat * p_.Lf * iq) / p_.Lf;
 
-    const ODE::real_type Eidc2 = idc_ref*idc_ref - istk*istk; // Error in DC current squared
-    const ODE::real_type Pref = p_.kpO * Eidc2 + p_.kiO * xi_idc2; // Active power reference 
+    dxdt(IQ) = (eq - vq - p_.Rf * iq
+             - c.w_hat * p_.Lf * id) / p_.Lf;
 
-    const ODE::real_type V2 = ed*ed + eq*eq; // PCC voltage magnitude square
-    const ODE::real_type V2_eff = std::max(V2, p_.V2_min);
+    dxdt(VD) = (id - c.md * istk
+             + c.w_hat * p_.Cf * vq) / p_.Cf;
 
-    const ODE::real_type idr = (Pref * ed + Qref * eq) / V2_eff;
-    const ODE::real_type iqr = (Pref * eq - Qref * ed) / V2_eff;
+    dxdt(VQ) = (iq - c.mq * istk
+             - c.w_hat * p_.Cf * vd) / p_.Cf;
 
-    // ------------------------------------------------------------
-    // INNER LOOP CONTROLLER
-    // ------------------------------------------------------------
-
-    // ------------------------------------------------------------
-    // Stage 2: current reference -> capacitor voltage reference
-    // ------------------------------------------------------------
-    const ODE::real_type Eid = idr - id;
-    const ODE::real_type Eiq = iqr - iq;
-    const ODE::real_type vdr = ed + p_.Lf * w_hat * iq - (p_.kp2 * Eid + p_.ki2 * xi_isd); 
-    const ODE::real_type vqr = eq - p_.Lf * w_hat * id - (p_.kp2 * Eiq + p_.ki2 * xi_isq);
-
-    // ------------------------------------------------------------
-    // Stage 1: capacitor voltage reference -> modulation
-    // ------------------------------------------------------------
-    const ODE::real_type Evd = vdr - vd;
-    const ODE::real_type Evq = vqr - vq;
-
-    const ODE::real_type Idc_eff = std::max(std::abs(istk), p_.Idc_min); // Avoid division by zero or very small values
-    ODE::real_type md = 0;
-    ODE::real_type mq = 0;
-
-    if (std::abs(istk) >= p_.Idc_min)
-    {
-        md = (id + p_.Cf * w_hat * iq - (p_.kp1 * Evd + p_.ki1 * xi_ucd)) / Idc_eff;
-        mq = (iq - p_.Cf * w_hat * id - (p_.kp1 * Evq + p_.ki1 * xi_ucq)) / Idc_eff;
-    }
-    
-    // ------------------------------------------------------------
-    // PCC
-    // ------------------------------------------------------------
-    dxdt(0) = (p_.egd - p_.Rg * igd - ed + w_hat * p_.Lg * igq) / p_.Lg;
-    dxdt(1) = (p_.egq - p_.Rg * igq - eq - w_hat * p_.Lg * igd) / p_.Lg;
-    dxdt(2) = (igd - id + w_hat * p_.Cg * eq) / p_.Cg;
-    dxdt(3) = (igq - iq - w_hat * p_.Cg * ed) / p_.Cg;
-
-    // ------------------------------------------------------------
-    // CSC
-    // ------------------------------------------------------------
-    dxdt(4) = (ed - vd - p_.Rf * id + w_hat * p_.Lf * iq) / p_.Lf;
-    dxdt(5) = (eq - vq - p_.Rf * iq - w_hat * p_.Lf * id) / p_.Lf;
-    dxdt(6) = (id - md * istk + w_hat * p_.Cf * vq) / p_.Cf;
-    dxdt(7) = (iq - mq * istk - w_hat * p_.Cf * vd) / p_.Cf;
-    dxdt(8) = (md * vd + mq * vq - p_.RL * istk) / p_.Ldc;
+    dxdt(ISTK) = (c.md * vd + c.mq * vq
+               - p_.RL * istk) / p_.Ldc;
 
     // ------------------------------------------------------------
     // PLL states
     // ------------------------------------------------------------
-    dxdt(9)  = w_hat;
-    dxdt(10) = e_pll;
+    dxdt(THETA_HAT) = c.w_hat;
+    dxdt(XI_PLL)    = c.e_pll;
 
     // ------------------------------------------------------------
-    // Inner loop controller states
+    // Controller integrator states
     // ------------------------------------------------------------
-    dxdt(11) = Evd;
-    dxdt(12) = Evq; 
-    dxdt(13) = Eid;
-    dxdt(14) = Eiq;
-
-    // ------------------------------------------------------------
-    // Outer loop controller states
-    // ------------------------------------------------------------
-    dxdt(15) = Eidc2;
-
+    dxdt(XI_ECD)  = c.Evd;
+    dxdt(XI_ECQ)  = c.Evq;
+    dxdt(XI_ISD)  = c.Eid;
+    dxdt(XI_ISQ)  = c.Eiq;
+    dxdt(XI_IDC2) = c.Eidc2;
 }
 
 // ------------------------------------------------------------
@@ -232,7 +256,7 @@ void CSC_RL::rhs(ODE::real_type t,
 // ------------------------------------------------------------
 ODE::integer CSC_RL::n_outputs() const
 {
-    return 13;
+    return NOUTPUTS;
 }
 
 // ------------------------------------------------------------
@@ -248,9 +272,41 @@ std::string CSC_RL::output_name(ODE::integer i) const
         "P", "Q"
     };
 
-    if (i >= 0 && i < n_outputs()) return names[i];
+    if (i >= 0 && i < NOUTPUTS) 
+    {
+        return names[i];
+    }
 
     throw std::out_of_range("CSC_RL: invalid output index");
+}
+
+std::string CSC_RL::state_name(ODE::integer i) const
+{
+    static const std::string names[] = {
+        "igd",
+        "igq",
+        "ed",
+        "eq",
+        "id",
+        "iq",
+        "vd",
+        "vq",
+        "istk",
+        "theta_hat",
+        "xi_pll",
+        "xi_ucd",
+        "xi_ucq",
+        "xi_isd",
+        "xi_isq",
+        "xi_idc2"
+    };
+
+    if (i >= 0 && i < NSTATES)
+    {
+        return names[i];
+    }
+
+    throw std::out_of_range("CSC_RL: invalid state index");
 }
 
 // ------------------------------------------------------------
@@ -261,38 +317,38 @@ ODE::real_type CSC_RL::output(ODE::real_type t,
                               const ODE::vec_type& x,
                               ODE::integer i) const
 {
-    const ODE::real_type ed = x(2);
-    const ODE::real_type eq = x(3);
-    const ODE::real_type id = x(4);
-    const ODE::real_type iq = x(5);
+    const ODE::real_type ed = x(ED);
+    const ODE::real_type eq = x(EQ);
+    const ODE::real_type id = x(ID);
+    const ODE::real_type iq = x(IQ);
 
     if (i >= 0 && i <= 2)
     {
-        return abc_output_component(id, iq, x(9), i);
+        return abc_output_component(id, iq, x(THETA_HAT), i);
     }
 
     if (i >= 3 && i <= 5)
     {
-        return abc_output_component(x(6), x(7), x(9), i - 3);
+        return abc_output_component(x(VD), x(VQ), x(THETA_HAT), i - 3);
     }
 
-    if (i == 11) return ed * id + eq * iq;
-    if (i == 12) return eq * id - ed * iq;
+    if (i == P_OUT) return ed * id + eq * iq;
+    if (i == Q_OUT) return eq * id - ed * iq;
 
     const ODE::real_type idc_ref = p_.idc_ref.value(t);
-    if (i == 8) return idc_ref;
+    if (i == IDC_REF) return idc_ref;
 
     const ODE::real_type Qref = p_.Q_ref.value(t);
-    if (i == 9) return Qref;
+    if (i == Q_REF) return Qref;
 
-    const ODE::real_type istk = x(8);
+    const ODE::real_type istk = x(ISTK);
     const ODE::real_type Pref =
-        p_.kpO * (idc_ref * idc_ref - istk * istk) + p_.kiO * x(15);
-    if (i == 10) return Pref;
+        p_.kpO * (idc_ref * idc_ref - istk * istk) + p_.kiO * x(XI_IDC2);
+    if (i == PREF) return Pref;
 
     const ODE::real_type V2_eff = std::max(ed * ed + eq * eq, p_.V2_min);
-    if (i == 6) return (Pref * ed + Qref * eq) / V2_eff;
-    if (i == 7) return (Pref * eq - Qref * ed) / V2_eff;
+    if (i == ID_R) return (Pref * ed + Qref * eq) / V2_eff;
+    if (i == IQ_R) return (Pref * eq - Qref * ed) / V2_eff;
 
     throw std::out_of_range("CSC_RL: invalid output index");
 }
