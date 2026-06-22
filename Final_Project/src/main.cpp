@@ -1,7 +1,12 @@
 #include "ODE4.hh"
 #include "CSC_RL.hh"
 
-int main()
+#include <cmath>
+
+// ============================================================
+// Create CSC-RL parameters
+// ============================================================
+CSC_RL_Parameters make_csc_rl_parameters()
 {
     const ODE::real_type pi = std::acos(-1.0);
 
@@ -19,8 +24,7 @@ int main()
     const ODE::real_type Cbase = 1.0 / (Zbase * wbase);
 
     const ODE::real_type Tsw     = 1.0 / 10e3;
-    const ODE::real_type delta_i = 2;
-
+    const ODE::real_type delta_i = 2.0;
 
     // ------------------------------------------------------------
     // PLL design
@@ -40,21 +44,20 @@ int main()
     const ODE::real_type kp_pll = 9.2 / ts_pll;
     const ODE::real_type ki_pll = 21.16 / (ts_pll * ts_pll * zeta * zeta);
 
-    // Save PLL parameters
-    p.w0_pll = w0_pll;
-    p.kp_pll = kp_pll;
-    p.ki_pll = ki_pll;
+    p.w0_pll  = w0_pll;
+    p.kp_pll  = kp_pll;
+    p.ki_pll  = ki_pll;
     p.Vdq_nom = Vdq_nom;
 
     // ------------------------------------------------------------
     // Grid parameters
     // ------------------------------------------------------------
     p.Lg = 0.02 * Lbase;
-    p.Cg = 0.05 * Cbase; 
+    p.Cg = 0.05 * Cbase;
     p.Rg = 0.01 * Zbase;
 
     // ------------------------------------------------------------
-    // CSC
+    // CSC parameters
     // ------------------------------------------------------------
     p.Rf  = 0.01 * Zbase;
     p.Lf  = 0.05 * Lbase;
@@ -71,58 +74,49 @@ int main()
     p.egq = 0.0;
 
     // ------------------------------------------------------------
-    // outer loop controller parameters
+    // Outer loop controller parameters
     // ------------------------------------------------------------
     const ODE::real_type fno = 5.0;
     const ODE::real_type wno = 2.0 * pi * fno;
     const ODE::real_type zetao = 1.0 / std::sqrt(2.0);
-    p.kpO = 2 * zetao * wno * p.Ldc;
+
+    p.kpO = 2.0 * zetao * wno * p.Ldc;
     p.kiO = wno * wno * p.Ldc;
 
-    // Minimum voltage squared for P/Q -> id/iq conversion
     p.V2_min = 1.0;
 
-
     // ------------------------------------------------------------
-    // inner loop controller parameters
+    // Inner loop controller parameters
     // ------------------------------------------------------------
-    // stage 2: idq0_ref -> vdq0_ref
     const ODE::real_type ts2    = 10e-3;
     const ODE::real_type alpha2 = std::log(9.0) / ts2;
+
     p.ki2 = alpha2 * p.Rf;
     p.kp2 = alpha2 * p.Lf;
 
-    // stage 1: vdq0_ref -> mdq0
     const ODE::real_type ts1    = 0.05e-3;
     const ODE::real_type alpha1 = std::log(9.0) / ts1;
+
     p.ki1 = alpha1 * p.Rf;
     p.kp1 = alpha1 * p.Lf;
 
-    // DC current limit
     p.Idc_min = 20.0;
-
-    // Current references
-    // p.idc_ref.constant_value = 300;
-    // p.Q_ref.constant_value = 0.0;
-
-    p.idc_ref.times  = {0.0, 1.0, 2.0, 3.0, 4.0};
-    p.idc_ref.values = {200.0, 250.0, 200.0, 150.0, 100.0};
-    p.Q_ref.times  = {0.0};
-    p.Q_ref.values = {0.0};
 
     // ------------------------------------------------------------
     // Initial conditions
-    // x = [igd, igq, usd, usq, id, iq, vd, vq, istk, xi_ucd, xi_ucq, xi_isd, xi_isq]^T
     // ------------------------------------------------------------
-    p.igd0  =  16.0;
-    p.igq0  =   0.0;   
-    p.ed0   =    Vdq_nom;
-    p.eq0   =   0.0;
+    p.igd0 = 16.0;
+    p.igq0 = 0.0;
 
-    p.id0   =  16.0;
-    p.iq0   =   0.0;
-    p.vd0   =    Vdq_nom;
-    p.vq0   =   0.0;
+    p.ed0 = Vdq_nom;
+    p.eq0 = 0.0;
+
+    p.id0 = 16.0;
+    p.iq0 = 0.0;
+
+    p.vd0 = Vdq_nom;
+    p.vq0 = 0.0;
+
     p.istk0 = 250.0;
 
     p.theta_hat0 = 0.0;
@@ -135,17 +129,50 @@ int main()
 
     p.xi_idc2_0 = 0.0;
 
-    // ------------------------------------------------------------
-    // Simulation time
-    // ------------------------------------------------------------
-    p.t0 = 0.0;
-    p.tf = 5.0;
+    return p;
+}
 
-    CSC_RL problem(p);
+int main()
+{
+    try
+    {
+        std::system("mkdir results 2>nul");
 
-    const ODE::real_type h = 1e-5;
+        CSC_RL_Parameters p = make_csc_rl_parameters();
 
-    ODE::solve_rk4(problem, h, "results/csc_rl.csv", 20);
+        // ------------------------------------------------------------
+        // Simulation settings
+        // ------------------------------------------------------------
+        p.t0 = 0.0;
+        p.tf = 5.0;
 
-    return 0;
+        const ODE::real_type h = 1e-5;
+        const ODE::integer save_every = 20;
+
+        // ------------------------------------------------------------
+        // Reference signals
+        // ------------------------------------------------------------
+        p.idc_ref.times  = {0.0, 1.0, 2.0, 3.0, 4.0};
+        p.idc_ref.values = {200.0, 250.0, 200.0, 150.0, 100.0};
+
+        p.Q_ref.values  = {20000.0, -20000, 0};
+        p.Q_ref.times = {0.0, 1.7, 3.4};
+
+        // ------------------------------------------------------------
+        // Build and solve problem
+        // ------------------------------------------------------------
+        CSC_RL problem(p);
+
+        ODE::solve_rk4(problem, h, "results/csc_rl.csv", save_every);
+
+        std::cout << "Simulation completed successfully.\n";
+        std::cout << "Output file: results/csc_rl.csv\n";
+
+        return 0;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << "\n";
+        return 1;
+    }
 }

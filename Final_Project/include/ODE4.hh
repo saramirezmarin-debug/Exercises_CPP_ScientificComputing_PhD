@@ -4,6 +4,7 @@
 #include <Eigen/Dense>
 
 // Standard
+#include <iostream>
 #include <algorithm>
 #include <string>
 #include <cmath>

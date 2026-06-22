@@ -202,16 +202,13 @@ plot(tp, id_p, 'LineWidth', 1.5);
 hold on;
 plot(tp, iq_p, 'LineWidth', 1.5);
 
-plot(tp, idr_p, '--', 'LineWidth', 1.5);
-plot(tp, iqr_p, '--', 'LineWidth', 1.5);
-
 grid on;
 box on;
 
 xlabel('$t$ [s]');
 ylabel('$i_s$ [A]');
 title('AC-side currents in $dq$');
-legend('$i_{sd}$', '$i_{sq}$', '$i_{sd}^*$', '$i_{sq}^*$', 'Location', 'best');
+legend('$i_{sd}$', '$i_{sq}$', 'Location', 'best');
 
 set(gca, 'FontSize', fontSize, 'LineWidth', 0.8);
 
@@ -222,7 +219,6 @@ nexttile;
 
 plot(tp, P_p, 'LineWidth', 1.5);
 hold on;
-plot(tp, Pref_p, '--', 'LineWidth', 1.5);
 
 grid on;
 box on;
@@ -230,7 +226,7 @@ box on;
 xlabel('$t$ [s]');
 ylabel('$P$ [W]');
 title('Active power');
-legend('$P$', '$P^*$', 'Location', 'best');
+legend('$P$', 'Location', 'best');
 
 set(gca, 'FontSize', fontSize, 'LineWidth', 0.8);
 

@@ -193,8 +193,8 @@ enum StateIndex
     ISTK,
     THETA_HAT,
     XI_PLL,
-    XI_ECD,
-    XI_ECQ,
+    XI_UCD,
+    XI_UCQ,
     XI_ISD,
     XI_ISQ,
     XI_IDC2,
@@ -253,7 +253,7 @@ private:
 
     void validate_parameters() const;
 
-    ControlOutput compute_control(ODE::real_type t, const ODE::vec_type& x) const;
+    // ControlOutput compute_control(ODE::real_type t, const ODE::vec_type& x) const;
 
 public:
     explicit CSC_RL(const CSC_RL_Parameters& parameters);
