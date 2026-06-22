@@ -17,4 +17,4 @@ build/
 *.dll
 *.a
 *.lib
-# *.csv
+*.csv
