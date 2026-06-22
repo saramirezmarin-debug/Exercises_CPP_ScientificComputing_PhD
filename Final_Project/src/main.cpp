@@ -1,66 +1,8 @@
 #include "ODE4.hh"
 #include "CSC_RL.hh"
 
-class Oscillator2D : public ODE::ODE_Problem_base
-{
-public:
-    ODE::integer n() const override
-    {
-        return 2;
-    }
-
-    ODE::real_type t0() const override
-    {
-        return 0.0;
-    }
-
-    ODE::real_type tf() const override
-    {
-        return 20.0;
-    }
-
-    ODE::real_type initial_condition(ODE::integer i) const override
-    {
-        if (i == 0) return 1.0; // x1(0)
-        if (i == 1) return 0.0; // x2(0)
-
-        throw std::out_of_range("Invalid state index");
-    }
-
-    void rhs(ODE::real_type t,
-             const ODE::vec_type& x,
-             ODE::vec_type& dxdt) const override
-    {
-        (void)t;
-
-        dxdt(0) =  x(1);   // dx1/dt = x2
-        dxdt(1) = -x(0);  // dx2/dt = -x1
-    }
-
-    bool has_exact_solution() const override
-    {
-        return true;
-    }
-
-    ODE::real_type exact(ODE::real_type t, ODE::integer i) const override
-    {
-        if (i == 0) return std::cos(t);
-        if (i == 1) return -std::sin(t);
-
-        throw std::out_of_range("Invalid state index");
-    }
-};
-
-
 int main()
 {
-    /* Solve the 2D oscillator problem */
-    /*
-    Oscillator2D problem;
-    const ODE::real_type h = 0.01; // Time step size
-    ODE::solve_rk4(problem, h, "results/oscillator2d.csv");
-    */
-
     const ODE::real_type pi = std::acos(-1.0);
 
     CSC_RL_Parameters p;
@@ -76,7 +18,7 @@ int main()
     const ODE::real_type Lbase = Zbase / wbase;
     const ODE::real_type Cbase = 1.0 / (Zbase * wbase);
 
-    const ODE::real_type Tsw     = 1/(10e3);
+    const ODE::real_type Tsw     = 1.0 / 10e3;
     const ODE::real_type delta_i = 2;
 
 
@@ -131,9 +73,9 @@ int main()
     // ------------------------------------------------------------
     // outer loop controller parameters
     // ------------------------------------------------------------
-    const ODE::real_type fno = 5;
-    const ODE::real_type wno = 2 * pi * fno;
-    const ODE::real_type zetao = 1/sqrt(2);
+    const ODE::real_type fno = 5.0;
+    const ODE::real_type wno = 2.0 * pi * fno;
+    const ODE::real_type zetao = 1.0 / std::sqrt(2.0);
     p.kpO = 2 * zetao * wno * p.Ldc;
     p.kiO = wno * wno * p.Ldc;
 

@@ -2,71 +2,30 @@
 
 namespace
 {
-    struct DQ0 // Represents a vector in the DQ0 reference frame
-    {
-        ODE::real_type d;
-        ODE::real_type q;
-        ODE::real_type z0;
-    };
+    constexpr ODE::real_type sqrt_3 = 1.7320508075688772935;
+    constexpr ODE::real_type dq0_scale = 0.8164965809277260327; // sqrt(2/3)
 
-    struct ABC3 // Represents a vector in the ABC reference frame
+    ODE::real_type abc_output_component(ODE::real_type d,
+                                        ODE::real_type q,
+                                        ODE::real_type theta,
+                                        ODE::integer component)
     {
-        ODE::real_type a;
-        ODE::real_type b;
-        ODE::real_type c;
-    };
-
-    // Function to convert from DQ0 to ABC reference frame
-    // Power-invariant transformation from DQ0 to ABC reference frame
-    ABC3 dq0_to_abc(const DQ0& x_dq0, ODE::real_type theta) 
-    {
-        const ODE::real_type d = x_dq0.d;
-        const ODE::real_type q = x_dq0.q;
-        const ODE::real_type z0 = x_dq0.z0;
         const ODE::real_type ct = std::cos(theta);
         const ODE::real_type st = std::sin(theta);
-        const ODE::real_type c120 = -0.5;
-        const ODE::real_type s120 = std::sqrt(3.0) / 2.0;
-        const ODE::real_type ct2 = ct * c120 + st * s120;
-        const ODE::real_type st2 = st * c120 - ct * s120;
-        const ODE::real_type ct3 = ct * c120 - st * s120;
-        const ODE::real_type st3 = st * c120 + ct * s120;
-        const ODE::real_type k = std::sqrt(2.0 / 3.0);
-        const ODE::real_type z = z0 / std::sqrt(2.0);
 
-        ABC3 x_abc;
-
-        x_abc.a = k * (ct  * d - st  * q + z);
-        x_abc.b = k * (ct2 * d - st2 * q + z);
-        x_abc.c = k * (ct3 * d - st3 * q + z);
-
-        return x_abc;
-    }
-
-    // Function to convert from ABC to DQ0 reference frame
-    // Power-invariant transformation from ABC to DQ0 reference frame
-    DQ0 abc_to_dq0(const ABC3& x_abc, ODE::real_type theta)
-    {
-        const ODE::real_type a   = x_abc.a;
-        const ODE::real_type b   = x_abc.b;
-        const ODE::real_type cph = x_abc.c;
-        const ODE::real_type ct = std::cos(theta);
-        const ODE::real_type st = std::sin(theta);
-        const ODE::real_type c120 = -0.5;
-        const ODE::real_type s120 = std::sqrt(3.0) / 2.0;
-        const ODE::real_type ct2 = ct * c120 + st * s120;
-        const ODE::real_type st2 = st * c120 - ct * s120;
-        const ODE::real_type ct3 = ct * c120 - st * s120;
-        const ODE::real_type st3 = st * c120 + ct * s120;
-        const ODE::real_type k = std::sqrt(2.0 / 3.0);
-
-        DQ0 x_dq0;
-
-        x_dq0.d =  k * (ct * a + ct2 * b + ct3 * cph);
-        x_dq0.q =  k * (-st * a - st2 * b - st3 * cph);
-        x_dq0.z0 = k * ((a + b + cph) / std::sqrt(2.0));
-
-        return x_dq0;
+        switch (component)
+        {
+        case 0:
+            return dq0_scale * (ct * d - st * q);
+        case 1:
+            return dq0_scale * ((-0.5 * ct + 0.5 * sqrt_3 * st) * d
+                              - (-0.5 * st - 0.5 * sqrt_3 * ct) * q);
+        case 2:
+            return dq0_scale * ((-0.5 * ct - 0.5 * sqrt_3 * st) * d
+                              - (-0.5 * st + 0.5 * sqrt_3 * ct) * q);
+        default:
+            throw std::out_of_range("CSC_RL: invalid abc component index");
+        }
     }
 }
 
@@ -111,28 +70,26 @@ ODE::real_type CSC_RL::tf() const
 
 ODE::real_type CSC_RL::initial_condition(ODE::integer i) const
 {
-    if (i == 0)  return p_.igd0;
-    if (i == 1)  return p_.igq0;
-    if (i == 2)  return p_.ed0;
-    if (i == 3)  return p_.eq0;
-    
-    if (i == 4)  return p_.id0;
-    if (i == 5)  return p_.iq0;
-    if (i == 6)  return p_.vd0;
-    if (i == 7)  return p_.vq0;
-    if (i == 8)  return p_.istk0;
-
-    if (i == 9)  return p_.theta_hat0;
-    if (i == 10) return p_.xi_pll0;
-
-    if (i == 11) return p_.xi_ucd0;
-    if (i == 12) return p_.xi_ucq0;
-    if (i == 13) return p_.xi_isd0;
-    if (i == 14) return p_.xi_isq0;
-
-    if (i == 15) return p_.xi_idc2_0;
-
-    throw std::out_of_range("CSC_RL: invalid state index");
+    switch (i)
+    {
+    case 0:  return p_.igd0;
+    case 1:  return p_.igq0;
+    case 2:  return p_.ed0;
+    case 3:  return p_.eq0;
+    case 4:  return p_.id0;
+    case 5:  return p_.iq0;
+    case 6:  return p_.vd0;
+    case 7:  return p_.vq0;
+    case 8:  return p_.istk0;
+    case 9:  return p_.theta_hat0;
+    case 10: return p_.xi_pll0;
+    case 11: return p_.xi_ucd0;
+    case 12: return p_.xi_ucq0;
+    case 13: return p_.xi_isd0;
+    case 14: return p_.xi_isq0;
+    case 15: return p_.xi_idc2_0;
+    default: throw std::out_of_range("CSC_RL: invalid state index");
+    }
 }
 
 void CSC_RL::rhs(ODE::real_type t,
@@ -159,8 +116,6 @@ void CSC_RL::rhs(ODE::real_type t,
     const ODE::real_type vq   = x(7);
     const ODE::real_type istk = x(8);
 
-    // PLL states
-    const ODE::real_type theta_hat = x(9);
     const ODE::real_type xi_pll    = x(10);
 
     // Inner loop controller states
@@ -255,7 +210,6 @@ void CSC_RL::rhs(ODE::real_type t,
     // ------------------------------------------------------------
     dxdt(15) = Eidc2;
 
-    (void)theta_hat;
 }
 
 // ------------------------------------------------------------
@@ -278,7 +232,7 @@ void CSC_RL::rhs(ODE::real_type t,
 // ------------------------------------------------------------
 ODE::integer CSC_RL::n_outputs() const
 {
-    return 13; // Number of algebraic outputs)
+    return 13;
 }
 
 // ------------------------------------------------------------
@@ -286,24 +240,15 @@ ODE::integer CSC_RL::n_outputs() const
 // ------------------------------------------------------------
 std::string CSC_RL::output_name(ODE::integer i) const
 {
-    if (i == 0) return "ia";
-    if (i == 1) return "ib";
-    if (i == 2) return "ic";
+    static const std::string names[] = {
+        "ia", "ib", "ic",
+        "va", "vb", "vc",
+        "id_r", "iq_r",
+        "idc_ref", "Q_ref", "Pref",
+        "P", "Q"
+    };
 
-    if (i == 3) return "va";
-    if (i == 4) return "vb";
-    if (i == 5) return "vc";
-
-
-    if (i == 6) return "id_r";
-    if (i == 7) return "iq_r";
-
-    if (i == 8)  return "idc_ref";
-    if (i == 9)  return "Q_ref";
-    if (i == 10) return "Pref";
-
-    if (i == 11) return "P";
-    if (i == 12) return "Q";
+    if (i >= 0 && i < n_outputs()) return names[i];
 
     throw std::out_of_range("CSC_RL: invalid output index");
 }
@@ -316,87 +261,38 @@ ODE::real_type CSC_RL::output(ODE::real_type t,
                               const ODE::vec_type& x,
                               ODE::integer i) const
 {
-    // ------------------------------------------------------------
-    // Extract dq variables
-    // ------------------------------------------------------------
     const ODE::real_type ed = x(2);
     const ODE::real_type eq = x(3);
-
     const ODE::real_type id = x(4);
     const ODE::real_type iq = x(5);
 
-    const ODE::real_type P = ed * id + eq * iq;
-    const ODE::real_type Q = eq * id - ed * iq;
+    if (i >= 0 && i <= 2)
+    {
+        return abc_output_component(id, iq, x(9), i);
+    }
 
-    const ODE::real_type vd = x(6);
-    const ODE::real_type vq = x(7);
+    if (i >= 3 && i <= 5)
+    {
+        return abc_output_component(x(6), x(7), x(9), i - 3);
+    }
+
+    if (i == 11) return ed * id + eq * iq;
+    if (i == 12) return eq * id - ed * iq;
+
+    const ODE::real_type idc_ref = p_.idc_ref.value(t);
+    if (i == 8) return idc_ref;
+
+    const ODE::real_type Qref = p_.Q_ref.value(t);
+    if (i == 9) return Qref;
 
     const ODE::real_type istk = x(8);
-
-    // PLL angle used for dq0 -> abc reconstruction
-    const ODE::real_type theta_hat = x(9);
-
-    // Outer-loop integrator state
-    const ODE::real_type xi_idc2 = x(15);
-
-    // ------------------------------------------------------------
-    // Reconstruct abc signals
-    //
-    // iabc = dq0_to_abc([id, iq, 0], theta_hat)
-    // vabc = dq0_to_abc([vd, vq, 0], theta_hat)
-    // ------------------------------------------------------------
-    const DQ0 i_dq0{id, iq, 0.0};
-    const DQ0 v_dq0{vd, vq, 0.0};
-
-    const ABC3 i_abc = dq0_to_abc(i_dq0, theta_hat);
-    const ABC3 v_abc = dq0_to_abc(v_dq0, theta_hat);
-
-    // ------------------------------------------------------------
-    // Recompute outer-loop algebraic variables for CSV output
-    //
-    // This must match the outer-loop equations used in rhs().
-    // ------------------------------------------------------------
-    const ODE::real_type idc_ref = p_.idc_ref.value(t);
-    const ODE::real_type Qref    = p_.Q_ref.value(t);
-
-    const ODE::real_type Eidc2 =
-        idc_ref * idc_ref - istk * istk;
-
     const ODE::real_type Pref =
-        p_.kpO * Eidc2 + p_.kiO * xi_idc2;
-
-    const ODE::real_type V2 =
-        ed * ed + eq * eq;
-
-    const ODE::real_type V2_eff =
-        std::max(V2, p_.V2_min);
-
-    const ODE::real_type id_ref =
-        (Pref * ed + Qref * eq) / V2_eff;
-
-    const ODE::real_type iq_ref =
-        (Pref * eq - Qref * ed) / V2_eff;
-
-    // ------------------------------------------------------------
-    // Return requested algebraic output
-    // ------------------------------------------------------------
-    if (i == 0) return i_abc.a;
-    if (i == 1) return i_abc.b;
-    if (i == 2) return i_abc.c;
-
-    if (i == 3) return v_abc.a;
-    if (i == 4) return v_abc.b;
-    if (i == 5) return v_abc.c;
-
-    if (i == 6) return id_ref;
-    if (i == 7) return iq_ref;
-
-    if (i == 8)  return idc_ref;
-    if (i == 9)  return Qref;
+        p_.kpO * (idc_ref * idc_ref - istk * istk) + p_.kiO * x(15);
     if (i == 10) return Pref;
 
-    if (i == 11) return P;
-    if (i == 12) return Q;
+    const ODE::real_type V2_eff = std::max(ed * ed + eq * eq, p_.V2_min);
+    if (i == 6) return (Pref * ed + Qref * eq) / V2_eff;
+    if (i == 7) return (Pref * eq - Qref * ed) / V2_eff;
 
     throw std::out_of_range("CSC_RL: invalid output index");
 }

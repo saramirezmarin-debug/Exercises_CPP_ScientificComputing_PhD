@@ -2,6 +2,12 @@
 
 #include "ODE4.hh"
 
+#include <algorithm>
+#include <cstddef>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
 // ============================================================
 // Generic stair signal
 //
@@ -122,20 +128,12 @@ struct CSC_RL_Parameters
     // ------------------------------------------------------------
     ODE::real_type omega;
 
-    // ------------------------------------------------------------
     // Grid parameters
-    // ------------------------------------------------------------
     ODE::real_type Lg;
     ODE::real_type Cg;
     ODE::real_type Rg;
     ODE::real_type egd;
     ODE::real_type egq;
-
-    // ------------------------------------------------------------
-    // Modulation inputs
-    // ------------------------------------------------------------
-    ODE::real_type md;
-    ODE::real_type mq;
 
     // ------------------------------------------------------------
     // Initial conditions
