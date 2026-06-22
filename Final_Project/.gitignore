@@ -1,10 +1,10 @@
 # Build folders
 build/
 cmake-build-*/
-Final_Project/build/
+build/
 
 # Simulation results
-Final_Project/results/
+results/
 
 # IDE files
 .vscode/
