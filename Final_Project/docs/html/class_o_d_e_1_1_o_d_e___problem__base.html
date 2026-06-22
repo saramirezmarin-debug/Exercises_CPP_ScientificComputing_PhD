@@ -137,7 +137,8 @@ Inheritance diagram for ODE::ODE_Problem_base:</div>
  <div class="center">
   <img src="class_o_d_e_1_1_o_d_e___problem__base.png" usemap="#ODE_3A_3AODE_5FProblem_5Fbase_map" alt=""/>
   <map id="ODE_3A_3AODE_5FProblem_5Fbase_map" name="ODE_3A_3AODE_5FProblem_5Fbase_map">
-<area href="class_oscillator2_d.html" alt="Oscillator2D" shape="rect" coords="0,56,159,80"/>
+<area href="class_c_s_c___r_l.html" alt="CSC_RL" shape="rect" coords="0,56,159,80"/>
+<area href="class_oscillator2_d.html" alt="Oscillator2D" shape="rect" coords="169,56,328,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -160,6 +161,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:afe62f96ba98980785b64a1edcf1e1bcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exact solution, when available.  <br /></td></tr>
 <tr class="memitem:a7bf9442482005809b0db351a1d02af79" id="r_a7bf9442482005809b0db351a1d02af79"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#a7bf9442482005809b0db351a1d02af79">has_exact_solution</a> () const</td></tr>
 <tr class="memdesc:a7bf9442482005809b0db351a1d02af79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether an exact solution is available.  <br /></td></tr>
+<tr class="memitem:a503c7ed69a0a2b60fd1fe3f8214b35f9" id="r_a503c7ed69a0a2b60fd1fe3f8214b35f9"><td class="memItemLeft">virtual <a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a>&#160;</td><td class="memItemRight"><a class="el" href="#a503c7ed69a0a2b60fd1fe3f8214b35f9">n_outputs</a> () const</td></tr>
+<tr class="memitem:a07f896f350ac43eea7b14d6fa7b967ea" id="r_a07f896f350ac43eea7b14d6fa7b967ea"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="#a07f896f350ac43eea7b14d6fa7b967ea">output_name</a> (<a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a> i) const</td></tr>
+<tr class="memitem:ad5d3be9ec75f9f25696c341ee2cab512" id="r_ad5d3be9ec75f9f25696c341ee2cab512"><td class="memItemLeft">virtual <a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad5d3be9ec75f9f25696c341ee2cab512">output</a> (<a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a> t, const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">vec_type</a> &amp;x, <a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a> i) const</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract interface for initial value problems of the form dx/dt = f(t,x). </p>
@@ -321,7 +325,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>initial value of x_i(t0). </dd></dl>
 
-<p>Implemented in <a class="el" href="class_oscillator2_d.html#adff6f894173a73d6ef233e854a2ff113">Oscillator2D</a>.</p>
+<p>Implemented in <a class="el" href="class_c_s_c___r_l.html#a7c5df2a737b9108a578ee703d6eacc17">CSC_RL</a>, and <a class="el" href="class_oscillator2_d.html#adff6f894173a73d6ef233e854a2ff113">Oscillator2D</a>.</p>
 
 </div>
 </div>
@@ -349,7 +353,97 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>number of states. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_oscillator2_d.html#ac6ef538326587227e7d20420a9ca9211">Oscillator2D</a>.</p>
+<p>Implemented in <a class="el" href="class_c_s_c___r_l.html#a43a7723b27f3286e10665ebdaf53f9e6">CSC_RL</a>, and <a class="el" href="class_oscillator2_d.html#ac6ef538326587227e7d20420a9ca9211">Oscillator2D</a>.</p>
+
+</div>
+</div>
+<a id="a503c7ed69a0a2b60fd1fe3f8214b35f9" name="a503c7ed69a0a2b60fd1fe3f8214b35f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a503c7ed69a0a2b60fd1fe3f8214b35f9">&#9670;&#160;</a></span>n_outputs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a> ODE::ODE_Problem_base::n_outputs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_c_s_c___r_l.html#ae69b1d22c9d077cb5dbd976c5ed5d4b3">CSC_RL</a>.</p>
+
+</div>
+</div>
+<a id="ad5d3be9ec75f9f25696c341ee2cab512" name="ad5d3be9ec75f9f25696c341ee2cab512"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5d3be9ec75f9f25696c341ee2cab512">&#9670;&#160;</a></span>output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a> ODE::ODE_Problem_base::output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a></td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">vec_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a></td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_c_s_c___r_l.html#ac53cdeba567377cb71b8d7aea2a63d31">CSC_RL</a>.</p>
+
+</div>
+</div>
+<a id="a07f896f350ac43eea7b14d6fa7b967ea" name="a07f896f350ac43eea7b14d6fa7b967ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07f896f350ac43eea7b14d6fa7b967ea">&#9670;&#160;</a></span>output_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string ODE::ODE_Problem_base::output_name </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a></td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_c_s_c___r_l.html#a9c32ff8bce75598f51e69545f20d2ba8">CSC_RL</a>.</p>
 
 </div>
 </div>
@@ -396,7 +490,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_oscillator2_d.html#a9dfda9c7dfbb0d6803a1c28b41740d93">Oscillator2D</a>.</p>
+<p>Implemented in <a class="el" href="class_c_s_c___r_l.html#a6fc42067918de5947edb8b735a133bf5">CSC_RL</a>, and <a class="el" href="class_oscillator2_d.html#a9dfda9c7dfbb0d6803a1c28b41740d93">Oscillator2D</a>.</p>
 
 </div>
 </div>
@@ -425,7 +519,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Initial time. </p>
 
-<p>Implemented in <a class="el" href="class_oscillator2_d.html#ac76de2949b31f24dda41dfbefa7b9bcc">Oscillator2D</a>.</p>
+<p>Implemented in <a class="el" href="class_c_s_c___r_l.html#a683a683aa57bbaa36d99c58e2f6e390a">CSC_RL</a>, and <a class="el" href="class_oscillator2_d.html#ac76de2949b31f24dda41dfbefa7b9bcc">Oscillator2D</a>.</p>
 
 </div>
 </div>
@@ -454,7 +548,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Final simulation time. </p>
 
-<p>Implemented in <a class="el" href="class_oscillator2_d.html#abe00cda0a1b0f13bcae6001ebf117bf7">Oscillator2D</a>.</p>
+<p>Implemented in <a class="el" href="class_c_s_c___r_l.html#aa410a6ac373415b924270737c1db704e">CSC_RL</a>, and <a class="el" href="class_oscillator2_d.html#abe00cda0a1b0f13bcae6001ebf117bf7">Oscillator2D</a>.</p>
 
 </div>
 </div>

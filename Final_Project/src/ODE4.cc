@@ -67,6 +67,7 @@ namespace ODE
         }
 
         const integer n = problem.n(); // Get problem dimension
+        const integer n_outputs = problem.n_outputs(); // Get number of algebraic outputs
         const bool has_exact = problem.has_exact_solution(); // Check if exact solution is available
         const real_type t0 = problem.t0(); // Get initial time
         const real_type tf = problem.tf(); // Get final time
@@ -106,6 +107,14 @@ namespace ODE
         {
             csv << ",x" << i + 1;
         }
+
+        // write algebraic output names if available
+        // t, x1, x2, ..., ia, ib, ic, ...
+        for (integer i = 0; i < n_outputs; ++i)
+        {
+            csv << "," << problem.output_name(i);
+        }
+
         if (has_exact)
         {
             for (integer i = 0; i < n; ++i)
@@ -130,6 +139,11 @@ namespace ODE
             for (integer i = 0; i < n; ++i) 
             {
                 csv << "," << x(i); // Write current state to CSV
+            }
+            
+            for (integer i = 0; i < n_outputs; ++i)
+            {
+                csv << "," << problem.output(t, x, i); // write algebraic outputs evaluated at current time/state to CSV
             }
 
             if (has_exact)

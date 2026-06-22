@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7eode_5fproblem_5fbase_0',['~ODE_Problem_base',['../class_c_s_c_1_1_o_d_e___problem__base.html#a310130ca969c3f17b24ac829cb72e6d8',1,'CSC::ODE_Problem_base']]]
+  ['solve_5frk4_0',['solve_rk4',['../namespace_o_d_e.html#a5643faeca60d7683c534e42860e69296',1,'ODE']]],
+  ['stairsignal_1',['StairSignal',['../struct_stair_signal.html',1,'']]]
 ];

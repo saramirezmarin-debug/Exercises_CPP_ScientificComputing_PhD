@@ -1,9 +1,10 @@
 # ninja log v7
-30	875	8028835906500845	fmt-build/CMakeFiles/fmt.dir/src/os.cc.obj	c6c63eb9017a4956
-27	1094	8028835906468289	fmt-build/CMakeFiles/fmt.dir/src/format.cc.obj	77c10ebcedaf1926
-1094	1165	8028835917137313	fmt-build/libfmt.a	d09d7336d843e0f6
-35	1793	8028835906550841	CMakeFiles/ODE4.dir/src/main.cpp.obj	84c9985bb1ce163a
-33	1882	8028835906520837	CMakeFiles/ODE4.dir/src/ODE4.cc.obj	4821ef150db94b9
-1882	2036	8028835925014299	ODE4.exe	3153fef4216d63a0
-37	128	8028835928445096	CMakeFiles/docs	c6dd55c7e92f1705
-37	128	8028835928445096	C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/docs	c6dd55c7e92f1705
+24	912	8038319874346994	fmt-build/CMakeFiles/fmt.dir/src/os.cc.obj	c6c63eb9017a4956
+16	1149	8038319874265845	fmt-build/CMakeFiles/fmt.dir/src/format.cc.obj	77c10ebcedaf1926
+1149	1224	8038319885606871	fmt-build/libfmt.a	d09d7336d843e0f6
+33	1856	8038319874439177	CMakeFiles/ODE4.dir/src/CSC_RL.cc.obj	3e0f92020775af70
+31	1865	8038319874419180	CMakeFiles/ODE4.dir/src/main.cpp.obj	84c9985bb1ce163a
+26	1928	8038319874379130	CMakeFiles/ODE4.dir/src/ODE4.cc.obj	4821ef150db94b9
+1928	2087	8038319893390660	ODE4.exe	a056dd365905d8da
+44	174	8038319896738781	CMakeFiles/docs	c6dd55c7e92f1705
+44	174	8038319896738781	C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/docs	c6dd55c7e92f1705

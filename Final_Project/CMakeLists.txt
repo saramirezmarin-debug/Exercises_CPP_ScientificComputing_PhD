@@ -27,7 +27,9 @@ endif()
 add_executable(${TARGET}
     src/${TARGET}.cc
     src/main.cpp
+    src/CSC_RL.cc
     include/${TARGET}.hh
+    include/CSC_RL.hh
 )
 
 target_include_directories(${TARGET} PRIVATE 

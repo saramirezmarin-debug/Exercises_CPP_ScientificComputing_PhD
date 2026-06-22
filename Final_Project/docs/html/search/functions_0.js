@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['exact_0',['exact',['../class_o_d_e_1_1_o_d_e___problem__base.html#afe62f96ba98980785b64a1edcf1e1bcb',1,'ODE::ODE_Problem_base::exact()'],['../class_oscillator2_d.html#a3fcecf09b9cb54c52d3a1bed4e3350ed',1,'Oscillator2D::exact()']]]
+  ['csc_5frl_0',['CSC_RL',['../class_c_s_c___r_l.html#aa39f04236c415c4565cb6ff0406cee2e',1,'CSC_RL']]]
 ];

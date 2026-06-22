@@ -1,30 +1,13 @@
 #pragma once
 
-// {fmt}
-#include <fmt/core.h>
-#include <fmt/format.h>
-#include <fmt/color.h>
-#include <fmt/ranges.h>
-#include <fmt/chrono.h>
-
 // Eigen
 #include <Eigen/Dense>
-#include <Eigen/Sparse>
-#include <Eigen/Geometry>
-#include <Eigen/Eigenvalues>
-#include <Eigen/SVD>
-#include <Eigen/QR>
-#include <Eigen/Cholesky>
-#include <Eigen/LU>
 
 // Standard
 #include <algorithm>
-#include <iostream>
 #include <string>
-#include <chrono>
 #include <cmath>
 #include <stdexcept>
-#include <windows.h>
 #include <fstream>
 #include <iomanip> // for std::setprecision
 
@@ -105,6 +88,26 @@ namespace ODE
         virtual bool has_exact_solution() const
         {
             return false;
+        }
+
+        // ----------------------------------------------------------------
+        // Optional algebraic outputs 
+        // ----------------------------------------------------------------
+        virtual integer n_outputs() const
+        {
+            return 0;
+        }
+        // name of the i-th algebraic output.
+        virtual std::string output_name([[maybe_unused]] integer i) const
+        {
+            return "";
+        }
+        // value of the i-th algebraic output at time t and state x.
+        virtual real_type output([[maybe_unused]] real_type t,
+                                 [[maybe_unused]] const vec_type& x,
+                                 [[maybe_unused]] integer i) const
+        {
+            return 0.0;
         }
     };
 

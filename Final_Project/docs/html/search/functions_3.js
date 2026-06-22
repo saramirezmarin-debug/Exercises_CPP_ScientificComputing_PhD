@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_0',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]]
+  ['initial_5fcondition_0',['initial_condition',['../class_c_s_c___r_l.html#a7c5df2a737b9108a578ee703d6eacc17',1,'CSC_RL::initial_condition()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#adcf64c566213c11ddabfb952abb2c538',1,'ODE::ODE_Problem_base::initial_condition()'],['../class_oscillator2_d.html#adff6f894173a73d6ef233e854a2ff113',1,'Oscillator2D::initial_condition()']]]
 ];
