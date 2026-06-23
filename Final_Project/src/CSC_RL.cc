@@ -59,30 +59,6 @@ ODE::integer CSC_RL::n() const {return NSTATES;}
 ODE::real_type CSC_RL::t0() const {return p_.t0;}
 ODE::real_type CSC_RL::tf() const {return p_.tf;}
 
-// ODE::real_type CSC_RL::initial_condition(ODE::integer i) const
-// {
-//     switch (i)
-//     {
-//     case IGD:  return p_.igd0;
-//     case IGQ:  return p_.igq0;
-//     case ED:  return p_.ed0;
-//     case EQ:  return p_.eq0;
-//     case ID:  return p_.id0;
-//     case IQ:  return p_.iq0;
-//     case VD:  return p_.vd0;
-//     case VQ:  return p_.vq0;
-//     case ISTK:  return p_.istk0;
-//     case THETA_HAT:  return p_.theta_hat0;
-//     case XI_PLL: return p_.xi_pll0;
-//     case XI_UCD: return p_.xi_ucd0;
-//     case XI_UCQ: return p_.xi_ucq0;
-//     case XI_ISD: return p_.xi_isd0;
-//     case XI_ISQ: return p_.xi_isq0;
-//     case XI_IDC2: return p_.xi_idc2_0;
-//     default: throw std::out_of_range("CSC_RL: invalid state index");
-//     }
-// }
-
 ODE::real_type CSC_RL::initial_condition(ODE::integer i) const
 {
     if (i < 0 || i >= NSTATES)
@@ -296,65 +272,51 @@ std::string CSC_RL::state_name(ODE::integer i) const
     throw std::out_of_range("CSC_RL: invalid state index");
 }
 
+ODE::vec_type CSC_RL::outputs(ODE::real_type t, const ODE::vec_type& x) const
+{
+    ODE::vec_type y(NOUTPUTS);
+
+    const ODE::real_type ed = x(ED);
+    const ODE::real_type eq = x(EQ);
+    const ODE::real_type id = x(ID);
+    const ODE::real_type iq = x(IQ);
+    const ODE::real_type vd = x(VD);
+    const ODE::real_type vq = x(VQ);
+    const ODE::real_type theta = x(THETA_HAT);
+
+    const ControlOutput c = compute_control(t, x);
+
+    y(IA) = abc_output_component(id, iq, theta, 0);
+    y(IB) = abc_output_component(id, iq, theta, 1);
+    y(IC) = abc_output_component(id, iq, theta, 2);
+
+    y(VA) = abc_output_component(vd, vq, theta, 0);
+    y(VB) = abc_output_component(vd, vq, theta, 1);
+    y(VC) = abc_output_component(vd, vq, theta, 2);
+
+    y(ID_R) = c.idr;
+    y(IQ_R) = c.iqr;
+
+    y(IDC_REF) = c.idc_ref;
+    y(Q_REF)   = c.Qref;
+    y(PREF)    = c.Pref;
+
+    y(P_OUT) = ed * id + eq * iq;
+    y(Q_OUT) = eq * id - ed * iq;
+
+    return y;
+}
+
 // ------------------------------------------------------------
 //   iabc = dq0_to_abc([id, iq, 0], theta_hat)
 //   eabc = dq0_to_abc([ed, eq, 0], theta_hat)
 // ------------------------------------------------------------
 ODE::real_type CSC_RL::output(ODE::real_type t, const ODE::vec_type& x, ODE::integer i) const
 {
-    const ODE::real_type ed   = x(ED);
-    const ODE::real_type eq   = x(EQ);
-    const ODE::real_type id   = x(ID);
-    const ODE::real_type iq   = x(IQ);
-
-    const ControlOutput c = compute_control(t, x);
-
-    if (i >= IA && i <= IC)     return abc_output_component(id, iq, x(THETA_HAT), i - IA);
-    if (i >= VA && i <= VC)     return abc_output_component(x(VD), x(VQ), x(THETA_HAT), i - VA);
-
-    if (i == ID_R)    return c.idr;
-    if (i == IQ_R)    return c.iqr;
-    if (i == IDC_REF) return c.idc_ref;
-    if (i == Q_REF)   return c.Qref;
-    if (i == PREF)    return c.Pref;
-
-    if (i == P_OUT) return ed * id + eq * iq;
-    if (i == Q_OUT) return eq * id - ed * iq;
-
-    throw std::out_of_range("CSC_RL: invalid output index");
-}
-
-ODE::real_type StairSignal::value(ODE::real_type t) const
-{
-    if (times.empty())      return constant_value;
-    if (t < times.front())  return values.front();
-    
-    auto it = std::upper_bound(times.begin(), times.end(), t);
-    const std::size_t index = static_cast<std::size_t>(std::distance(times.begin(), it) - 1);
-
-    return values[index];
-}
-
-
-void StairSignal::validate(const std::string& name) const
-{
-    // Empty vectors are allowed.
-    // In that case the signal behaves as a constant.
-    if (times.empty() && values.empty())     return;
-    // It is invalid to define only times or only values.
-    if (times.empty() || values.empty())     throw std::runtime_error(name + ": times and values must both be empty or both be non-empty");
-    // Each switching time must have one associated value.
-    if (times.size() != values.size())       throw std::runtime_error(name + ": times and values must have the same size");
-    // The stair logic assumes that times are sorted.
-    for (std::size_t i = 0; i < times.size(); ++i)
+    if (i < 0 || i >= NOUTPUTS)
     {
-        if (!std::isfinite(times[i]))
-            throw std::runtime_error(name + ": all times must be finite");
-
-        if (!std::isfinite(values[i]))
-            throw std::runtime_error(name + ": all values must be finite");
-
-        if (i > 0 && times[i] <= times[i - 1])
-            throw std::runtime_error(name + ": times must be strictly increasing");
+        throw std::out_of_range("CSC_RL: invalid output index");
     }
+
+    return outputs(t, x)(i);
 }

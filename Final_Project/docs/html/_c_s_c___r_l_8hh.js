@@ -1,6 +1,5 @@
 var _c_s_c___r_l_8hh =
 [
-    [ "StairSignal", "struct_stair_signal.html", "struct_stair_signal" ],
     [ "CSC_RL_Parameters", "struct_c_s_c___r_l___parameters.html", "struct_c_s_c___r_l___parameters" ],
     [ "PLLOutput", "struct_p_l_l_output.html", "struct_p_l_l_output" ],
     [ "ReferenceOutput", "struct_reference_output.html", "struct_reference_output" ],

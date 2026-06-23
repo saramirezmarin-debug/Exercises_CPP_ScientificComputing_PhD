@@ -164,6 +164,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a503c7ed69a0a2b60fd1fe3f8214b35f9" id="r_a503c7ed69a0a2b60fd1fe3f8214b35f9"><td class="memItemLeft">virtual <a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a>&#160;</td><td class="memItemRight"><a class="el" href="#a503c7ed69a0a2b60fd1fe3f8214b35f9">n_outputs</a> () const</td></tr>
 <tr class="memitem:a07f896f350ac43eea7b14d6fa7b967ea" id="r_a07f896f350ac43eea7b14d6fa7b967ea"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="#a07f896f350ac43eea7b14d6fa7b967ea">output_name</a> (<a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a> i) const</td></tr>
 <tr class="memitem:ad5d3be9ec75f9f25696c341ee2cab512" id="r_ad5d3be9ec75f9f25696c341ee2cab512"><td class="memItemLeft">virtual <a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad5d3be9ec75f9f25696c341ee2cab512">output</a> (<a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a> t, const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">vec_type</a> &amp;x, <a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">integer</a> i) const</td></tr>
+<tr class="memitem:a94e22ac0326dcc42e84c295b45d3721e" id="r_a94e22ac0326dcc42e84c295b45d3721e"><td class="memItemLeft">virtual <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">vec_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#a94e22ac0326dcc42e84c295b45d3721e">outputs</a> (<a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a> t, const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">vec_type</a> &amp;x) const</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract interface for initial value problems of the form dx/dt = f(t,x). </p>
@@ -443,6 +444,37 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a94e22ac0326dcc42e84c295b45d3721e" name="a94e22ac0326dcc42e84c295b45d3721e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94e22ac0326dcc42e84c295b45d3721e">&#9670;&#160;</a></span>outputs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">vec_type</a> ODE::ODE_Problem_base::outputs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">real_type</a></td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">vec_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_c_s_c___r_l.html#a2e1a76e5023f1acaea4322b3ce8fd62a">CSC_RL</a>.</p>
+
+</div>
+</div>
 <a id="aa9d0c8ef14303b3b2a0c930a65fdb214" name="aa9d0c8ef14303b3b2a0c930a65fdb214"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9d0c8ef14303b3b2a0c930a65fdb214">&#9670;&#160;</a></span>rhs()</h2>
 
@@ -575,8 +607,9 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/<a class="el" href="_o_d_e4_8hh_source.html">ODE4.hh</a></li>
+<li>src/<a class="el" href="_o_d_e4_8cc.html">ODE4.cc</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -30,12 +30,40 @@ namespace ODE
         }
     }
 
+    real_type StairSignal::value(real_type t) const
+    {
+        if (times.empty())
+        {
+            return constant_value;
+        }
 
+        if (t < times.front())
+        {
+            return values.front();
+        }
 
-    vec_type rk4_step(const ODE_Problem_base& problem,
-                      real_type t,
-                      const vec_type& x,
-                      real_type h)
+        auto it = std::upper_bound(times.begin(), times.end(), t);
+        const std::size_t index =
+            static_cast<std::size_t>(std::distance(times.begin(), it) - 1);
+
+        return values[index];
+    }
+
+    void StairSignal::validate(const std::string& name) const
+    {
+        if (times.empty() && values.empty()) return;
+        if (times.empty() || values.empty()) throw std::runtime_error(name + ": times and values must both be empty or both be non-empty");
+        if (times.size() != values.size())   throw std::runtime_error(name + ": times and values must have the same size");
+
+        for (std::size_t i = 0; i < times.size(); ++i)
+        {
+            if (!std::isfinite(times[i]))          throw std::runtime_error(name + ": all times must be finite");
+            if (!std::isfinite(values[i]))         throw std::runtime_error(name + ": all values must be finite");
+            if (i > 0 && times[i] <= times[i - 1]) throw std::runtime_error(name + ": times must be strictly increasing");
+        }
+    }
+
+    vec_type rk4_step(const ODE_Problem_base& problem, real_type t, const vec_type& x, real_type h)
     {
 
         if (h <= 0.0) // Check that step size is positive
@@ -152,9 +180,17 @@ namespace ODE
                     csv << "," << x(i);
                 }
 
+                 // Algebraic outputs
+                const vec_type y = problem.outputs(t, x);
+
+                if (y.size() != n_outputs)
+                {
+                    throw std::runtime_error("solve_rk4: invalid output vector size");
+                }
+
                 for (integer i = 0; i < n_outputs; ++i)
                 {
-                    csv << "," << problem.output(t, x, i);
+                    csv << "," << y(i);
                 }
 
                 if (has_exact)
@@ -205,5 +241,17 @@ namespace ODE
                 options.h,
                 options.output_file,
                 options.save_every);
+    }
+
+    vec_type ODE_Problem_base::outputs(real_type t, const vec_type& x) const
+    {
+        vec_type y(n_outputs());
+
+        for (integer i = 0; i < n_outputs(); ++i)
+        {
+            y(i) = output(t, x, i);
+        }
+
+        return y;
     }
 }

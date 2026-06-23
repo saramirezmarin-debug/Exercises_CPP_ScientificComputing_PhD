@@ -6,6 +6,7 @@ var class_c_s_c___r_l =
     [ "n_outputs", "class_c_s_c___r_l.html#ae69b1d22c9d077cb5dbd976c5ed5d4b3", null ],
     [ "output", "class_c_s_c___r_l.html#ac53cdeba567377cb71b8d7aea2a63d31", null ],
     [ "output_name", "class_c_s_c___r_l.html#a9c32ff8bce75598f51e69545f20d2ba8", null ],
+    [ "outputs", "class_c_s_c___r_l.html#a2e1a76e5023f1acaea4322b3ce8fd62a", null ],
     [ "rhs", "class_c_s_c___r_l.html#a6fc42067918de5947edb8b735a133bf5", null ],
     [ "state_name", "class_c_s_c___r_l.html#ac84965d628b5c8e5f7908bba6a1ba1a6", null ],
     [ "t0", "class_c_s_c___r_l.html#a683a683aa57bbaa36d99c58e2f6e390a", null ],

@@ -20,5 +20,6 @@ var searchData=
   ['output_17',['output',['../class_c_s_c___r_l.html#ac53cdeba567377cb71b8d7aea2a63d31',1,'CSC_RL::output()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#ad5d3be9ec75f9f25696c341ee2cab512',1,'ODE::ODE_Problem_base::output()']]],
   ['output_5ffile_18',['output_file',['../struct_o_d_e_1_1_solver_options.html#a6211c0036fd92732533f11aca585c279',1,'ODE::SolverOptions']]],
   ['output_5fname_19',['output_name',['../class_c_s_c___r_l.html#a9c32ff8bce75598f51e69545f20d2ba8',1,'CSC_RL::output_name()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a07f896f350ac43eea7b14d6fa7b967ea',1,'ODE::ODE_Problem_base::output_name()']]],
-  ['outputindex_20',['OutputIndex',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95',1,'CSC_RL.hh']]]
+  ['outputindex_20',['OutputIndex',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95',1,'CSC_RL.hh']]],
+  ['outputs_21',['outputs',['../class_c_s_c___r_l.html#a2e1a76e5023f1acaea4322b3ce8fd62a',1,'CSC_RL::outputs()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a94e22ac0326dcc42e84c295b45d3721e',1,'ODE::ODE_Problem_base::outputs()']]]
 ];

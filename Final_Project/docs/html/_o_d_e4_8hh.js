@@ -1,6 +1,7 @@
 var _o_d_e4_8hh =
 [
     [ "ODE::SolverOptions", "struct_o_d_e_1_1_solver_options.html", "struct_o_d_e_1_1_solver_options" ],
+    [ "ODE::StairSignal", "struct_o_d_e_1_1_stair_signal.html", "struct_o_d_e_1_1_stair_signal" ],
     [ "ODE::ODE_Problem_base", "class_o_d_e_1_1_o_d_e___problem__base.html", "class_o_d_e_1_1_o_d_e___problem__base" ],
     [ "ODE::integer", "namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746", null ],
     [ "ODE::mat_type", "namespace_o_d_e.html#abb3488244b9c9598720c7c3e50ffb285", null ],

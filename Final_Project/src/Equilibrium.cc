@@ -5,39 +5,30 @@
 
 namespace
 {
+    enum EquilibriumIndex
+    {
+        Z_IGD = 0,
+        Z_IGQ,
+        Z_ED,
+        Z_EQ,
+        Z_ID,
+        Z_IQ,
+        Z_VD,
+        Z_VQ,
+        Z_ISTK,
+        Z_XI_PLL,
+        Z_XI_UCD,
+        Z_XI_UCQ,
+        Z_XI_ISD,
+        Z_XI_ISQ,
+        Z_XI_IDC2,
+        Z_N
+    };
 
-enum EquilibriumIndex
-{
-    Z_IGD = 0,
-    Z_IGQ,
-    Z_ED,
-    Z_EQ,
-    Z_ID,
-    Z_IQ,
-    Z_VD,
-    Z_VQ,
-    Z_ISTK,
-    Z_XI_PLL,
-    Z_XI_UCD,
-    Z_XI_UCQ,
-    Z_XI_ISD,
-    Z_XI_ISQ,
-    Z_XI_IDC2,
-    Z_N
-};
-
-template <typename T>
-T square(T const& x)
-{
-    return x * x;
+    template <typename T> T square(T const& x) {return x * x;}
 }
 
-}
-
-CSCEquilibriumProblem::CSCEquilibriumProblem(
-    const CSC_RL_Parameters& p,
-    const EquilibriumReferences& ref
-)
+CSCEquilibriumProblem::CSCEquilibriumProblem(const CSC_RL_Parameters& p, const EquilibriumReferences& ref)
     : p_(p)
     , ref_(ref)
 {
@@ -71,11 +62,7 @@ CSCEquilibriumProblem::F(d_dual_vec const& X) const
     // PLL
     // ------------------------------------------------------------
     auto const e_pll = eq / p_.Vdq_nom;
-
-    auto const w_hat =
-        p_.w0_pll
-        + p_.kp_pll * e_pll
-        + p_.ki_pll * xi_pll;
+    auto const w_hat = p_.w0_pll + p_.kp_pll * e_pll + p_.ki_pll * xi_pll;
 
     // ------------------------------------------------------------
     // Outer DC loop
@@ -83,26 +70,16 @@ CSCEquilibriumProblem::F(d_dual_vec const& X) const
     auto const idc_ref = ref_.idc_ref;
     auto const Q_ref   = ref_.Q_ref;
 
-    auto const E_idc2 =
-        square(idc_ref)
-        - square(istk);
-
-    auto const P_ref =
-        p_.kpO * E_idc2
-        + p_.kiO * xi_idc2;
+    auto const E_idc2 = square(idc_ref) - square(istk);
+    auto const P_ref = p_.kpO * E_idc2 + p_.kiO * xi_idc2;
 
     // ------------------------------------------------------------
     // AC current references
     // ------------------------------------------------------------
-    auto const V2 =
-        square(ed)
-        + square(eq);
+    auto const V2 = square(ed) + square(eq);
 
-    auto const id_ref =
-        (ed * P_ref + eq * Q_ref) / V2;
-
-    auto const iq_ref =
-        (eq * P_ref - ed * Q_ref) / V2;
+    auto const id_ref = (ed * P_ref + eq * Q_ref) / V2;
+    auto const iq_ref = (eq * P_ref - ed * Q_ref) / V2;
 
     auto const E_id = id_ref - id;
     auto const E_iq = iq_ref - iq;
@@ -110,19 +87,8 @@ CSCEquilibriumProblem::F(d_dual_vec const& X) const
     // ------------------------------------------------------------
     // Current controller
     // ------------------------------------------------------------
-    auto const vd_ref =
-        ed
-        + w_hat * p_.Lf * iq
-        - p_.Rf * id
-        - p_.kp2 * E_id
-        - p_.ki2 * xi_isd;
-
-    auto const vq_ref =
-        eq
-        - w_hat * p_.Lf * id
-        - p_.Rf * iq
-        - p_.kp2 * E_iq
-        - p_.ki2 * xi_isq;
+    auto const vd_ref = ed + w_hat * p_.Lf * iq - p_.Rf * id - p_.kp2 * E_id - p_.ki2 * xi_isd;
+    auto const vq_ref = eq - w_hat * p_.Lf * id - p_.Rf * iq - p_.kp2 * E_iq - p_.ki2 * xi_isq;
 
     auto const E_vd = vd_ref - vd;
     auto const E_vq = vq_ref - vq;
@@ -130,91 +96,23 @@ CSCEquilibriumProblem::F(d_dual_vec const& X) const
     // ------------------------------------------------------------
     // Voltage controller
     // ------------------------------------------------------------
-    auto const md =
-        (
-            id
-            + w_hat * p_.Cf * vq
-            - p_.kp1 * E_vd
-            - p_.ki1 * xi_ucd
-        ) / istk;
-
-    auto const mq =
-        (
-            iq
-            - w_hat * p_.Cf * vd
-            - p_.kp1 * E_vq
-            - p_.ki1 * xi_ucq
-        ) / istk;
+    auto const md = (id + w_hat * p_.Cf * vq - p_.kp1 * E_vd - p_.ki1 * xi_ucd) / istk;
+    auto const mq = (iq - w_hat * p_.Cf * vd - p_.kp1 * E_vq - p_.ki1 * xi_ucq) / istk;
 
     // ------------------------------------------------------------
     // Differential equations imposed as zero
     // ------------------------------------------------------------
-    res(Z_IGD) =
-        (
-            p_.egd
-            - p_.Rg * igd
-            - ed
-            + w_hat * p_.Lg * igq
-        ) / p_.Lg;
+    res(Z_IGD) = (p_.egd - p_.Rg * igd - ed + w_hat * p_.Lg * igq) / p_.Lg;
+    res(Z_IGQ) = (p_.egq - p_.Rg * igq - eq - w_hat * p_.Lg * igd) / p_.Lg;
 
-    res(Z_IGQ) =
-        (
-            p_.egq
-            - p_.Rg * igq
-            - eq
-            - w_hat * p_.Lg * igd
-        ) / p_.Lg;
+    res(Z_ED) = (igd - id + w_hat * p_.Cg * eq) / p_.Cg;
+    res(Z_EQ) = (igq - iq - w_hat * p_.Cg * ed) / p_.Cg;
 
-    res(Z_ED) =
-        (
-            igd
-            - id
-            + w_hat * p_.Cg * eq
-        ) / p_.Cg;
-
-    res(Z_EQ) =
-        (
-            igq
-            - iq
-            - w_hat * p_.Cg * ed
-        ) / p_.Cg;
-
-    res(Z_ID) =
-        (
-            ed
-            - vd
-            - p_.Rf * id
-            + w_hat * p_.Lf * iq
-        ) / p_.Lf;
-
-    res(Z_IQ) =
-        (
-            eq
-            - vq
-            - p_.Rf * iq
-            - w_hat * p_.Lf * id
-        ) / p_.Lf;
-
-    res(Z_VD) =
-        (
-            id
-            - md * istk
-            + w_hat * p_.Cf * vq
-        ) / p_.Cf;
-
-    res(Z_VQ) =
-        (
-            iq
-            - mq * istk
-            - w_hat * p_.Cf * vd
-        ) / p_.Cf;
-
-    res(Z_ISTK) =
-        (
-            md * vd
-            + mq * vq
-            - p_.RL * istk
-        ) / p_.Ldc;
+    res(Z_ID) = (ed - vd - p_.Rf * id + w_hat * p_.Lf * iq) / p_.Lf;
+    res(Z_IQ) = (eq - vq - p_.Rf * iq - w_hat * p_.Lf * id) / p_.Lf;
+    res(Z_VD) = (id - md * istk + w_hat * p_.Cf * vq) / p_.Cf;
+    res(Z_VQ) = (iq - mq * istk - w_hat * p_.Cf * vd) / p_.Cf;
+    res(Z_ISTK) = (md * vd + mq * vq - p_.RL * istk) / p_.Ldc;
 
     // ------------------------------------------------------------
     // Integrator residuals
@@ -323,39 +221,3 @@ void apply_equilibrium_to_parameters(
 
     p.x0 = x0_full;
 }
-
-// void apply_equilibrium_to_parameters(
-//     CSC_RL_Parameters& p,
-//     const ODE::vec_type& x0_full
-// )
-// {
-//     if (x0_full.size() != NSTATES)
-//     {
-//         throw std::runtime_error("Equilibrium: invalid full state size");
-//     }
-
-//     p.igd0 = x0_full(IGD);
-//     p.igq0 = x0_full(IGQ);
-
-//     p.ed0 = x0_full(ED);
-//     p.eq0 = x0_full(EQ);
-
-//     p.id0 = x0_full(ID);
-//     p.iq0 = x0_full(IQ);
-
-//     p.vd0 = x0_full(VD);
-//     p.vq0 = x0_full(VQ);
-
-//     p.istk0 = x0_full(ISTK);
-
-//     p.theta_hat0 = x0_full(THETA_HAT);
-
-//     p.xi_pll0 = x0_full(XI_PLL);
-
-//     p.xi_ucd0 = x0_full(XI_UCD);
-//     p.xi_ucq0 = x0_full(XI_UCQ);
-//     p.xi_isd0 = x0_full(XI_ISD);
-//     p.xi_isq0 = x0_full(XI_ISQ);
-
-//     p.xi_idc2_0 = x0_full(XI_IDC2);
-// }

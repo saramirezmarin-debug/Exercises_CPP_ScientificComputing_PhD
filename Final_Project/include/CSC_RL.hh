@@ -1,37 +1,7 @@
 #pragma once
 #include "ODE4.hh"
 
-#include <vector>
 #include <string>
-
-// ============================================================
-// Generic stair signal
-//
-//
-// Example:
-//
-// times  = {0.0, 1.0, 2.0, 3.0}
-// values = {16.0, 50.0, 100.0, 80.0}
-//
-// Then:
-//
-// 0.0 <= t < 1.0  -> 16.0
-// 1.0 <= t < 2.0  -> 50.0
-// 2.0 <= t < 3.0  -> 100.0
-// t >= 3.0        -> 80.0
-//
-// If times and values are empty, the signal uses constant_value.
-// ============================================================
-struct StairSignal
-{
-
-    ODE::real_type constant_value = 0.0;    // Default value if no stair is provided
-    std::vector<ODE::real_type> times;      // Switching times of the stair signal
-    std::vector<ODE::real_type> values;     // Values of the stair signal at the corresponding times
-
-    ODE::real_type value(ODE::real_type t) const;
-    void validate(const std::string& name) const;
-};
 
 struct CSC_RL_Parameters
 {
@@ -76,8 +46,8 @@ struct CSC_RL_Parameters
     ODE::real_type V2_min = 1.0;
 
     // References
-    StairSignal idc_ref;
-    StairSignal Q_ref;
+    ODE::StairSignal idc_ref;
+    ODE::StairSignal Q_ref;
 
     // Initial conditions
     ODE::vec_type x0;
@@ -214,4 +184,5 @@ public:
     ODE::integer n_outputs() const override; // Number of algebraic outputs
     std::string output_name(ODE::integer i) const override; // Name of algebraic output i
     ODE::real_type output(ODE::real_type t, const ODE::vec_type& x, ODE::integer i) const override; // value of each algebraic output
+    ODE::vec_type outputs(ODE::real_type t, const ODE::vec_type& x) const override;
 };

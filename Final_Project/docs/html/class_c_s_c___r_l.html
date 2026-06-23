@@ -154,6 +154,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae69b1d22c9d077cb5dbd976c5ed5d4b3" id="r_ae69b1d22c9d077cb5dbd976c5ed5d4b3"><td class="memItemLeft"><a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">ODE::integer</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae69b1d22c9d077cb5dbd976c5ed5d4b3">n_outputs</a> () const override</td></tr>
 <tr class="memitem:a9c32ff8bce75598f51e69545f20d2ba8" id="r_a9c32ff8bce75598f51e69545f20d2ba8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a9c32ff8bce75598f51e69545f20d2ba8">output_name</a> (<a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">ODE::integer</a> i) const override</td></tr>
 <tr class="memitem:ac53cdeba567377cb71b8d7aea2a63d31" id="r_ac53cdeba567377cb71b8d7aea2a63d31"><td class="memItemLeft"><a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">ODE::real_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac53cdeba567377cb71b8d7aea2a63d31">output</a> (<a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">ODE::real_type</a> t, const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a> &amp;x, <a class="el" href="namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746">ODE::integer</a> i) const override</td></tr>
+<tr class="memitem:a2e1a76e5023f1acaea4322b3ce8fd62a" id="r_a2e1a76e5023f1acaea4322b3ce8fd62a"><td class="memItemLeft"><a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2e1a76e5023f1acaea4322b3ce8fd62a">outputs</a> (<a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">ODE::real_type</a> t, const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a> &amp;x) const override</td></tr>
 <tr class="inherit_header pub_methods_class_o_d_e_1_1_o_d_e___problem__base"><td colspan="2">Public Member Functions inherited from <a class="el" href="class_o_d_e_1_1_o_d_e___problem__base.html">ODE::ODE_Problem_base</a></td></tr>
 <tr class="memitem:a84e227ca0742f7691bdaa1475cf5bcd8 pub_methods_class_o_d_e_1_1_o_d_e___problem__base" id="r_a84e227ca0742f7691bdaa1475cf5bcd8"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_o_d_e_1_1_o_d_e___problem__base.html#a84e227ca0742f7691bdaa1475cf5bcd8">ODE_Problem_base</a> ()=default</td></tr>
 <tr class="memdesc:a84e227ca0742f7691bdaa1475cf5bcd8 pub_methods_class_o_d_e_1_1_o_d_e___problem__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
@@ -342,6 +343,37 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Reimplemented from <a class="el" href="class_o_d_e_1_1_o_d_e___problem__base.html#a07f896f350ac43eea7b14d6fa7b967ea">ODE::ODE_Problem_base</a>.</p>
+
+</div>
+</div>
+<a id="a2e1a76e5023f1acaea4322b3ce8fd62a" name="a2e1a76e5023f1acaea4322b3ce8fd62a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e1a76e5023f1acaea4322b3ce8fd62a">&#9670;&#160;</a></span>outputs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a> CSC_RL::outputs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931">ODE::real_type</a></td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_o_d_e_1_1_o_d_e___problem__base.html#a94e22ac0326dcc42e84c295b45d3721e">ODE::ODE_Problem_base</a>.</p>
 
 </div>
 </div>

@@ -9,6 +9,7 @@ var annotated_dup =
     ] ],
     [ "ODE", "namespace_o_d_e.html", [
       [ "SolverOptions", "struct_o_d_e_1_1_solver_options.html", "struct_o_d_e_1_1_solver_options" ],
+      [ "StairSignal", "struct_o_d_e_1_1_stair_signal.html", "struct_o_d_e_1_1_stair_signal" ],
       [ "ODE_Problem_base", "class_o_d_e_1_1_o_d_e___problem__base.html", "class_o_d_e_1_1_o_d_e___problem__base" ]
     ] ],
     [ "ControlOutput", "struct_control_output.html", "struct_control_output" ],
@@ -19,6 +20,5 @@ var annotated_dup =
     [ "InnerLoopOutput", "struct_inner_loop_output.html", "struct_inner_loop_output" ],
     [ "OuterLoopOutput", "struct_outer_loop_output.html", "struct_outer_loop_output" ],
     [ "PLLOutput", "struct_p_l_l_output.html", "struct_p_l_l_output" ],
-    [ "ReferenceOutput", "struct_reference_output.html", "struct_reference_output" ],
-    [ "StairSignal", "struct_stair_signal.html", "struct_stair_signal" ]
+    [ "ReferenceOutput", "struct_reference_output.html", "struct_reference_output" ]
 ];

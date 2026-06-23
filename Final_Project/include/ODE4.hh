@@ -7,10 +7,12 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <vector>
 #include <cmath>
 #include <stdexcept>
 #include <fstream>
 #include <iomanip> 
+
 
 namespace ODE
 {
@@ -28,9 +30,19 @@ namespace ODE
 
     struct SolverOptions
     {
-        ODE::real_type h = 1e-5;
-        ODE::integer save_every = 1;
+        real_type h = 1e-5;
+        integer save_every = 1;
         std::string output_file = "results/output.csv";
+    };
+
+    struct StairSignal
+    {
+        real_type constant_value = 0.0;
+        std::vector<real_type> times;
+        std::vector<real_type> values;
+
+        real_type value(real_type t) const;
+        void validate(const std::string& name) const;
     };
 
     /**
@@ -122,6 +134,11 @@ namespace ODE
         {
             return 0.0;
         }
+
+        // all algebraic outputs at time t and state x.
+        virtual vec_type outputs(real_type t, const vec_type& x) const;
+
+
     };
 
     /**

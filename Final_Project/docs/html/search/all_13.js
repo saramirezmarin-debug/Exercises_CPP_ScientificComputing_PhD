@@ -2,10 +2,10 @@ var searchData=
 [
   ['v2_5fmin_0',['V2_min',['../struct_c_s_c___r_l___parameters.html#ae9926dcaab1d9db06e815d68c97c7bdb',1,'CSC_RL_Parameters']]],
   ['va_1',['VA',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95ab4b389968f62d25f7bb9d8d711e484c1',1,'CSC_RL.hh']]],
-  ['validate_2',['validate',['../struct_stair_signal.html#a2d4ad0f1de35cd04e744959eeb14999f',1,'StairSignal']]],
-  ['value_3',['value',['../struct_stair_signal.html#a2cd3eb519a88f89b23005e28dc52e103',1,'StairSignal::value()'],['../class_a_d_1_1_dual.html#a5738723e3263f7991ca594ac0cd65879',1,'AD::Dual::value() const noexcept']]],
+  ['validate_2',['validate',['../struct_o_d_e_1_1_stair_signal.html#a02f9cbcaced7910d80bfab10a7e92f56',1,'ODE::StairSignal']]],
+  ['value_3',['value',['../class_a_d_1_1_dual.html#a5738723e3263f7991ca594ac0cd65879',1,'AD::Dual::value()'],['../struct_o_d_e_1_1_stair_signal.html#a4f3a5ff0b40c993c8c1be40d69cc1b24',1,'ODE::StairSignal::value()']]],
   ['value_5ftype_4',['value_type',['../class_a_d_1_1_dual.html#a6b93590e8d588544c461ebaf71b29c20',1,'AD::Dual']]],
-  ['values_5',['values',['../struct_stair_signal.html#a2856ae22f39a35cbfc751098ff8dcf73',1,'StairSignal']]],
+  ['values_5',['values',['../struct_o_d_e_1_1_stair_signal.html#a1e9dafbbb8e2e9792cfdd43790db1303',1,'ODE::StairSignal']]],
   ['variable_6',['variable',['../class_a_d_1_1_dual.html#a3141922f520037956d8436ea00467cf6',1,'AD::Dual']]],
   ['vb_7',['VB',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95a79a6bccb28c3fc9724e711909c27353c',1,'CSC_RL.hh']]],
   ['vc_8',['VC',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95ad44674812878bde0be38fcd047ee04e0',1,'CSC_RL.hh']]],
