@@ -4,7 +4,6 @@
 #include "Equilibrium.hh"
 
 
-
 int main()
 {
     try
@@ -13,12 +12,14 @@ int main()
         // Simulation settings
         // ------------------------------------------------------------
 
-        CSC_RL_Parameters p = make_csc_rl_parameters();
+        CSC_RL_Parameters p = make_csc_rl_case();
 
         p.t0 = 0.0;
-        p.tf = 1;
-
-        configure_references(p);
+        p.tf = 1.0;
+        p.idc_ref.times  = {0.0, 0.8, 1.6};
+        p.idc_ref.values = {250.0, 300.0, 350.0};
+        p.Q_ref.times    = {0.0, 0.8, 1.6};
+        p.Q_ref.values   = {0.0, 30000.0, -30000.0};
 
         ODE::SolverOptions sim;
         sim.h = 1e-5;
@@ -28,47 +29,15 @@ int main()
         // ------------------------------------------------------------
         // Calculate equilibrium point
         // ------------------------------------------------------------
+        EquilibriumOptions eq_opt;
+        eq_opt.verbose = true;
+        eq_opt.tolerance = 1e-8;
+        eq_opt.max_iter = 80;
+        eq_opt.max_sub_iter = 30;
+        eq_opt.damp_factor = 0.6;
+        eq_opt.newton_verbose = true;
 
-        EquilibriumReferences eq_ref;
-
-        eq_ref.idc_ref = p.idc_ref.value(p.t0);
-        eq_ref.Q_ref   = p.Q_ref.value(p.t0);
-
-        std::cout << "Computing equilibrium point...\n\n";
-        std::cout << "idc_ref = " << eq_ref.idc_ref << " A\n";
-        std::cout << "Q_ref   = " << eq_ref.Q_ref << " var\n";
-
-        CSCEquilibriumProblem eq_problem(p, eq_ref);
-
-        AD::NewtonOptions newton_options;
-        newton_options.verbose = false;
-        newton_options.tolerance = 1e-10;
-        newton_options.max_iter = 50;
-        newton_options.max_sub_iter = 20;
-        newton_options.damp_factor = 0.8;
-        AD::NewtonSolver<ODE::real_type> eq_solver(&eq_problem, newton_options);
-
-        std::cout << "Starting Newton solver...\n";
-        eq_solver.solve();
-        std::cout << "Newton solver finished.\n";
-
-        if (eq_solver.converged())
-        {
-            std::cout << "Equilibrium converged.\n";
-            std::cout << "z_star = "
-                      << eq_solver.solution().transpose()
-                      << '\n';
-
-            const ODE::vec_type x0_eq =
-                expand_equilibrium_to_full_state(eq_solver.solution(), p);
-
-            apply_equilibrium_to_parameters(p, x0_eq);
-        }
-        else
-        {
-            std::cerr << "Equilibrium Newton failed.\n";
-            std::cerr << "Simulation will continue with manual initial conditions.\n";
-        }
+        compute_csc_rl_equilibrium(p, eq_opt);
 
         // ------------------------------------------------------------
         // Build and solve problem

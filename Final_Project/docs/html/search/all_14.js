@@ -1,5 +1,23 @@
 var searchData=
 [
-  ['w0_5fpll_0',['w0_pll',['../struct_c_s_c___r_l___parameters.html#a353933f99a5ebf64f574e5af2f8523de',1,'CSC_RL_Parameters']]],
-  ['w_5fhat_1',['w_hat',['../struct_p_l_l_output.html#a1e602c97fe64c6a4fb56274b9ced314f',1,'PLLOutput::w_hat'],['../struct_control_output.html#a18a12b86070bb84776850a94a6679750',1,'ControlOutput::w_hat']]]
+  ['v2_5fmin_0',['V2_min',['../struct_c_s_c___r_l___parameters.html#ae9926dcaab1d9db06e815d68c97c7bdb',1,'CSC_RL_Parameters']]],
+  ['va_1',['VA',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95ab4b389968f62d25f7bb9d8d711e484c1',1,'CSC_RL.hh']]],
+  ['validate_2',['validate',['../struct_o_d_e_1_1_stair_signal.html#a02f9cbcaced7910d80bfab10a7e92f56',1,'ODE::StairSignal']]],
+  ['value_3',['value',['../class_a_d_1_1_dual.html#a5738723e3263f7991ca594ac0cd65879',1,'AD::Dual::value()'],['../struct_o_d_e_1_1_stair_signal.html#a4f3a5ff0b40c993c8c1be40d69cc1b24',1,'ODE::StairSignal::value()']]],
+  ['value_5ftype_4',['value_type',['../class_a_d_1_1_dual.html#a6b93590e8d588544c461ebaf71b29c20',1,'AD::Dual']]],
+  ['values_5',['values',['../struct_o_d_e_1_1_stair_signal.html#a1e9dafbbb8e2e9792cfdd43790db1303',1,'ODE::StairSignal']]],
+  ['variable_6',['variable',['../class_a_d_1_1_dual.html#a3141922f520037956d8436ea00467cf6',1,'AD::Dual']]],
+  ['vb_7',['VB',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95a79a6bccb28c3fc9724e711909c27353c',1,'CSC_RL.hh']]],
+  ['vc_8',['VC',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95ad44674812878bde0be38fcd047ee04e0',1,'CSC_RL.hh']]],
+  ['vd_9',['VD',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a1bd8c9ae37f76b772eab0a5c91e26fb5',1,'CSC_RL.hh']]],
+  ['vdq_5fnom_10',['Vdq_nom',['../struct_c_s_c___r_l___parameters.html#aba9ef38b9e72cc2c9261b186f93e412f',1,'CSC_RL_Parameters']]],
+  ['vdr_11',['vdr',['../struct_inner_loop_output.html#aaf7c5867147c462812a6da96b5eb466f',1,'InnerLoopOutput::vdr'],['../struct_control_output.html#a9a64351693284ee269c0cf74e53ec095',1,'ControlOutput::vdr']]],
+  ['vec_5ftype_12',['vec_type',['../namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821',1,'ODE']]],
+  ['vector2d_13',['Vector2d',['../_newton_8hh.html#a824159f5c2a14336f9082b0e04374fdc',1,'Newton.hh']]],
+  ['vector3d_14',['Vector3d',['../_newton_8hh.html#a72422f584ada1c0faf04a2ba748f9b14',1,'Newton.hh']]],
+  ['vector4d_15',['Vector4d',['../_newton_8hh.html#a9723f576f742755a0fcd4eb6bccac765',1,'Newton.hh']]],
+  ['vectorxd_16',['VectorXd',['../_newton_8hh.html#a73c1535cdfdd552cd04f7676926858b6',1,'Newton.hh']]],
+  ['verbose_17',['verbose',['../struct_equilibrium_options.html#a139ac721912bc162f29bea40d7079dcb',1,'EquilibriumOptions::verbose'],['../struct_a_d_1_1_newton_options.html#ad27fb3a8def94edd353e5642d1293f66',1,'AD::NewtonOptions::verbose']]],
+  ['vq_18',['VQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a4c0132261f35839a68216b875ca69142',1,'CSC_RL.hh']]],
+  ['vqr_19',['vqr',['../struct_inner_loop_output.html#a05d25e1fcba09f0f196014f82809924b',1,'InnerLoopOutput::vqr'],['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput::vqr']]]
 ];

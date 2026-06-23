@@ -10,7 +10,7 @@ var searchData=
   ['eq_7',['EQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a9efdc855f3c1477957fb50affec07f8f',1,'CSC_RL.hh']]],
   ['equilibrium_2ecc_8',['Equilibrium.cc',['../_equilibrium_8cc.html',1,'']]],
   ['equilibrium_2ehh_9',['Equilibrium.hh',['../_equilibrium_8hh.html',1,'']]],
-  ['equilibrium_5fhh_10',['EQUILIBRIUM_HH',['../_equilibrium_8hh.html#a5eea92cdaea35b174e10d5a9488e757c',1,'Equilibrium.hh']]],
+  ['equilibriumoptions_10',['EquilibriumOptions',['../struct_equilibrium_options.html',1,'']]],
   ['equilibriumreferences_11',['EquilibriumReferences',['../struct_equilibrium_references.html',1,'']]],
   ['erf_12',['erf',['../namespace_a_d.html#abcfa2d0db065229f0b75f72b7eda0631',1,'AD']]],
   ['erf_5fscale_13',['erf_scale',['../namespace_a_d_1_1detail.html#a041c3dfa6277a248c8c3cf7e644a9763',1,'AD::detail']]],

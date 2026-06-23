@@ -6,7 +6,7 @@ var searchData=
   ['tf_3',['tf',['../struct_c_s_c___r_l___parameters.html#ad18ac63f0c7bd77b9c9c51b7739d16e5',1,'CSC_RL_Parameters::tf'],['../class_c_s_c___r_l.html#aa410a6ac373415b924270737c1db704e',1,'CSC_RL::tf()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a8971fa43a46ec639d6837b10c01b2698',1,'ODE::ODE_Problem_base::tf()']]],
   ['theta_5fhat_4',['THETA_HAT',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a45fd3c5e69014f954b855c051560a504',1,'CSC_RL.hh']]],
   ['times_5',['times',['../struct_o_d_e_1_1_stair_signal.html#aa8dfca4521823ef565f228b271b725c7',1,'ODE::StairSignal']]],
-  ['tolerance_6',['tolerance',['../struct_a_d_1_1_newton_options.html#ad9cce7fb5991f93432a7940ce523905b',1,'AD::NewtonOptions']]],
+  ['tolerance_6',['tolerance',['../struct_equilibrium_options.html#a3d1a278f160816c44869bb4ca0b3741e',1,'EquilibriumOptions::tolerance'],['../struct_a_d_1_1_newton_options.html#ad9cce7fb5991f93432a7940ce523905b',1,'AD::NewtonOptions::tolerance']]],
   ['triplet_7',['Triplet',['../_newton_8hh.html#aaf7595d5873b71acc625b93981d5e502',1,'Newton.hh']]],
   ['trunc_8',['trunc',['../namespace_a_d.html#aea3429f33448fccf3fc9937234eac9f2',1,'AD']]]
 ];

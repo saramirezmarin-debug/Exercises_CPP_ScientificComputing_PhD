@@ -3,6 +3,7 @@ var hierarchy =
     [ "ControlOutput", "struct_control_output.html", null ],
     [ "CSC_RL_Parameters", "struct_c_s_c___r_l___parameters.html", null ],
     [ "AD::Dual&lt; T &gt;", "class_a_d_1_1_dual.html", null ],
+    [ "EquilibriumOptions", "struct_equilibrium_options.html", null ],
     [ "EquilibriumReferences", "struct_equilibrium_references.html", null ],
     [ "InnerLoopOutput", "struct_inner_loop_output.html", null ],
     [ "AD::NewtonOptions", "struct_a_d_1_1_newton_options.html", null ],

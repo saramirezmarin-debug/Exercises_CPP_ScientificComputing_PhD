@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['equilibrium_5fhh_0',['EQUILIBRIUM_HH',['../_equilibrium_8hh.html#a5eea92cdaea35b174e10d5a9488e757c',1,'Equilibrium.hh']]]
+  ['newton_5fhh_0',['NEWTON_HH',['../_newton_8hh.html#a2b684e670511877de37f4b121ba3c211',1,'Newton.hh']]]
 ];

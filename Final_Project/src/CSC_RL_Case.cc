@@ -4,11 +4,11 @@
 // ============================================================
 // Create CSC-RL parameters
 // ============================================================
-CSC_RL_Parameters make_csc_rl_parameters()
+CSC_RL_Parameters make_csc_rl_case()
 {
-    const ODE::real_type pi = std::acos(-1.0);
-
     CSC_RL_Parameters p;
+
+    const ODE::real_type pi = std::acos(-1.0);
 
     // ------------------------------------------------------------
     // Base parameters
@@ -41,6 +41,9 @@ CSC_RL_Parameters make_csc_rl_parameters()
 
     const ODE::real_type kp_pll = 9.2 / ts_pll;
     const ODE::real_type ki_pll = 21.16 / (ts_pll * ts_pll * zeta * zeta);
+
+    p.t0 = 0.0;
+    p.tf = 1.0;
 
     p.w0_pll  = w0_pll;
     p.kp_pll  = kp_pll;
@@ -127,14 +130,20 @@ CSC_RL_Parameters make_csc_rl_parameters()
     // Outer loop integrator
     p.x0(XI_IDC2) = 0.0;
 
-    return p;
-}
-
-void configure_references(CSC_RL_Parameters& p)
-{
     p.idc_ref.times  = {0.0, 0.5, 2.0, 3.0, 4.0};
     p.idc_ref.values = {200.0, 250.0, 200.0, 150.0, 100.0};
 
     p.Q_ref.times  = {0.0, 1.7, 3.4};
     p.Q_ref.values = {30000.0, -30000.0, 0.0};
+
+    return p;
 }
+
+// void configure_references(CSC_RL_Parameters& p)
+// {
+//     p.idc_ref.times  = {0.0, 0.5, 2.0, 3.0, 4.0};
+//     p.idc_ref.values = {200.0, 250.0, 200.0, 150.0, 100.0};
+
+//     p.Q_ref.times  = {0.0, 1.7, 3.4};
+//     p.Q_ref.values = {30000.0, -30000.0, 0.0};
+// }

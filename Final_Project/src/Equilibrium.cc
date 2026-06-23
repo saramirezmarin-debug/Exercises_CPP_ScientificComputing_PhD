@@ -1,5 +1,6 @@
 #include "Equilibrium.hh"
 
+#include <iostream>
 #include <cmath>
 #include <stdexcept>
 
@@ -127,10 +128,7 @@ CSCEquilibriumProblem::F(d_dual_vec const& X) const
     return res;
 }
 
-ODE::vec_type make_equilibrium_initial_guess(
-    const CSC_RL_Parameters& p,
-    const EquilibriumReferences& ref
-)
+ODE::vec_type make_equilibrium_initial_guess(const CSC_RL_Parameters& p, const EquilibriumReferences& ref)
 {
     ODE::vec_type z0;
     z0.resize(CSCEquilibriumProblem::Z_N);
@@ -169,10 +167,7 @@ ODE::vec_type make_equilibrium_initial_guess(
     return z0;
 }
 
-ODE::vec_type expand_equilibrium_to_full_state(
-    const ODE::vec_type& z,
-    const CSC_RL_Parameters& p
-)
+ODE::vec_type expand_equilibrium_to_full_state(const ODE::vec_type& z, const CSC_RL_Parameters& p)
 {
     if (z.size() != CSCEquilibriumProblem::Z_N)
     {
@@ -209,10 +204,7 @@ ODE::vec_type expand_equilibrium_to_full_state(
     return x0;
 }
 
-void apply_equilibrium_to_parameters(
-    CSC_RL_Parameters& p,
-    const ODE::vec_type& x0_full
-)
+void apply_equilibrium_to_parameters(CSC_RL_Parameters& p,const ODE::vec_type& x0_full)
 {
     if (x0_full.size() != NSTATES)
     {
@@ -220,4 +212,84 @@ void apply_equilibrium_to_parameters(
     }
 
     p.x0 = x0_full;
+}
+
+bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p,
+                                const EquilibriumOptions& options)
+{
+    EquilibriumReferences eq_ref;
+
+    if (options.use_reference_override)
+    {
+        eq_ref = options.reference;
+    }
+    else
+    {
+        eq_ref.idc_ref = p.idc_ref.value(p.t0);
+        eq_ref.Q_ref   = p.Q_ref.value(p.t0);
+    }
+
+    if (options.verbose)
+    {
+        std::cout << "Computing equilibrium point...\n";
+        std::cout << "idc_ref = " << eq_ref.idc_ref << " A\n";
+        std::cout << "Q_ref   = " << eq_ref.Q_ref << " var\n";
+    }
+
+    CSCEquilibriumProblem eq_problem(p, eq_ref);
+
+    AD::NewtonOptions newton_options;
+    newton_options.verbose      = options.newton_verbose;
+    newton_options.tolerance    = options.tolerance;
+    newton_options.max_iter     = options.max_iter;
+    newton_options.max_sub_iter = options.max_sub_iter;
+    newton_options.damp_factor  = options.damp_factor;
+
+    AD::NewtonSolver<ODE::real_type> eq_solver(&eq_problem, newton_options);
+
+    if (options.verbose)
+    {
+        std::cout << "Starting Newton solver...\n";
+    }
+
+    eq_solver.solve();
+
+    if (options.verbose)
+    {
+        std::cout << "Newton solver finished.\n";
+    }
+
+    if (!eq_solver.converged())
+    {
+        if (options.verbose)
+        {
+            std::cerr << "Equilibrium Newton failed.\n";
+            std::cerr << "Simulation will continue with manual initial conditions.\n";
+        }
+
+        return false;
+    }
+
+    if (options.verbose)
+    {
+        std::cout << "Equilibrium converged.\n";
+        std::cout << "z_star = "
+                  << eq_solver.solution().transpose()
+                  << '\n';
+    }
+
+    const ODE::vec_type x0_eq =
+        expand_equilibrium_to_full_state(eq_solver.solution(), p);
+
+    apply_equilibrium_to_parameters(p, x0_eq);
+
+    return true;
+}
+
+bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p, bool verbose)
+{
+    EquilibriumOptions options;
+    options.verbose = verbose;
+
+    return compute_csc_rl_equilibrium(p, options);
 }

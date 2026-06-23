@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['w0_5fpll_0',['w0_pll',['../struct_c_s_c___r_l___parameters.html#a353933f99a5ebf64f574e5af2f8523de',1,'CSC_RL_Parameters']]],
-  ['w_5fhat_1',['w_hat',['../struct_p_l_l_output.html#a1e602c97fe64c6a4fb56274b9ced314f',1,'PLLOutput::w_hat'],['../struct_control_output.html#a18a12b86070bb84776850a94a6679750',1,'ControlOutput::w_hat']]]
+  ['use_5freference_5foverride_0',['use_reference_override',['../struct_equilibrium_options.html#aaff624441ad0fce7b2979e54492e0b08',1,'EquilibriumOptions']]]
 ];

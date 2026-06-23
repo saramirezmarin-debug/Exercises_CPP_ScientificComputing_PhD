@@ -1,5 +1,4 @@
 var _c_s_c___r_l___case_8hh =
 [
-    [ "configure_references", "_c_s_c___r_l___case_8hh.html#a87bff9ecb86af1e249cd7c5b6947e058", null ],
-    [ "make_csc_rl_parameters", "_c_s_c___r_l___case_8hh.html#aec44768de55490268398c01a8e7dd5cd", null ]
+    [ "make_csc_rl_case", "_c_s_c___r_l___case_8hh.html#aae85fc0b8ce7ece4e1fed0770b00df8b", null ]
 ];
