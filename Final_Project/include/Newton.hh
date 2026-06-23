@@ -44,6 +44,15 @@ using Triplet = Eigen::Triplet<double>;
 
 namespace AD {
 
+  struct NewtonOptions
+  {
+      int max_iter = 100;
+      int max_sub_iter = 20;
+      double damp_factor = 0.8;
+      double tolerance = 1e-8;
+      bool verbose = false;
+  };
+
   template <typename T>
   class NewtonProblem {
   public:
@@ -131,17 +140,17 @@ namespace AD {
   
     NewtonProblem<T> const * _problem = nullptr;
     
-    integer _max_iter     = 100;
-    integer _max_sub_iter = 20;
-    T       _damp_factor  = 0.8;
-    T       _tolerance    = 1e-8;
+    NewtonOptions _options;
     
     bool    _converged = false;
     d_vec   _x; // solution
   public:
 
     NewtonSolver() = delete;
-    explicit NewtonSolver( NewtonProblem<T> const * p ) : _problem( p ) {}
+    explicit NewtonSolver( NewtonProblem<T> const * p, NewtonOptions const & options = NewtonOptions{}) 
+      : _problem( p ), 
+        _options(options)
+      {}
     
     bool converged() const { return _converged; }
     d_vec solution() const { return _x; }
@@ -163,14 +172,17 @@ namespace AD {
 
       _converged = false;
       x0         = _problem->initial_point();
-      for ( integer iter = 0; iter < _max_iter; ++iter ) 
+      for ( integer iter = 0; iter < _options.max_iter; ++iter ) 
       {
         F0 = _problem->F( x0 );
         // check || F(x0) || for temination
         T F0_norm = F0.template lpNorm<Eigen::Infinity>();
-        // fmt::print( "{} ||F|| = {}\n", iter, F0_norm );
-        std::cout << iter << " ||F|| = " << F0_norm << '\n';
-        _converged = F0_norm <= _tolerance;
+        
+        if (_options.verbose)
+        {
+          std::cout << iter << " ||F|| = " << F0_norm << '\n';
+        }
+        _converged = F0_norm <= _options.tolerance;
         if ( _converged ) 
         {
           _x = x0;
@@ -184,14 +196,14 @@ namespace AD {
         // damp loop
         T alpha = 1;
         bool ok = false;
-        for ( integer i = 0; !ok && i < _max_sub_iter; ++i ) {
+        for ( integer i = 0; !ok && i < _options.max_sub_iter; ++i ) {
           x1 = x0 + alpha * d0;
           // check Deufhard condition for x1
           F1 = _problem->F( x1 );
           d1 = -JF0.fullPivLu().solve(F1);
           T d1norm2 = d1.dot(d1);
           ok = d1norm2 <= d0norm2*(1-alpha/2);
-          if ( !ok ) alpha *= _damp_factor;
+          if ( !ok ) alpha *= _options.damp_factor;
         }
         if ( !ok ) 
         {

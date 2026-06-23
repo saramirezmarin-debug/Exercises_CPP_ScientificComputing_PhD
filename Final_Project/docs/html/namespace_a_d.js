@@ -5,6 +5,7 @@ var namespace_a_d =
       [ "square", "namespace_a_d_1_1detail.html#a6c3d46b3f46efde35b6bacb3691bab0c", null ]
     ] ],
     [ "Dual", "class_a_d_1_1_dual.html", "class_a_d_1_1_dual" ],
+    [ "NewtonOptions", "struct_a_d_1_1_newton_options.html", "struct_a_d_1_1_newton_options" ],
     [ "NewtonProblem", "class_a_d_1_1_newton_problem.html", "class_a_d_1_1_newton_problem" ],
     [ "NewtonProblemAD", "class_a_d_1_1_newton_problem_a_d.html", "class_a_d_1_1_newton_problem_a_d" ],
     [ "NewtonSolver", "class_a_d_1_1_newton_solver.html", "class_a_d_1_1_newton_solver" ],

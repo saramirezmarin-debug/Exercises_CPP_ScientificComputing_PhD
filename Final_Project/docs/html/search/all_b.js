@@ -9,6 +9,8 @@ var searchData=
   ['matrix3d_6',['Matrix3d',['../_newton_8hh.html#a75664db7262f8acb5c097c819170e66e',1,'Newton.hh']]],
   ['matrix4d_7',['Matrix4d',['../_newton_8hh.html#a5f212f6beb609815e3cefbf0c75c4ecd',1,'Newton.hh']]],
   ['matrixxd_8',['MatrixXd',['../_newton_8hh.html#a4e53847462ee658f66d8d9f1a727b5f8',1,'Newton.hh']]],
-  ['md_9',['md',['../struct_inner_loop_output.html#a3458bbcc6fbac33b7552b661be27745b',1,'InnerLoopOutput::md'],['../struct_control_output.html#a41f85ce11b359417900641ba86f32b41',1,'ControlOutput::md']]],
-  ['mq_10',['mq',['../struct_inner_loop_output.html#a59c3addc2b93dad508a936dcfeb77a47',1,'InnerLoopOutput::mq'],['../struct_control_output.html#a1191c1bb7810bc9dda26c0ab3a4ba772',1,'ControlOutput::mq']]]
+  ['max_5fiter_9',['max_iter',['../struct_a_d_1_1_newton_options.html#af587c301bf0e8656ee8bda02b5c27670',1,'AD::NewtonOptions']]],
+  ['max_5fsub_5fiter_10',['max_sub_iter',['../struct_a_d_1_1_newton_options.html#aed9a6dc983f0574b67a8d5c3fb00d7fe',1,'AD::NewtonOptions']]],
+  ['md_11',['md',['../struct_inner_loop_output.html#a3458bbcc6fbac33b7552b661be27745b',1,'InnerLoopOutput::md'],['../struct_control_output.html#a41f85ce11b359417900641ba86f32b41',1,'ControlOutput::md']]],
+  ['mq_12',['mq',['../struct_inner_loop_output.html#a59c3addc2b93dad508a936dcfeb77a47',1,'InnerLoopOutput::mq'],['../struct_control_output.html#a1191c1bb7810bc9dda26c0ab3a4ba772',1,'ControlOutput::mq']]]
 ];

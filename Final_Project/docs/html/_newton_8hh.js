@@ -1,5 +1,6 @@
 var _newton_8hh =
 [
+    [ "AD::NewtonOptions", "struct_a_d_1_1_newton_options.html", "struct_a_d_1_1_newton_options" ],
     [ "AD::NewtonProblem&lt; T &gt;", "class_a_d_1_1_newton_problem.html", "class_a_d_1_1_newton_problem" ],
     [ "AD::NewtonProblemAD&lt; T &gt;", "class_a_d_1_1_newton_problem_a_d.html", "class_a_d_1_1_newton_problem_a_d" ],
     [ "AD::NewtonSolver&lt; T &gt;", "class_a_d_1_1_newton_solver.html", "class_a_d_1_1_newton_solver" ],

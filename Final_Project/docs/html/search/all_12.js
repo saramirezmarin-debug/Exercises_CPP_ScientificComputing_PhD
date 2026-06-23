@@ -7,6 +7,7 @@ var searchData=
   ['theta_5fhat_4',['THETA_HAT',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a45fd3c5e69014f954b855c051560a504',1,'CSC_RL.hh']]],
   ['theta_5fhat0_5',['theta_hat0',['../struct_c_s_c___r_l___parameters.html#abdc2bfb514d876ba16275d7c1ccd3d7e',1,'CSC_RL_Parameters']]],
   ['times_6',['times',['../struct_stair_signal.html#afe47ac45f99f007c7cd38e97501fdb7e',1,'StairSignal']]],
-  ['triplet_7',['Triplet',['../_newton_8hh.html#aaf7595d5873b71acc625b93981d5e502',1,'Newton.hh']]],
-  ['trunc_8',['trunc',['../namespace_a_d.html#aea3429f33448fccf3fc9937234eac9f2',1,'AD']]]
+  ['tolerance_7',['tolerance',['../struct_a_d_1_1_newton_options.html#ad9cce7fb5991f93432a7940ce523905b',1,'AD::NewtonOptions']]],
+  ['triplet_8',['Triplet',['../_newton_8hh.html#aaf7595d5873b71acc625b93981d5e502',1,'Newton.hh']]],
+  ['trunc_9',['trunc',['../namespace_a_d.html#aea3429f33448fccf3fc9937234eac9f2',1,'AD']]]
 ];

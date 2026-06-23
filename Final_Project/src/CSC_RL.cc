@@ -189,49 +189,6 @@ ControlOutput CSC_RL::compute_control(ODE::real_type t, const ODE::vec_type& x) 
     c.md  = inner.md;
     c.mq  = inner.mq;
 
-
-    // const ODE::real_type ed = x(ED);
-    // const ODE::real_type eq = x(EQ);
-    // const ODE::real_type id = x(ID);
-    // const ODE::real_type iq = x(IQ);
-    // const ODE::real_type vd = x(VD);
-    // const ODE::real_type vq = x(VQ);
-    // const ODE::real_type istk = x(ISTK);
-    // const ODE::real_type xi_pll = x(XI_PLL);
-    // const ODE::real_type xi_ucd = x(XI_UCD);
-    // const ODE::real_type xi_ucq = x(XI_UCQ);
-    // const ODE::real_type xi_isd = x(XI_ISD);
-    // const ODE::real_type xi_isq = x(XI_ISQ);
-    // const ODE::real_type xi_idc2 = x(XI_IDC2);
-
-    // c.e_pll = eq / p_.Vdq_nom;
-    // c.w_hat = p_.w0_pll + p_.kp_pll * c.e_pll + p_.ki_pll * xi_pll;
-
-    // c.idc_ref = p_.idc_ref.value(t);
-    // c.Qref = p_.Q_ref.value(t);
-
-    // c.Eidc2 = c.idc_ref * c.idc_ref - istk * istk;
-    // c.Pref = p_.kpO * c.Eidc2 + p_.kiO * xi_idc2;
-
-    // const ODE::real_type V2_eff = std::max(ed * ed + eq * eq, p_.V2_min);
-
-    // c.idr = (ed * c.Pref + eq * c.Qref) / V2_eff;
-    // c.iqr = (eq * c.Pref - ed * c.Qref) / V2_eff;
-
-    // c.Eid = c.idr - id;
-    // c.Eiq = c.iqr - iq;
-
-    // c.vdr = ed + c.w_hat * p_.Lf * iq - p_.Rf * id - p_.kp2 * c.Eid - p_.ki2 * xi_isd;
-    // c.vqr = eq - c.w_hat * p_.Lf * id - p_.Rf * iq - p_.kp2 * c.Eiq - p_.ki2 * xi_isq;
-
-    // c.Evd = c.vdr - vd;
-    // c.Evq = c.vqr - vq;
-
-    // const ODE::real_type Idc_eff = std::max(std::abs(istk), p_.Idc_min);
-
-    // c.md = (id + c.w_hat * p_.Cf * vq - p_.kp1 * c.Evd - p_.ki1 * xi_ucd) / Idc_eff;
-    // c.mq = (iq - c.w_hat * p_.Cf * vd - p_.kp1 * c.Evq - p_.ki1 * xi_ucq) / Idc_eff;
-
     return c;
 }
 

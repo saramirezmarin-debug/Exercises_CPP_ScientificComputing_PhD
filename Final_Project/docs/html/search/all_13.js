@@ -18,7 +18,8 @@ var searchData=
   ['vector3d_15',['Vector3d',['../_newton_8hh.html#a72422f584ada1c0faf04a2ba748f9b14',1,'Newton.hh']]],
   ['vector4d_16',['Vector4d',['../_newton_8hh.html#a9723f576f742755a0fcd4eb6bccac765',1,'Newton.hh']]],
   ['vectorxd_17',['VectorXd',['../_newton_8hh.html#a73c1535cdfdd552cd04f7676926858b6',1,'Newton.hh']]],
-  ['vq_18',['VQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a4c0132261f35839a68216b875ca69142',1,'CSC_RL.hh']]],
-  ['vq0_19',['vq0',['../struct_c_s_c___r_l___parameters.html#aef069872f664e5044716ac67e955c19a',1,'CSC_RL_Parameters']]],
-  ['vqr_20',['vqr',['../struct_inner_loop_output.html#a05d25e1fcba09f0f196014f82809924b',1,'InnerLoopOutput::vqr'],['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput::vqr']]]
+  ['verbose_18',['verbose',['../struct_a_d_1_1_newton_options.html#ad27fb3a8def94edd353e5642d1293f66',1,'AD::NewtonOptions']]],
+  ['vq_19',['VQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a4c0132261f35839a68216b875ca69142',1,'CSC_RL.hh']]],
+  ['vq0_20',['vq0',['../struct_c_s_c___r_l___parameters.html#aef069872f664e5044716ac67e955c19a',1,'CSC_RL_Parameters']]],
+  ['vqr_21',['vqr',['../struct_inner_loop_output.html#a05d25e1fcba09f0f196014f82809924b',1,'InnerLoopOutput::vqr'],['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput::vqr']]]
 ];

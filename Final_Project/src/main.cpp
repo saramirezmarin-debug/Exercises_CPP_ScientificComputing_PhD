@@ -41,7 +41,13 @@ int main()
 
         CSCEquilibriumProblem eq_problem(p, eq_ref);
 
-        AD::NewtonSolver<ODE::real_type> eq_solver(&eq_problem);
+        AD::NewtonOptions newton_options;
+        newton_options.verbose = true;
+        newton_options.tolerance = 1e-10;
+        newton_options.max_iter = 50;
+        newton_options.max_sub_iter = 20;
+        newton_options.damp_factor = 0.8;
+        AD::NewtonSolver<ODE::real_type> eq_solver(&eq_problem, newton_options);
 
         std::cout << "Starting Newton solver...\n";
         eq_solver.solve();
