@@ -1,5 +1,6 @@
 var class_c_s_c___r_l =
 [
+    [ "CSC_RL", "class_c_s_c___r_l.html#a103f5fd76889ba40a23e909e315042bf", null ],
     [ "CSC_RL", "class_c_s_c___r_l.html#aa39f04236c415c4565cb6ff0406cee2e", null ],
     [ "initial_condition", "class_c_s_c___r_l.html#a7c5df2a737b9108a578ee703d6eacc17", null ],
     [ "n", "class_c_s_c___r_l.html#a43a7723b27f3286e10665ebdaf53f9e6", null ],

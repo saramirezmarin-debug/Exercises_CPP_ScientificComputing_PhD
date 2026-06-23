@@ -1,9 +1,8 @@
 #pragma once
 
-
-
 #include "CSC_RL.hh"
 #include "Newton.hh"
+#include "CSC_RL_Model.hh"
 
 struct EquilibriumReferences
 {
@@ -35,11 +34,13 @@ public:
     using AD::NewtonProblemAD<real>::JF;
 
     static constexpr int Z_N = 15;
-    CSCEquilibriumProblem(const CSC_RL_Parameters& p, const EquilibriumReferences& ref);
+    // CSCEquilibriumProblem(const CSC_RL_Parameters& p, const EquilibriumReferences& ref);
+    CSCEquilibriumProblem(const CSC_RL_Model& model, const CSC_RL_Parameters& p, const EquilibriumReferences& ref);
 
     d_dual_vec F(d_dual_vec const& X) const override;
 
 private:
+    const CSC_RL_Model& model_;
     CSC_RL_Parameters p_;
     EquilibriumReferences ref_;
 };
@@ -47,6 +48,8 @@ private:
 ODE::vec_type make_equilibrium_initial_guess(const CSC_RL_Parameters& p, const EquilibriumReferences& ref);
 ODE::vec_type expand_equilibrium_to_full_state(const ODE::vec_type& z, const CSC_RL_Parameters& p);
 void apply_equilibrium_to_parameters(CSC_RL_Parameters& p, const ODE::vec_type& x0_full);
+bool compute_csc_rl_equilibrium(const CSC_RL_Model& model, CSC_RL_Parameters& p, const EquilibriumOptions& options);
+bool compute_csc_rl_equilibrium(const CSC_RL_Model& model, CSC_RL_Parameters& p, bool verbose = false);
 bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p, const EquilibriumOptions& options);
 bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p, bool verbose = false);
 

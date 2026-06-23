@@ -2,6 +2,7 @@
 #include "CSC_RL.hh"
 #include "CSC_RL_Case.hh"
 #include "Equilibrium.hh"
+#include "CSC_RL_Model.hh"
 
 
 int main()
@@ -12,6 +13,7 @@ int main()
         // Simulation settings
         // ------------------------------------------------------------
 
+        CSC_RL_Model model;
         CSC_RL_Parameters p = make_csc_rl_case();
 
         p.t0 = 0.0;
@@ -37,12 +39,12 @@ int main()
         eq_opt.damp_factor = 0.6;
         eq_opt.newton_verbose = true;
 
-        compute_csc_rl_equilibrium(p, eq_opt);
+        compute_csc_rl_equilibrium(model, p, eq_opt);
 
         // ------------------------------------------------------------
         // Build and solve problem
         // ------------------------------------------------------------
-        CSC_RL problem(p);
+        CSC_RL problem(model, p);
 
         ODE::solve_rk4(problem, sim);
 

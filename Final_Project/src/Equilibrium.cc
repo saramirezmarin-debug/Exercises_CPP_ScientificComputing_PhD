@@ -29,8 +29,9 @@ namespace
     template <typename T> T square(T const& x) {return x * x;}
 }
 
-CSCEquilibriumProblem::CSCEquilibriumProblem(const CSC_RL_Parameters& p, const EquilibriumReferences& ref)
-    : p_(p)
+CSCEquilibriumProblem::CSCEquilibriumProblem(const CSC_RL_Model& model, const CSC_RL_Parameters& p, const EquilibriumReferences& ref)
+    : model_(model)
+    , p_(p)
     , ref_(ref)
 {
     _x0 = make_equilibrium_initial_guess(p_, ref_);
@@ -39,91 +40,78 @@ CSCEquilibriumProblem::CSCEquilibriumProblem(const CSC_RL_Parameters& p, const E
 CSCEquilibriumProblem::d_dual_vec
 CSCEquilibriumProblem::F(d_dual_vec const& X) const
 {
+    using DualReal = AD::Dual<real>;
+
+    d_dual_vec x;
+    d_dual_vec dxdt;
     d_dual_vec res;
+
+    x.resize(NSTATES);
+    dxdt.resize(NSTATES);
     res.resize(Z_N);
 
-    auto const& igd  = X(Z_IGD);
-    auto const& igq  = X(Z_IGQ);
-    auto const& ed   = X(Z_ED);
-    auto const& eq   = X(Z_EQ);
-    auto const& id   = X(Z_ID);
-    auto const& iq   = X(Z_IQ);
-    auto const& vd   = X(Z_VD);
-    auto const& vq   = X(Z_VQ);
-    auto const& istk = X(Z_ISTK);
-
-    auto const& xi_pll  = X(Z_XI_PLL);
-    auto const& xi_ucd  = X(Z_XI_UCD);
-    auto const& xi_ucq  = X(Z_XI_UCQ);
-    auto const& xi_isd  = X(Z_XI_ISD);
-    auto const& xi_isq  = X(Z_XI_ISQ);
-    auto const& xi_idc2 = X(Z_XI_IDC2);
+    x.setZero();
+    dxdt.setZero();
+    res.setZero();
 
     // ------------------------------------------------------------
-    // PLL
+    // Reduced equilibrium vector -> full state vector
     // ------------------------------------------------------------
-    auto const e_pll = eq / p_.Vdq_nom;
-    auto const w_hat = p_.w0_pll + p_.kp_pll * e_pll + p_.ki_pll * xi_pll;
+    x(IGD)  = X(Z_IGD);
+    x(IGQ)  = X(Z_IGQ);
+    x(ED)   = X(Z_ED);
+    x(EQ)   = X(Z_EQ);
+
+    x(ID)   = X(Z_ID);
+    x(IQ)   = X(Z_IQ);
+    x(VD)   = X(Z_VD);
+    x(VQ)   = X(Z_VQ);
+    x(ISTK) = X(Z_ISTK);
+
+    // theta_hat is not part of the equilibrium unknowns
+    x(THETA_HAT) = DualReal(p_.x0(THETA_HAT));
+
+    x(XI_PLL)  = X(Z_XI_PLL);
+    x(XI_UCD)  = X(Z_XI_UCD);
+    x(XI_UCQ)  = X(Z_XI_UCQ);
+    x(XI_ISD)  = X(Z_XI_ISD);
+    x(XI_ISQ)  = X(Z_XI_ISQ);
+    x(XI_IDC2) = X(Z_XI_IDC2);
 
     // ------------------------------------------------------------
-    // Outer DC loop
+    // Fixed references for equilibrium
     // ------------------------------------------------------------
-    auto const idc_ref = ref_.idc_ref;
-    auto const Q_ref   = ref_.Q_ref;
+    typename CSC_RL_Model::template Input<DualReal> input;
 
-    auto const E_idc2 = square(idc_ref) - square(istk);
-    auto const P_ref = p_.kpO * E_idc2 + p_.kiO * xi_idc2;
-
-    // ------------------------------------------------------------
-    // AC current references
-    // ------------------------------------------------------------
-    auto const V2 = square(ed) + square(eq);
-
-    auto const id_ref = (ed * P_ref + eq * Q_ref) / V2;
-    auto const iq_ref = (eq * P_ref - ed * Q_ref) / V2;
-
-    auto const E_id = id_ref - id;
-    auto const E_iq = iq_ref - iq;
+    input.idc_ref = DualReal(ref_.idc_ref);
+    input.Q_ref   = DualReal(ref_.Q_ref);
 
     // ------------------------------------------------------------
-    // Current controller
+    // Evaluate the same model used by ODE
     // ------------------------------------------------------------
-    auto const vd_ref = ed + w_hat * p_.Lf * iq - p_.Rf * id - p_.kp2 * E_id - p_.ki2 * xi_isd;
-    auto const vq_ref = eq - w_hat * p_.Lf * id - p_.Rf * iq - p_.kp2 * E_iq - p_.ki2 * xi_isq;
-
-    auto const E_vd = vd_ref - vd;
-    auto const E_vq = vq_ref - vq;
+    model_.rhs(p_, p_.t0, x, dxdt, input);
 
     // ------------------------------------------------------------
-    // Voltage controller
+    // Equilibrium residuals: dx/dt = 0
+    // theta_hat is excluded because dtheta/dt = omega_hat
     // ------------------------------------------------------------
-    auto const md = (id + w_hat * p_.Cf * vq - p_.kp1 * E_vd - p_.ki1 * xi_ucd) / istk;
-    auto const mq = (iq - w_hat * p_.Cf * vd - p_.kp1 * E_vq - p_.ki1 * xi_ucq) / istk;
+    res(Z_IGD) = dxdt(IGD);
+    res(Z_IGQ) = dxdt(IGQ);
+    res(Z_ED)  = dxdt(ED);
+    res(Z_EQ)  = dxdt(EQ);
 
-    // ------------------------------------------------------------
-    // Differential equations imposed as zero
-    // ------------------------------------------------------------
-    res(Z_IGD) = (p_.egd - p_.Rg * igd - ed + w_hat * p_.Lg * igq) / p_.Lg;
-    res(Z_IGQ) = (p_.egq - p_.Rg * igq - eq - w_hat * p_.Lg * igd) / p_.Lg;
+    res(Z_ID)   = dxdt(ID);
+    res(Z_IQ)   = dxdt(IQ);
+    res(Z_VD)   = dxdt(VD);
+    res(Z_VQ)   = dxdt(VQ);
+    res(Z_ISTK) = dxdt(ISTK);
 
-    res(Z_ED) = (igd - id + w_hat * p_.Cg * eq) / p_.Cg;
-    res(Z_EQ) = (igq - iq - w_hat * p_.Cg * ed) / p_.Cg;
-
-    res(Z_ID) = (ed - vd - p_.Rf * id + w_hat * p_.Lf * iq) / p_.Lf;
-    res(Z_IQ) = (eq - vq - p_.Rf * iq - w_hat * p_.Lf * id) / p_.Lf;
-    res(Z_VD) = (id - md * istk + w_hat * p_.Cf * vq) / p_.Cf;
-    res(Z_VQ) = (iq - mq * istk - w_hat * p_.Cf * vd) / p_.Cf;
-    res(Z_ISTK) = (md * vd + mq * vq - p_.RL * istk) / p_.Ldc;
-
-    // ------------------------------------------------------------
-    // Integrator residuals
-    // ------------------------------------------------------------
-    res(Z_XI_PLL)  = e_pll;
-    res(Z_XI_UCD)  = E_vd;
-    res(Z_XI_UCQ)  = E_vq;
-    res(Z_XI_ISD)  = E_id;
-    res(Z_XI_ISQ)  = E_iq;
-    res(Z_XI_IDC2) = E_idc2;
+    res(Z_XI_PLL)  = dxdt(XI_PLL);
+    res(Z_XI_UCD)  = dxdt(XI_UCD);
+    res(Z_XI_UCQ)  = dxdt(XI_UCQ);
+    res(Z_XI_ISD)  = dxdt(XI_ISD);
+    res(Z_XI_ISQ)  = dxdt(XI_ISQ);
+    res(Z_XI_IDC2) = dxdt(XI_IDC2);
 
     return res;
 }
@@ -214,8 +202,7 @@ void apply_equilibrium_to_parameters(CSC_RL_Parameters& p,const ODE::vec_type& x
     p.x0 = x0_full;
 }
 
-bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p,
-                                const EquilibriumOptions& options)
+bool compute_csc_rl_equilibrium(const CSC_RL_Model& model, CSC_RL_Parameters& p, const EquilibriumOptions& options)
 {
     EquilibriumReferences eq_ref;
 
@@ -236,7 +223,7 @@ bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p,
         std::cout << "Q_ref   = " << eq_ref.Q_ref << " var\n";
     }
 
-    CSCEquilibriumProblem eq_problem(p, eq_ref);
+    CSCEquilibriumProblem eq_problem(model, p, eq_ref);
 
     AD::NewtonOptions newton_options;
     newton_options.verbose      = options.newton_verbose;
@@ -292,4 +279,19 @@ bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p, bool verbose)
     options.verbose = verbose;
 
     return compute_csc_rl_equilibrium(p, options);
+}
+
+bool compute_csc_rl_equilibrium(const CSC_RL_Model& model, CSC_RL_Parameters& p, bool verbose)
+{
+    EquilibriumOptions options;
+    options.verbose = verbose;
+
+    return compute_csc_rl_equilibrium(model, p, options);
+}
+
+bool compute_csc_rl_equilibrium(CSC_RL_Parameters& p, const EquilibriumOptions& options)
+{
+    static CSC_RL_Model model;
+
+    return compute_csc_rl_equilibrium(model, p, options);
 }

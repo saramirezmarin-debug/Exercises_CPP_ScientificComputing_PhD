@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_equilibrium_8
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_c_s_c___r_l_8hh_source.html">CSC_RL.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_newton_8hh_source.html">Newton.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_c_s_c___r_l___model_8hh_source.html">CSC_RL_Model.hh</a>&quot;</code><br />
 </div>
 <p><a href="_equilibrium_8hh_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -142,6 +143,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a8d049de36ae9e481e1eae45d44e301cf" id="r_a8d049de36ae9e481e1eae45d44e301cf"><td class="memItemLeft"><a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8d049de36ae9e481e1eae45d44e301cf">make_equilibrium_initial_guess</a> (const <a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;p, const <a class="el" href="struct_equilibrium_references.html">EquilibriumReferences</a> &amp;ref)</td></tr>
 <tr class="memitem:a94902db3204cda43821ba06f0f72900b" id="r_a94902db3204cda43821ba06f0f72900b"><td class="memItemLeft"><a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#a94902db3204cda43821ba06f0f72900b">expand_equilibrium_to_full_state</a> (const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a> &amp;z, const <a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;p)</td></tr>
 <tr class="memitem:aedbf3121cba0e3c75ad9a3e89d8a9838" id="r_aedbf3121cba0e3c75ad9a3e89d8a9838"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aedbf3121cba0e3c75ad9a3e89d8a9838">apply_equilibrium_to_parameters</a> (<a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;p, const <a class="el" href="namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821">ODE::vec_type</a> &amp;x0_full)</td></tr>
+<tr class="memitem:a7982aeed99c8f699bf4e292bc369c508" id="r_a7982aeed99c8f699bf4e292bc369c508"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a7982aeed99c8f699bf4e292bc369c508">compute_csc_rl_equilibrium</a> (const <a class="el" href="class_c_s_c___r_l___model.html">CSC_RL_Model</a> &amp;model, <a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;p, const <a class="el" href="struct_equilibrium_options.html">EquilibriumOptions</a> &amp;options)</td></tr>
+<tr class="memitem:a19d78517040296d254a8545941f4b001" id="r_a19d78517040296d254a8545941f4b001"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a19d78517040296d254a8545941f4b001">compute_csc_rl_equilibrium</a> (const <a class="el" href="class_c_s_c___r_l___model.html">CSC_RL_Model</a> &amp;model, <a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;p, bool verbose=false)</td></tr>
 <tr class="memitem:ac32d6b82c158050a7aba9b3989b908d3" id="r_ac32d6b82c158050a7aba9b3989b908d3"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac32d6b82c158050a7aba9b3989b908d3">compute_csc_rl_equilibrium</a> (<a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;p, const <a class="el" href="struct_equilibrium_options.html">EquilibriumOptions</a> &amp;options)</td></tr>
 <tr class="memitem:a77377bb0ed64cbc3f2e9b4c8069adad2" id="r_a77377bb0ed64cbc3f2e9b4c8069adad2"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a77377bb0ed64cbc3f2e9b4c8069adad2">compute_csc_rl_equilibrium</a> (<a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;p, bool verbose=false)</td></tr>
 </table>
@@ -167,8 +170,60 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a19d78517040296d254a8545941f4b001" name="a19d78517040296d254a8545941f4b001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19d78517040296d254a8545941f4b001">&#9670;&#160;</a></span>compute_csc_rl_equilibrium() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool compute_csc_rl_equilibrium </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_c_s_c___r_l___model.html">CSC_RL_Model</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>model</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>verbose</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7982aeed99c8f699bf4e292bc369c508" name="a7982aeed99c8f699bf4e292bc369c508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7982aeed99c8f699bf4e292bc369c508">&#9670;&#160;</a></span>compute_csc_rl_equilibrium() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool compute_csc_rl_equilibrium </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_c_s_c___r_l___model.html">CSC_RL_Model</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>model</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_c_s_c___r_l___parameters.html">CSC_RL_Parameters</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_equilibrium_options.html">EquilibriumOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a77377bb0ed64cbc3f2e9b4c8069adad2" name="a77377bb0ed64cbc3f2e9b4c8069adad2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77377bb0ed64cbc3f2e9b4c8069adad2">&#9670;&#160;</a></span>compute_csc_rl_equilibrium() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a77377bb0ed64cbc3f2e9b4c8069adad2">&#9670;&#160;</a></span>compute_csc_rl_equilibrium() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,7 +244,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac32d6b82c158050a7aba9b3989b908d3" name="ac32d6b82c158050a7aba9b3989b908d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac32d6b82c158050a7aba9b3989b908d3">&#9670;&#160;</a></span>compute_csc_rl_equilibrium() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac32d6b82c158050a7aba9b3989b908d3">&#9670;&#160;</a></span>compute_csc_rl_equilibrium() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

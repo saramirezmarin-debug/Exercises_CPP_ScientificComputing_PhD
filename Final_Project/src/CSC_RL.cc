@@ -1,4 +1,5 @@
 #include "CSC_RL.hh"
+#include "CSC_RL_Model.hh"
 
 #include <array>
 #include <algorithm>
@@ -32,7 +33,29 @@ namespace
     }
 }
 
-CSC_RL::CSC_RL(const CSC_RL_Parameters& parameters) : p_(parameters) {validate_parameters();}
+namespace
+{
+    const CSC_RL_Model& default_csc_rl_model()
+    {
+        static CSC_RL_Model model;
+        return model;
+    }
+}
+
+CSC_RL::CSC_RL(const CSC_RL_Model& model,
+               const CSC_RL_Parameters& parameters)
+    : model_(model)
+    , p_(parameters)
+{
+    validate_parameters();
+}
+
+CSC_RL::CSC_RL(const CSC_RL_Parameters& parameters)
+    : model_(default_csc_rl_model())
+    , p_(parameters)
+{
+    validate_parameters();
+}
 
 void CSC_RL::validate_parameters() const
 {
@@ -69,167 +92,9 @@ ODE::real_type CSC_RL::initial_condition(ODE::integer i) const
     return p_.x0(i);
 }
 
-PLLOutput CSC_RL::compute_pll(const ODE::vec_type& x) const
-{
-    PLLOutput pll;
-
-    const ODE::real_type eq = x(EQ);
-    const ODE::real_type xi_pll = x(XI_PLL);
-
-    pll.e_pll = eq / p_.Vdq_nom;
-    pll.w_hat = p_.w0_pll + p_.kp_pll * pll.e_pll + p_.ki_pll * xi_pll;
-
-    return pll;
-}
-
-ReferenceOutput CSC_RL::compute_references(ODE::real_type t) const
-{
-    ReferenceOutput ref;
-    
-    ref.idc_ref = p_.idc_ref.value(t);
-    ref.Qref = p_.Q_ref.value(t);
-
-    return ref;
-}
-
-OuterLoopOutput CSC_RL::compute_outer_loop(const ODE::vec_type& x, const ReferenceOutput& ref) const
-{
-    OuterLoopOutput outer;
-
-    const ODE::real_type istk = x(ISTK);
-    const ODE::real_type xi_idc2 = x(XI_IDC2);
-
-    outer.Eidc2 = ref.idc_ref * ref.idc_ref - istk * istk;
-    outer.Pref = p_.kpO * outer.Eidc2 + p_.kiO * xi_idc2;
-
-    return outer;
-}
-
-InnerLoopOutput CSC_RL::compute_inner_loop(const ODE::vec_type& x, const ReferenceOutput& ref, const PLLOutput& pll, const OuterLoopOutput& outer) const
-{
-    InnerLoopOutput inner;
-
-    const ODE::real_type ed = x(ED);
-    const ODE::real_type eq = x(EQ);
-    const ODE::real_type id = x(ID);
-    const ODE::real_type iq = x(IQ);
-    const ODE::real_type vd = x(VD);
-    const ODE::real_type vq = x(VQ);
-    const ODE::real_type istk = x(ISTK);
-
-    const ODE::real_type xi_isd = x(XI_ISD);
-    const ODE::real_type xi_isq = x(XI_ISQ);
-    const ODE::real_type xi_ucd = x(XI_UCD);
-    const ODE::real_type xi_ucq = x(XI_UCQ);
-
-    const ODE::real_type V2_eff = std::max(ed * ed + eq * eq, p_.V2_min);
-    const ODE::real_type Idc_eff = std::max(std::abs(istk), p_.Idc_min);
-
-    inner.idr = (ed * outer.Pref + eq * ref.Qref) / V2_eff;
-    inner.iqr = (eq * outer.Pref - ed * ref.Qref) / V2_eff;
-
-    inner.Eid = inner.idr - id;
-    inner.Eiq = inner.iqr - iq;
-
-    inner.vdr = ed + pll.w_hat * p_.Lf * iq - p_.Rf * id - p_.kp2 * inner.Eid - p_.ki2 * xi_isd;
-    inner.vqr = eq - pll.w_hat * p_.Lf * id - p_.Rf * iq - p_.kp2 * inner.Eiq - p_.ki2 * xi_isq;
-
-    inner.Evd = inner.vdr - vd;
-    inner.Evq = inner.vqr - vq;
-
-    inner.md = (id + pll.w_hat * p_.Cf * vq - p_.kp1 * inner.Evd - p_.ki1 * xi_ucd) / Idc_eff;
-    inner.mq = (iq - pll.w_hat * p_.Cf * vd - p_.kp1 * inner.Evq - p_.ki1 * xi_ucq) / Idc_eff;
-
-    return inner;
-}
-
-ControlOutput CSC_RL::compute_control(ODE::real_type t, const ODE::vec_type& x) const
-{
-    ControlOutput c;
-
-    const PLLOutput pll = compute_pll(x);
-    const ReferenceOutput ref = compute_references(t);
-    const OuterLoopOutput outer = compute_outer_loop(x, ref);
-    const InnerLoopOutput inner = compute_inner_loop(x, ref, pll, outer);
-
-    // PLL
-    c.e_pll = pll.e_pll;
-    c.w_hat = pll.w_hat;
-
-    // References
-    c.idc_ref = ref.idc_ref;
-    c.Qref = ref.Qref;
-
-    // Outer
-    c.Eidc2 = outer.Eidc2;
-    c.Pref = outer.Pref;
-
-    // Inner
-    c.idr = inner.idr;
-    c.iqr = inner.iqr;
-
-    c.Eid = inner.Eid;
-    c.Eiq = inner.Eiq;
-    c.vdr = inner.vdr;
-    c.vqr = inner.vqr;
-
-    c.Evd = inner.Evd;
-    c.Evq = inner.Evq;
-    c.md  = inner.md;
-    c.mq  = inner.mq;
-
-    return c;
-}
-
 void CSC_RL::rhs(ODE::real_type t, const ODE::vec_type& x, ODE::vec_type& dxdt) const
 {
-    // ------------------------------------------------------------
-    // Read states
-    // ------------------------------------------------------------
-    const ODE::real_type igd  = x(IGD);
-    const ODE::real_type igq  = x(IGQ);
-    const ODE::real_type ed   = x(ED);
-    const ODE::real_type eq   = x(EQ);
-
-    const ODE::real_type id   = x(ID);
-    const ODE::real_type iq   = x(IQ);
-    const ODE::real_type vd   = x(VD);
-    const ODE::real_type vq   = x(VQ);
-    const ODE::real_type istk = x(ISTK);
-
-    const ControlOutput c = compute_control(t, x);
-
-    // ------------------------------------------------------------
-    // PCC dynamics
-    // ------------------------------------------------------------
-    dxdt(IGD) = (p_.egd - p_.Rg * igd - ed + c.w_hat * p_.Lg * igq) / p_.Lg;
-    dxdt(IGQ) = (p_.egq - p_.Rg * igq - eq - c.w_hat * p_.Lg * igd) / p_.Lg;
-    dxdt(ED) = (igd - id + c.w_hat * p_.Cg * eq) / p_.Cg;
-    dxdt(EQ) = (igq - iq - c.w_hat * p_.Cg * ed) / p_.Cg;
-
-    // ------------------------------------------------------------
-    // CSC AC-side and DC-side dynamics
-    // ------------------------------------------------------------
-    dxdt(ID) = (ed - vd - p_.Rf * id + c.w_hat * p_.Lf * iq) / p_.Lf;
-    dxdt(IQ) = (eq - vq - p_.Rf * iq - c.w_hat * p_.Lf * id) / p_.Lf;
-    dxdt(VD) = (id - c.md * istk + c.w_hat * p_.Cf * vq) / p_.Cf;
-    dxdt(VQ) = (iq - c.mq * istk - c.w_hat * p_.Cf * vd) / p_.Cf;
-    dxdt(ISTK) = (c.md * vd + c.mq * vq - p_.RL * istk) / p_.Ldc;
-
-    // ------------------------------------------------------------
-    // PLL states
-    // ------------------------------------------------------------
-    dxdt(THETA_HAT) = c.w_hat;
-    dxdt(XI_PLL)    = c.e_pll;
-
-    // ------------------------------------------------------------
-    // Controller integrator states
-    // ------------------------------------------------------------
-    dxdt(XI_UCD)  = c.Evd;
-    dxdt(XI_UCQ)  = c.Evq;
-    dxdt(XI_ISD)  = c.Eid;
-    dxdt(XI_ISQ)  = c.Eiq;
-    dxdt(XI_IDC2) = c.Eidc2;
+    model_.rhs(p_, t, x, dxdt);
 }
 
 // ------------------------------------------------------------
@@ -284,7 +149,9 @@ ODE::vec_type CSC_RL::outputs(ODE::real_type t, const ODE::vec_type& x) const
     const ODE::real_type vq = x(VQ);
     const ODE::real_type theta = x(THETA_HAT);
 
-    const ControlOutput c = compute_control(t, x);
+    // const ControlOutput c = compute_control(t, x);
+    const auto input = model_.input_from_parameters<ODE::real_type>(p_, t);
+    const auto c = model_.control(p_, x, input);
 
     y(IA) = abc_output_component(id, iq, theta, 0);
     y(IB) = abc_output_component(id, iq, theta, 1);

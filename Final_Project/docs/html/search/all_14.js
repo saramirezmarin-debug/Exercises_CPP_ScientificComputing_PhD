@@ -11,7 +11,7 @@ var searchData=
   ['vc_8',['VC',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95ad44674812878bde0be38fcd047ee04e0',1,'CSC_RL.hh']]],
   ['vd_9',['VD',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a1bd8c9ae37f76b772eab0a5c91e26fb5',1,'CSC_RL.hh']]],
   ['vdq_5fnom_10',['Vdq_nom',['../struct_c_s_c___r_l___parameters.html#aba9ef38b9e72cc2c9261b186f93e412f',1,'CSC_RL_Parameters']]],
-  ['vdr_11',['vdr',['../struct_inner_loop_output.html#aaf7c5867147c462812a6da96b5eb466f',1,'InnerLoopOutput::vdr'],['../struct_control_output.html#a9a64351693284ee269c0cf74e53ec095',1,'ControlOutput::vdr']]],
+  ['vdr_11',['vdr',['../struct_inner_loop_output.html#aaf7c5867147c462812a6da96b5eb466f',1,'InnerLoopOutput::vdr'],['../struct_control_output.html#a9a64351693284ee269c0cf74e53ec095',1,'ControlOutput::vdr'],['../struct_c_s_c___r_l___model_1_1_control.html#a014a90fb001a438c2fc479f29b5efc7a',1,'CSC_RL_Model::Control::vdr']]],
   ['vec_5ftype_12',['vec_type',['../namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821',1,'ODE']]],
   ['vector2d_13',['Vector2d',['../_newton_8hh.html#a824159f5c2a14336f9082b0e04374fdc',1,'Newton.hh']]],
   ['vector3d_14',['Vector3d',['../_newton_8hh.html#a72422f584ada1c0faf04a2ba748f9b14',1,'Newton.hh']]],
@@ -19,5 +19,5 @@ var searchData=
   ['vectorxd_16',['VectorXd',['../_newton_8hh.html#a73c1535cdfdd552cd04f7676926858b6',1,'Newton.hh']]],
   ['verbose_17',['verbose',['../struct_equilibrium_options.html#a139ac721912bc162f29bea40d7079dcb',1,'EquilibriumOptions::verbose'],['../struct_a_d_1_1_newton_options.html#ad27fb3a8def94edd353e5642d1293f66',1,'AD::NewtonOptions::verbose']]],
   ['vq_18',['VQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a4c0132261f35839a68216b875ca69142',1,'CSC_RL.hh']]],
-  ['vqr_19',['vqr',['../struct_inner_loop_output.html#a05d25e1fcba09f0f196014f82809924b',1,'InnerLoopOutput::vqr'],['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput::vqr']]]
+  ['vqr_19',['vqr',['../struct_inner_loop_output.html#a05d25e1fcba09f0f196014f82809924b',1,'InnerLoopOutput::vqr'],['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput::vqr'],['../struct_c_s_c___r_l___model_1_1_control.html#a77aca07fbcc1a65504b3624284b50c27',1,'CSC_RL_Model::Control::vqr']]]
 ];
