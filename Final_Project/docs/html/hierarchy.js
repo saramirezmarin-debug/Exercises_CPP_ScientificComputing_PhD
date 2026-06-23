@@ -15,7 +15,7 @@ var hierarchy =
     ] ],
     [ "AD::NewtonProblem&lt; ODE::real_type &gt;", "class_a_d_1_1_newton_problem.html", [
       [ "AD::NewtonProblemAD< ODE::real_type >", "class_a_d_1_1_newton_problem_a_d.html", [
-        [ "CSCEquilibriumProblem", "class_c_s_c_equilibrium_problem.html", null ]
+        [ "CSC_RL_EquilibriumProblem", "class_c_s_c___r_l___equilibrium_problem.html", null ]
       ] ]
     ] ],
     [ "AD::NewtonSolver&lt; T &gt;", "class_a_d_1_1_newton_solver.html", null ],

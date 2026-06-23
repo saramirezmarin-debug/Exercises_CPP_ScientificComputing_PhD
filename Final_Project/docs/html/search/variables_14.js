@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['z_5fn_0',['Z_N',['../class_c_s_c_equilibrium_problem.html#a8e5b8046f4c3d76368ef2dc25b56ee9f',1,'CSCEquilibriumProblem']]]
+  ['z_5fn_0',['Z_N',['../class_c_s_c___r_l___equilibrium_problem.html#a322e72d7a4b67c79326cd3752292ee1f',1,'CSC_RL_EquilibriumProblem']]]
 ];

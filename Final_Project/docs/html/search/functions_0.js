@@ -3,7 +3,7 @@ var searchData=
   ['abs_0',['abs',['../namespace_a_d.html#ae667f37d649b41d92e11345028c57b87',1,'AD']]],
   ['acos_1',['acos',['../namespace_a_d.html#a0f05a96681dc3b8b6f748bf07d0a5b82',1,'AD']]],
   ['acosh_2',['acosh',['../namespace_a_d.html#a56f67a72c4364e09da43b3b6a02c3410',1,'AD']]],
-  ['apply_5fequilibrium_5fto_5fparameters_3',['apply_equilibrium_to_parameters',['../_equilibrium_8hh.html#aedbf3121cba0e3c75ad9a3e89d8a9838',1,'apply_equilibrium_to_parameters(CSC_RL_Parameters &amp;p, const ODE::vec_type &amp;x0_full):&#160;Equilibrium.cc'],['../_equilibrium_8cc.html#aedbf3121cba0e3c75ad9a3e89d8a9838',1,'apply_equilibrium_to_parameters(CSC_RL_Parameters &amp;p, const ODE::vec_type &amp;x0_full):&#160;Equilibrium.cc']]],
+  ['apply_5fcsc_5frl_5fequilibrium_5fto_5fparameters_3',['apply_csc_rl_equilibrium_to_parameters',['../_c_s_c___r_l___model_8hh.html#aedaf6744c721f250eef4c823150b5e5f',1,'CSC_RL_Model.hh']]],
   ['asin_4',['asin',['../namespace_a_d.html#af7db6fbaf3f26195ccc05af81d219382',1,'AD']]],
   ['asinh_5',['asinh',['../namespace_a_d.html#a8360e96ce3b66ebab01b7bbe50380e33',1,'AD']]],
   ['atan_6',['atan',['../namespace_a_d.html#aa19eee2a1c377942842889125025d15d',1,'AD']]],

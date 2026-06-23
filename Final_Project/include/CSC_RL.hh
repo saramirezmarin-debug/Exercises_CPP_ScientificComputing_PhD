@@ -3,6 +3,8 @@
 
 #include <string>
 
+class CSC_RL_Model;
+
 struct CSC_RL_Parameters
 {
     // Simulation time
@@ -131,21 +133,12 @@ struct ControlOutput
     ODE::real_type mq = 0.0;
 };
 
-class CSC_RL_Model;
-
 class CSC_RL : public ODE::ODE_Problem_base
 {
 private:
     const CSC_RL_Model& model_;
     CSC_RL_Parameters p_;
     void validate_parameters() const;
-
-    // PLLOutput compute_pll(const ODE::vec_type& x) const;
-    // ReferenceOutput compute_references(ODE::real_type t) const;
-    // OuterLoopOutput compute_outer_loop(const ODE::vec_type& x, const ReferenceOutput& ref) const;
-    // InnerLoopOutput compute_inner_loop(const ODE::vec_type& x, const ReferenceOutput& ref, const PLLOutput& pll, const OuterLoopOutput& outer) const;
-
-    // ControlOutput compute_control(ODE::real_type t, const ODE::vec_type& x) const;
 
 public:
 

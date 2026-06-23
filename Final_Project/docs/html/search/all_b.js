@@ -3,7 +3,7 @@ var searchData=
   ['main_0',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
   ['main_2ecpp_1',['main.cpp',['../main_8cpp.html',1,'']]],
   ['make_5fcsc_5frl_5fcase_2',['make_csc_rl_case',['../_c_s_c___r_l___case_8hh.html#aae85fc0b8ce7ece4e1fed0770b00df8b',1,'make_csc_rl_case():&#160;CSC_RL_Case.cc'],['../_c_s_c___r_l___case_8cc.html#aae85fc0b8ce7ece4e1fed0770b00df8b',1,'make_csc_rl_case():&#160;CSC_RL_Case.cc']]],
-  ['make_5fequilibrium_5finitial_5fguess_3',['make_equilibrium_initial_guess',['../_equilibrium_8hh.html#a8d049de36ae9e481e1eae45d44e301cf',1,'make_equilibrium_initial_guess(const CSC_RL_Parameters &amp;p, const EquilibriumReferences &amp;ref):&#160;Equilibrium.cc'],['../_equilibrium_8cc.html#a8d049de36ae9e481e1eae45d44e301cf',1,'make_equilibrium_initial_guess(const CSC_RL_Parameters &amp;p, const EquilibriumReferences &amp;ref):&#160;Equilibrium.cc']]],
+  ['make_5fcsc_5frl_5fequilibrium_5finitial_5fguess_3',['make_csc_rl_equilibrium_initial_guess',['../_c_s_c___r_l___model_8hh.html#a4321e876c2c9930f405f0620fb9819c6',1,'CSC_RL_Model.hh']]],
   ['mat_5ftype_4',['mat_type',['../namespace_o_d_e.html#abb3488244b9c9598720c7c3e50ffb285',1,'ODE']]],
   ['matrix2d_5',['Matrix2d',['../_newton_8hh.html#a8ff615c48c74466f2daf4806869f9646',1,'Newton.hh']]],
   ['matrix3d_6',['Matrix3d',['../_newton_8hh.html#a75664db7262f8acb5c097c819170e66e',1,'Newton.hh']]],
