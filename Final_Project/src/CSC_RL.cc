@@ -47,6 +47,9 @@ void CSC_RL::validate_parameters() const
     if (p_.V2_min <= 0.0)   throw std::runtime_error("CSC_RL: V2_min must be positive");
     if (p_.Vdq_nom == 0.0)  throw std::runtime_error("CSC_RL: Vdq_nom must be different to zero");
 
+    if (p_.x0.size() != NSTATES) throw std::runtime_error("CSC_RL: x0 has wrong size");
+
+
     // Validate the generic stair references
     p_.idc_ref.validate("CSC_RL: idc_ref");
     p_.Q_ref.validate("CSC_RL: Q_ref");
@@ -56,28 +59,38 @@ ODE::integer CSC_RL::n() const {return NSTATES;}
 ODE::real_type CSC_RL::t0() const {return p_.t0;}
 ODE::real_type CSC_RL::tf() const {return p_.tf;}
 
+// ODE::real_type CSC_RL::initial_condition(ODE::integer i) const
+// {
+//     switch (i)
+//     {
+//     case IGD:  return p_.igd0;
+//     case IGQ:  return p_.igq0;
+//     case ED:  return p_.ed0;
+//     case EQ:  return p_.eq0;
+//     case ID:  return p_.id0;
+//     case IQ:  return p_.iq0;
+//     case VD:  return p_.vd0;
+//     case VQ:  return p_.vq0;
+//     case ISTK:  return p_.istk0;
+//     case THETA_HAT:  return p_.theta_hat0;
+//     case XI_PLL: return p_.xi_pll0;
+//     case XI_UCD: return p_.xi_ucd0;
+//     case XI_UCQ: return p_.xi_ucq0;
+//     case XI_ISD: return p_.xi_isd0;
+//     case XI_ISQ: return p_.xi_isq0;
+//     case XI_IDC2: return p_.xi_idc2_0;
+//     default: throw std::out_of_range("CSC_RL: invalid state index");
+//     }
+// }
+
 ODE::real_type CSC_RL::initial_condition(ODE::integer i) const
 {
-    switch (i)
+    if (i < 0 || i >= NSTATES)
     {
-    case IGD:  return p_.igd0;
-    case IGQ:  return p_.igq0;
-    case ED:  return p_.ed0;
-    case EQ:  return p_.eq0;
-    case ID:  return p_.id0;
-    case IQ:  return p_.iq0;
-    case VD:  return p_.vd0;
-    case VQ:  return p_.vq0;
-    case ISTK:  return p_.istk0;
-    case THETA_HAT:  return p_.theta_hat0;
-    case XI_PLL: return p_.xi_pll0;
-    case XI_UCD: return p_.xi_ucd0;
-    case XI_UCQ: return p_.xi_ucq0;
-    case XI_ISD: return p_.xi_isd0;
-    case XI_ISQ: return p_.xi_isq0;
-    case XI_IDC2: return p_.xi_idc2_0;
-    default: throw std::out_of_range("CSC_RL: invalid state index");
+        throw std::out_of_range("CSC_RL: invalid state index");
     }
+
+    return p_.x0(i);
 }
 
 PLLOutput CSC_RL::compute_pll(const ODE::vec_type& x) const

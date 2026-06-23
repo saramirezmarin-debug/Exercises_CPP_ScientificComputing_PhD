@@ -26,6 +26,13 @@ namespace ODE
     /// Dynamic column vector
     using vec_type = Eigen::Matrix<real_type, Eigen::Dynamic, 1>;
 
+    struct SolverOptions
+    {
+        ODE::real_type h = 1e-5;
+        ODE::integer save_every = 1;
+        std::string output_file = "results/output.csv";
+    };
+
     /**
      * @brief Abstract interface for initial value problems of the form
      *        dx/dt = f(t,x).
@@ -141,4 +148,7 @@ namespace ODE
                    real_type h,
                    const std::string& filename,
                    integer save_every = 1);
+
+    void solve_rk4(const ODE_Problem_base& problem,
+                   const SolverOptions& options);
 }

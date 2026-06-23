@@ -24,7 +24,6 @@ add_executable(${TARGET}
     include/Equilibrium.hh
     include/Newton.hh
     include/dual.hh
-    include/SimulationConfig.hh
     
 )
 

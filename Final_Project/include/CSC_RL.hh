@@ -79,31 +79,34 @@ struct CSC_RL_Parameters
     StairSignal idc_ref;
     StairSignal Q_ref;
 
-    // Initial conditions: PCC
-    ODE::real_type igd0 = 0.0;
-    ODE::real_type igq0 = 0.0;
-    ODE::real_type ed0 = 0.0;
-    ODE::real_type eq0 = 0.0;
+    // Initial conditions
+    ODE::vec_type x0;
 
-    // Initial conditions: CSC
-    ODE::real_type id0 = 0.0;
-    ODE::real_type iq0 = 0.0;
-    ODE::real_type vd0 = 0.0;
-    ODE::real_type vq0 = 0.0;
-    ODE::real_type istk0 = 0.0;
+    // // Initial conditions: PCC
+    // ODE::real_type igd0 = 0.0;
+    // ODE::real_type igq0 = 0.0;
+    // ODE::real_type ed0 = 0.0;
+    // ODE::real_type eq0 = 0.0;
 
-    // Initial conditions: PLL
-    ODE::real_type theta_hat0 = 0.0;
-    ODE::real_type xi_pll0 = 0.0;
+    // // Initial conditions: CSC
+    // ODE::real_type id0 = 0.0;
+    // ODE::real_type iq0 = 0.0;
+    // ODE::real_type vd0 = 0.0;
+    // ODE::real_type vq0 = 0.0;
+    // ODE::real_type istk0 = 0.0;
 
-    // Initial conditions: inner loop
-    ODE::real_type xi_ucd0 = 0.0;
-    ODE::real_type xi_ucq0 = 0.0;
-    ODE::real_type xi_isd0 = 0.0;
-    ODE::real_type xi_isq0 = 0.0;
+    // // Initial conditions: PLL
+    // ODE::real_type theta_hat0 = 0.0;
+    // ODE::real_type xi_pll0 = 0.0;
 
-    // Initial conditions: outer loop
-    ODE::real_type xi_idc2_0 = 0.0;
+    // // Initial conditions: inner loop
+    // ODE::real_type xi_ucd0 = 0.0;
+    // ODE::real_type xi_ucq0 = 0.0;
+    // ODE::real_type xi_isd0 = 0.0;
+    // ODE::real_type xi_isq0 = 0.0;
+
+    // // Initial conditions: outer loop
+    // ODE::real_type xi_idc2_0 = 0.0;
 };
 
 enum StateIndex

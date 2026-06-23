@@ -18,7 +18,7 @@ var searchData=
   ['operator_3d_3d_15',['operator==',['../namespace_a_d.html#a263fdb85e33fe2652afa774ff7bca376',1,'AD::operator==(Dual&lt; T &gt; const &amp;lhs, Dual&lt; T &gt; const &amp;rhs) noexcept'],['../namespace_a_d.html#ae3a1de6d44731ed891ec5d5db03bfb76',1,'AD::operator==(Dual&lt; T &gt; const &amp;lhs, T rhs) noexcept'],['../namespace_a_d.html#a2fbd4f9083a830d4ddf2e59d293b3fb5',1,'AD::operator==(T lhs, Dual&lt; T &gt; const &amp;rhs) noexcept']]],
   ['outerloopoutput_16',['OuterLoopOutput',['../struct_outer_loop_output.html',1,'']]],
   ['output_17',['output',['../class_c_s_c___r_l.html#ac53cdeba567377cb71b8d7aea2a63d31',1,'CSC_RL::output()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#ad5d3be9ec75f9f25696c341ee2cab512',1,'ODE::ODE_Problem_base::output()']]],
-  ['output_5ffile_18',['output_file',['../struct_simulation_config.html#aeb66976002df6be9f26a475013576019',1,'SimulationConfig']]],
+  ['output_5ffile_18',['output_file',['../struct_o_d_e_1_1_solver_options.html#a6211c0036fd92732533f11aca585c279',1,'ODE::SolverOptions']]],
   ['output_5fname_19',['output_name',['../class_c_s_c___r_l.html#a9c32ff8bce75598f51e69545f20d2ba8',1,'CSC_RL::output_name()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a07f896f350ac43eea7b14d6fa7b967ea',1,'ODE::ODE_Problem_base::output_name()']]],
   ['outputindex_20',['OutputIndex',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95',1,'CSC_RL.hh']]]
 ];

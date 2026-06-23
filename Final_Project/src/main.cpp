@@ -2,7 +2,6 @@
 #include "CSC_RL.hh"
 #include "CSC_RL_Case.hh"
 #include "Equilibrium.hh"
-#include "SimulationConfig.hh"
 
 
 
@@ -17,11 +16,11 @@ int main()
         CSC_RL_Parameters p = make_csc_rl_parameters();
 
         p.t0 = 0.0;
-        p.tf = 5;
+        p.tf = 1;
 
         configure_references(p);
 
-        SimulationConfig sim;
+        ODE::SolverOptions sim;
         sim.h = 1e-5;
         sim.save_every = 20;
         sim.output_file = "results/csc_rl.csv";
@@ -35,14 +34,14 @@ int main()
         eq_ref.idc_ref = p.idc_ref.value(p.t0);
         eq_ref.Q_ref   = p.Q_ref.value(p.t0);
 
-        std::cout << "Computing equilibrium point...\n";
+        std::cout << "Computing equilibrium point...\n\n";
         std::cout << "idc_ref = " << eq_ref.idc_ref << " A\n";
         std::cout << "Q_ref   = " << eq_ref.Q_ref << " var\n";
 
         CSCEquilibriumProblem eq_problem(p, eq_ref);
 
         AD::NewtonOptions newton_options;
-        newton_options.verbose = true;
+        newton_options.verbose = false;
         newton_options.tolerance = 1e-10;
         newton_options.max_iter = 50;
         newton_options.max_sub_iter = 20;
@@ -76,10 +75,10 @@ int main()
         // ------------------------------------------------------------
         CSC_RL problem(p);
 
-        ODE::solve_rk4(problem, sim.h, "results/csc_rl.csv", sim.save_every);
+        ODE::solve_rk4(problem, sim);
 
         std::cout << "Simulation completed successfully.\n";
-        std::cout << "Output file: results/csc_rl.csv\n";
+        std::cout << "Output file: " << sim.output_file << "\n";
 
         return 0;
     }

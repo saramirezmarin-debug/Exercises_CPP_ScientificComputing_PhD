@@ -98,34 +98,41 @@ CSC_RL_Parameters make_csc_rl_parameters()
     // ------------------------------------------------------------
     // Initial conditions
     // ------------------------------------------------------------
-    // AC source
-    p.igd0 = 16.0;
-    p.igq0 = 0.0;
-    p.ed0 = Vdq_nom;
-    p.eq0 = 0.0;
+    p.x0.resize(NSTATES);
+    p.x0.setZero();
+
+    // AC source / PCC
+    p.x0(IGD) = 16.0;
+    p.x0(IGQ) = 0.0;
+    p.x0(ED)  = Vdq_nom;
+    p.x0(EQ)  = 0.0;
+
     // CSC
-    p.id0 = 16.0;
-    p.iq0 = 0.0;
-    p.vd0 = Vdq_nom;
-    p.vq0 = 0.0;
-    p.istk0 = 250.0;
+    p.x0(ID)   = 16.0;
+    p.x0(IQ)   = 0.0;
+    p.x0(VD)   = Vdq_nom;
+    p.x0(VQ)   = 0.0;
+    p.x0(ISTK) = 250.0;
+
     // PLL
-    p.theta_hat0 = 0.0;
-    p.xi_pll0    = 0.0;
-    // Inner
-    p.xi_ucd0 = 0.0;
-    p.xi_ucq0 = 0.0;
-    p.xi_isd0 = 0.0;
-    p.xi_isq0 = 0.0;
-    // Outer
-    p.xi_idc2_0 = 0.0;
+    p.x0(THETA_HAT) = 0.0;
+    p.x0(XI_PLL)    = 0.0;
+
+    // Inner loop integrators
+    p.x0(XI_UCD) = 0.0;
+    p.x0(XI_UCQ) = 0.0;
+    p.x0(XI_ISD) = 0.0;
+    p.x0(XI_ISQ) = 0.0;
+
+    // Outer loop integrator
+    p.x0(XI_IDC2) = 0.0;
 
     return p;
 }
 
 void configure_references(CSC_RL_Parameters& p)
 {
-    p.idc_ref.times  = {0.0, 1.0, 2.0, 3.0, 4.0};
+    p.idc_ref.times  = {0.0, 0.5, 2.0, 3.0, 4.0};
     p.idc_ref.values = {200.0, 250.0, 200.0, 150.0, 100.0};
 
     p.Q_ref.times  = {0.0, 1.7, 3.4};

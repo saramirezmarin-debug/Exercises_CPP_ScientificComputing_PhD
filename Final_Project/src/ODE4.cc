@@ -197,4 +197,13 @@ namespace ODE
             ++step;
         }
     }
+
+    void solve_rk4(const ODE_Problem_base& problem,
+               const SolverOptions& options)
+    {
+        solve_rk4(problem,
+                options.h,
+                options.output_file,
+                options.save_every);
+    }
 }

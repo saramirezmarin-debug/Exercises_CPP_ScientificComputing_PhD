@@ -7,7 +7,7 @@ var searchData=
   ['sinh_4',['sinh',['../namespace_a_d.html#acc3d405cd415a6b301c97b15f318d084',1,'AD']]],
   ['solution_5',['solution',['../class_a_d_1_1_newton_solver.html#a6f83d1ac526be3a1a3c8265a99daf236',1,'AD::NewtonSolver']]],
   ['solve_6',['solve',['../class_a_d_1_1_newton_solver.html#a877a20c030e31420ecb47d5c28c5cd6b',1,'AD::NewtonSolver']]],
-  ['solve_5frk4_7',['solve_rk4',['../namespace_o_d_e.html#ab751763d0de7abe289caedd85bc9a206',1,'ODE']]],
+  ['solve_5frk4_7',['solve_rk4',['../namespace_o_d_e.html#ab751763d0de7abe289caedd85bc9a206',1,'ODE::solve_rk4(const ODE_Problem_base &amp;problem, real_type h, const std::string &amp;filename, integer save_every=1)'],['../namespace_o_d_e.html#ac923baf4a983aa87bc69f3b126559976',1,'ODE::solve_rk4(const ODE_Problem_base &amp;problem, const SolverOptions &amp;options)']]],
   ['sqrt_8',['sqrt',['../namespace_a_d.html#aab4e4c72fa5a3e6f747390ffa977a783',1,'AD']]],
   ['square_9',['square',['../namespace_a_d_1_1detail.html#a6c3d46b3f46efde35b6bacb3691bab0c',1,'AD::detail']]],
   ['state_5fname_10',['state_name',['../class_c_s_c___r_l.html#ac84965d628b5c8e5f7908bba6a1ba1a6',1,'CSC_RL::state_name()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a83fa3e860dcf5830483e730a3bae26ef',1,'ODE::ODE_Problem_base::state_name()']]]

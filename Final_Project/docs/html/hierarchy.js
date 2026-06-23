@@ -21,6 +21,6 @@ var hierarchy =
     [ "OuterLoopOutput", "struct_outer_loop_output.html", null ],
     [ "PLLOutput", "struct_p_l_l_output.html", null ],
     [ "ReferenceOutput", "struct_reference_output.html", null ],
-    [ "SimulationConfig", "struct_simulation_config.html", null ],
+    [ "ODE::SolverOptions", "struct_o_d_e_1_1_solver_options.html", null ],
     [ "StairSignal", "struct_stair_signal.html", null ]
 ];

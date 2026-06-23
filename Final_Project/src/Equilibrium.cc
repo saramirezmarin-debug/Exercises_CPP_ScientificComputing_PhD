@@ -299,7 +299,7 @@ ODE::vec_type expand_equilibrium_to_full_state(
 
     x0(ISTK) = z(Z_ISTK);
 
-    x0(THETA_HAT) = p.theta_hat0;
+    x0(THETA_HAT) = p.x0(THETA_HAT);
 
     x0(XI_PLL)  = z(Z_XI_PLL);
     x0(XI_UCD)  = z(Z_XI_UCD);
@@ -321,28 +321,41 @@ void apply_equilibrium_to_parameters(
         throw std::runtime_error("Equilibrium: invalid full state size");
     }
 
-    p.igd0 = x0_full(IGD);
-    p.igq0 = x0_full(IGQ);
-
-    p.ed0 = x0_full(ED);
-    p.eq0 = x0_full(EQ);
-
-    p.id0 = x0_full(ID);
-    p.iq0 = x0_full(IQ);
-
-    p.vd0 = x0_full(VD);
-    p.vq0 = x0_full(VQ);
-
-    p.istk0 = x0_full(ISTK);
-
-    p.theta_hat0 = x0_full(THETA_HAT);
-
-    p.xi_pll0 = x0_full(XI_PLL);
-
-    p.xi_ucd0 = x0_full(XI_UCD);
-    p.xi_ucq0 = x0_full(XI_UCQ);
-    p.xi_isd0 = x0_full(XI_ISD);
-    p.xi_isq0 = x0_full(XI_ISQ);
-
-    p.xi_idc2_0 = x0_full(XI_IDC2);
+    p.x0 = x0_full;
 }
+
+// void apply_equilibrium_to_parameters(
+//     CSC_RL_Parameters& p,
+//     const ODE::vec_type& x0_full
+// )
+// {
+//     if (x0_full.size() != NSTATES)
+//     {
+//         throw std::runtime_error("Equilibrium: invalid full state size");
+//     }
+
+//     p.igd0 = x0_full(IGD);
+//     p.igq0 = x0_full(IGQ);
+
+//     p.ed0 = x0_full(ED);
+//     p.eq0 = x0_full(EQ);
+
+//     p.id0 = x0_full(ID);
+//     p.iq0 = x0_full(IQ);
+
+//     p.vd0 = x0_full(VD);
+//     p.vq0 = x0_full(VQ);
+
+//     p.istk0 = x0_full(ISTK);
+
+//     p.theta_hat0 = x0_full(THETA_HAT);
+
+//     p.xi_pll0 = x0_full(XI_PLL);
+
+//     p.xi_ucd0 = x0_full(XI_UCD);
+//     p.xi_ucq0 = x0_full(XI_UCQ);
+//     p.xi_isd0 = x0_full(XI_ISD);
+//     p.xi_isq0 = x0_full(XI_ISQ);
+
+//     p.xi_idc2_0 = x0_full(XI_IDC2);
+// }
