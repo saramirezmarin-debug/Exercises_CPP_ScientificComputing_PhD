@@ -2,6 +2,10 @@ var _c_s_c___r_l_8hh =
 [
     [ "StairSignal", "struct_stair_signal.html", "struct_stair_signal" ],
     [ "CSC_RL_Parameters", "struct_c_s_c___r_l___parameters.html", "struct_c_s_c___r_l___parameters" ],
+    [ "PLLOutput", "struct_p_l_l_output.html", "struct_p_l_l_output" ],
+    [ "ReferenceOutput", "struct_reference_output.html", "struct_reference_output" ],
+    [ "OuterLoopOutput", "struct_outer_loop_output.html", "struct_outer_loop_output" ],
+    [ "InnerLoopOutput", "struct_inner_loop_output.html", "struct_inner_loop_output" ],
     [ "ControlOutput", "struct_control_output.html", "struct_control_output" ],
     [ "CSC_RL", "class_c_s_c___r_l.html", "class_c_s_c___r_l" ],
     [ "OutputIndex", "_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95", [

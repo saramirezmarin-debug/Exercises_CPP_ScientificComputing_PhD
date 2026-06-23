@@ -12,7 +12,7 @@ var searchData=
   ['vd_9',['VD',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a1bd8c9ae37f76b772eab0a5c91e26fb5',1,'CSC_RL.hh']]],
   ['vd0_10',['vd0',['../struct_c_s_c___r_l___parameters.html#abb05e69d3ef693c1b68dcfd76da564d2',1,'CSC_RL_Parameters']]],
   ['vdq_5fnom_11',['Vdq_nom',['../struct_c_s_c___r_l___parameters.html#aba9ef38b9e72cc2c9261b186f93e412f',1,'CSC_RL_Parameters']]],
-  ['vdr_12',['vdr',['../struct_control_output.html#a9a64351693284ee269c0cf74e53ec095',1,'ControlOutput']]],
+  ['vdr_12',['vdr',['../struct_inner_loop_output.html#aaf7c5867147c462812a6da96b5eb466f',1,'InnerLoopOutput::vdr'],['../struct_control_output.html#a9a64351693284ee269c0cf74e53ec095',1,'ControlOutput::vdr']]],
   ['vec_5ftype_13',['vec_type',['../namespace_o_d_e.html#aa445e1094ac83a6a839391f77a23c821',1,'ODE']]],
   ['vector2d_14',['Vector2d',['../_newton_8hh.html#a824159f5c2a14336f9082b0e04374fdc',1,'Newton.hh']]],
   ['vector3d_15',['Vector3d',['../_newton_8hh.html#a72422f584ada1c0faf04a2ba748f9b14',1,'Newton.hh']]],
@@ -20,5 +20,5 @@ var searchData=
   ['vectorxd_17',['VectorXd',['../_newton_8hh.html#a73c1535cdfdd552cd04f7676926858b6',1,'Newton.hh']]],
   ['vq_18',['VQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a4c0132261f35839a68216b875ca69142',1,'CSC_RL.hh']]],
   ['vq0_19',['vq0',['../struct_c_s_c___r_l___parameters.html#aef069872f664e5044716ac67e955c19a',1,'CSC_RL_Parameters']]],
-  ['vqr_20',['vqr',['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput']]]
+  ['vqr_20',['vqr',['../struct_inner_loop_output.html#a05d25e1fcba09f0f196014f82809924b',1,'InnerLoopOutput::vqr'],['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput::vqr']]]
 ];

@@ -10,13 +10,12 @@ int main()
 {
     try
     {
-        // std::system("mkdir results 2>nul");
-
-        CSC_RL_Parameters p = make_csc_rl_parameters();
-
         // ------------------------------------------------------------
         // Simulation settings
         // ------------------------------------------------------------
+
+        CSC_RL_Parameters p = make_csc_rl_parameters();
+
         p.t0 = 0.0;
         p.tf = 5;
 
@@ -26,17 +25,6 @@ int main()
         sim.h = 1e-5;
         sim.save_every = 20;
         sim.output_file = "results/csc_rl.csv";
-
-        // // ------------------------------------------------------------
-        // // Reference signals
-        // // ------------------------------------------------------------
-        // p.idc_ref.times  = {0.0, 1.0, 2.0, 3.0, 4.0};
-        // p.idc_ref.values = {200.0, 250.0, 200.0, 150.0, 100.0};
-
-        // p.Q_ref.times = {0.0, 1.7, 3.4};
-        // p.Q_ref.values  = {30000.0, -30000, 0};
-
-
         
         // ------------------------------------------------------------
         // Calculate equilibrium point
@@ -76,7 +64,6 @@ int main()
             std::cerr << "Equilibrium Newton failed.\n";
             std::cerr << "Simulation will continue with manual initial conditions.\n";
         }
-
 
         // ------------------------------------------------------------
         // Build and solve problem

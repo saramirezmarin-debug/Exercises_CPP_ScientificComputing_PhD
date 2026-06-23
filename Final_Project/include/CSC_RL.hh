@@ -1,6 +1,9 @@
 #pragma once
 #include "ODE4.hh"
 
+#include <vector>
+#include <string>
+
 // ============================================================
 // Generic stair signal
 //
@@ -32,95 +35,75 @@ struct StairSignal
 
 struct CSC_RL_Parameters
 {
-    // ------------------------------------------------------------
-    // PLL parameters
-    // ------------------------------------------------------------
-    ODE::real_type w0_pll = 0.0;      // Nominal angular frequency [rad/s]
-    ODE::real_type kp_pll = 0.0;      // PLL proportional gain
-    ODE::real_type ki_pll = 0.0;      // PLL integral gain
-    ODE::real_type Vdq_nom = 1.0;      // Phase peak voltage used for normalization
+    // Simulation time
+    ODE::real_type t0 = 0.0;
+    ODE::real_type tf = 0.0;
 
-    ODE::real_type theta_hat0; // Initial angle of the PLL's internal oscillator
-    ODE::real_type xi_pll0;    // Initial frequency deviation of the PLL's internal oscillator
+    // Grid voltage in dq frame
+    ODE::real_type egd = 0.0;
+    ODE::real_type egq = 0.0;
 
-    // ------------------------------------------------------------
+    // Grid parameters
+    ODE::real_type Lg = 0.0;
+    ODE::real_type Cg = 0.0;
+    ODE::real_type Rg = 0.0;
+
     // CSC AC filter parameters
-    // ------------------------------------------------------------
     ODE::real_type Rf = 0.0;
     ODE::real_type Lf = 0.0;
     ODE::real_type Cf = 0.0;
 
-    // ------------------------------------------------------------
     // DC-side parameters
-    // ------------------------------------------------------------
-    ODE::real_type Ldc;
-    ODE::real_type RL;  // Load resistance on DC side
+    ODE::real_type Ldc = 0.0;
+    ODE::real_type RL = 0.0;
 
-    // Grid parameters
-    ODE::real_type Lg;
-    ODE::real_type Cg;
-    ODE::real_type Rg;
-    ODE::real_type egd;
-    ODE::real_type egq;
+    // PLL parameters
+    ODE::real_type w0_pll = 0.0;
+    ODE::real_type kp_pll = 0.0;
+    ODE::real_type ki_pll = 0.0;
+    ODE::real_type Vdq_nom = 1.0;
 
-    // ------------------------------------------------------------
-    // Initial conditions
-    // x = [igd, igq, ed, eq, id, iq, vd, vq, istk theta_hat xi_pll]^T
-    // ------------------------------------------------------------
-
-    // PCC states
-    ODE::real_type igd0;
-    ODE::real_type igq0;
-    ODE::real_type ed0;
-    ODE::real_type eq0;
-
-    // CSC states
-    ODE::real_type id0;
-    ODE::real_type iq0;
-    ODE::real_type vd0;
-    ODE::real_type vq0;
-    ODE::real_type istk0;
-
-    // ------------------------------------------------------------
-    // Inner loop controller parameters
-    //
-    // Stage 2: current error -> capacitor voltage reference
-    // Stage 1: capacitor voltage error -> modulation index
-    // ------------------------------------------------------------
-    ODE::real_type kp1;
-    ODE::real_type ki1;
-
-    ODE::real_type kp2;
-    ODE::real_type ki2;
-
+    // Inner loop controller
+    ODE::real_type kp1 = 0.0;
+    ODE::real_type ki1 = 0.0;
+    ODE::real_type kp2 = 0.0;
+    ODE::real_type ki2 = 0.0;
     ODE::real_type Idc_min = 1.0;
 
-    // ------------------------------------------------------------
-    // Inner loop initial conditions
-    // x_inner = [xi_ucd, xi_ucq, xi_isd, xi_isq]^T
-    // ------------------------------------------------------------
-    ODE::real_type xi_ucd0;
-    ODE::real_type xi_ucq0;
-    ODE::real_type xi_isd0;
-    ODE::real_type xi_isq0;
-
-    // ------------------------------------------------------------
-    // Outer loop initial conditions
-    // ------------------------------------------------------------
-    ODE::real_type kpO;      // Outer-loop proportional gain
-    ODE::real_type kiO;      // Outer-loop integral gain
+    // Outer loop controller
+    ODE::real_type kpO = 0.0;
+    ODE::real_type kiO = 0.0;
     ODE::real_type V2_min = 1.0;
 
-    StairSignal idc_ref;     // DC current reference [A]
-    StairSignal Q_ref;       // Reactive power reference [var]
+    // References
+    StairSignal idc_ref;
+    StairSignal Q_ref;
 
-    ODE::real_type xi_idc2_0;
+    // Initial conditions: PCC
+    ODE::real_type igd0 = 0.0;
+    ODE::real_type igq0 = 0.0;
+    ODE::real_type ed0 = 0.0;
+    ODE::real_type eq0 = 0.0;
 
-    // ------------------------------------------------------------
-    // Simulation time
-    // ------------------------------------------------------------
-    ODE::real_type t0;
-    ODE::real_type tf;
+    // Initial conditions: CSC
+    ODE::real_type id0 = 0.0;
+    ODE::real_type iq0 = 0.0;
+    ODE::real_type vd0 = 0.0;
+    ODE::real_type vq0 = 0.0;
+    ODE::real_type istk0 = 0.0;
+
+    // Initial conditions: PLL
+    ODE::real_type theta_hat0 = 0.0;
+    ODE::real_type xi_pll0 = 0.0;
+
+    // Initial conditions: inner loop
+    ODE::real_type xi_ucd0 = 0.0;
+    ODE::real_type xi_ucq0 = 0.0;
+    ODE::real_type xi_isd0 = 0.0;
+    ODE::real_type xi_isq0 = 0.0;
+
+    // Initial conditions: outer loop
+    ODE::real_type xi_idc2_0 = 0.0;
 };
 
 enum StateIndex
@@ -139,6 +122,40 @@ enum OutputIndex
     ID_R, IQ_R, IDC_REF, Q_REF, PREF, // References
     P_OUT, Q_OUT,                     // Power
     NOUTPUTS
+};
+
+struct PLLOutput
+{
+    ODE::real_type e_pll = 0.0;
+    ODE::real_type w_hat = 0.0;
+};
+
+struct ReferenceOutput
+{
+    ODE::real_type idc_ref = 0.0;
+    ODE::real_type Qref = 0.0;
+};
+
+struct OuterLoopOutput
+{
+    ODE::real_type Eidc2 = 0.0;
+    ODE::real_type Pref = 0.0;
+};
+
+struct InnerLoopOutput
+{
+    ODE::real_type idr = 0.0;
+    ODE::real_type iqr = 0.0;
+    // Stage 2
+    ODE::real_type Eid = 0.0;
+    ODE::real_type Eiq = 0.0;
+    ODE::real_type vdr = 0.0;
+    ODE::real_type vqr = 0.0;
+    // Stage 1
+    ODE::real_type Evd = 0.0;
+    ODE::real_type Evq = 0.0;
+    ODE::real_type md = 0.0;
+    ODE::real_type mq = 0.0;
 };
 
 struct ControlOutput
@@ -172,6 +189,12 @@ class CSC_RL : public ODE::ODE_Problem_base
 private:
     CSC_RL_Parameters p_;
     void validate_parameters() const;
+
+    PLLOutput compute_pll(const ODE::vec_type& x) const;
+    ReferenceOutput compute_references(ODE::real_type t) const;
+    OuterLoopOutput compute_outer_loop(const ODE::vec_type& x, const ReferenceOutput& ref) const;
+    InnerLoopOutput compute_inner_loop(const ODE::vec_type& x, const ReferenceOutput& ref, const PLLOutput& pll, const OuterLoopOutput& outer) const;
+
     ControlOutput compute_control(ODE::real_type t, const ODE::vec_type& x) const;
 
 public:

@@ -14,6 +14,10 @@ var annotated_dup =
     [ "CSC_RL_Parameters", "struct_c_s_c___r_l___parameters.html", "struct_c_s_c___r_l___parameters" ],
     [ "CSCEquilibriumProblem", "class_c_s_c_equilibrium_problem.html", "class_c_s_c_equilibrium_problem" ],
     [ "EquilibriumReferences", "struct_equilibrium_references.html", "struct_equilibrium_references" ],
+    [ "InnerLoopOutput", "struct_inner_loop_output.html", "struct_inner_loop_output" ],
+    [ "OuterLoopOutput", "struct_outer_loop_output.html", "struct_outer_loop_output" ],
+    [ "PLLOutput", "struct_p_l_l_output.html", "struct_p_l_l_output" ],
+    [ "ReferenceOutput", "struct_reference_output.html", "struct_reference_output" ],
     [ "SimulationConfig", "struct_simulation_config.html", "struct_simulation_config" ],
     [ "StairSignal", "struct_stair_signal.html", "struct_stair_signal" ]
 ];

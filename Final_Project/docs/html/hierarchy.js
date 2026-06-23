@@ -4,6 +4,7 @@ var hierarchy =
     [ "CSC_RL_Parameters", "struct_c_s_c___r_l___parameters.html", null ],
     [ "AD::Dual&lt; T &gt;", "class_a_d_1_1_dual.html", null ],
     [ "EquilibriumReferences", "struct_equilibrium_references.html", null ],
+    [ "InnerLoopOutput", "struct_inner_loop_output.html", null ],
     [ "AD::NewtonProblem&lt; T &gt;", "class_a_d_1_1_newton_problem.html", [
       [ "AD::NewtonProblemAD< T >", "class_a_d_1_1_newton_problem_a_d.html", null ]
     ] ],
@@ -16,6 +17,9 @@ var hierarchy =
     [ "ODE::ODE_Problem_base", "class_o_d_e_1_1_o_d_e___problem__base.html", [
       [ "CSC_RL", "class_c_s_c___r_l.html", null ]
     ] ],
+    [ "OuterLoopOutput", "struct_outer_loop_output.html", null ],
+    [ "PLLOutput", "struct_p_l_l_output.html", null ],
+    [ "ReferenceOutput", "struct_reference_output.html", null ],
     [ "SimulationConfig", "struct_simulation_config.html", null ],
     [ "StairSignal", "struct_stair_signal.html", null ]
 ];
