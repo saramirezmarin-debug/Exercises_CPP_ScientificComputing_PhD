@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['w0_5fpll_0',['w0_pll',['../struct_c_s_c___r_l___parameters.html#a353933f99a5ebf64f574e5af2f8523de',1,'CSC_RL_Parameters']]],
-  ['w_5fhat_1',['w_hat',['../struct_control_output.html#a18a12b86070bb84776850a94a6679750',1,'ControlOutput']]]
+  ['save_5fevery_0',['save_every',['../struct_simulation_config.html#a9acd24f7236185524549b7a6c81f5706',1,'SimulationConfig']]]
 ];

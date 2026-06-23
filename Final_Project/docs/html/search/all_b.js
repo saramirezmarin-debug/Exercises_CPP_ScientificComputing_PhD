@@ -1,9 +1,14 @@
 var searchData=
 [
-  ['real_5ftype_0',['real_type',['../namespace_o_d_e.html#a711f3d0fa69e224a125fe4b88134a931',1,'ODE']]],
-  ['rf_1',['Rf',['../struct_c_s_c___r_l___parameters.html#a1073363dcd9554defdc15e5fd422fe73',1,'CSC_RL_Parameters']]],
-  ['rg_2',['Rg',['../struct_c_s_c___r_l___parameters.html#ad1dc8172d170c2795e472130a346a3b0',1,'CSC_RL_Parameters']]],
-  ['rhs_3',['rhs',['../class_c_s_c___r_l.html#a6fc42067918de5947edb8b735a133bf5',1,'CSC_RL::rhs()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#aa9d0c8ef14303b3b2a0c930a65fdb214',1,'ODE::ODE_Problem_base::rhs()']]],
-  ['rk4_5fstep_4',['rk4_step',['../namespace_o_d_e.html#a70cefd6174596d7afdb0a6aae9b45c93',1,'ODE']]],
-  ['rl_5',['RL',['../struct_c_s_c___r_l___parameters.html#a4fca9f1f03f1501cf2cf17b013014b17',1,'CSC_RL_Parameters']]]
+  ['main_0',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
+  ['main_2ecpp_1',['main.cpp',['../main_8cpp.html',1,'']]],
+  ['make_5fcsc_5frl_5fparameters_2',['make_csc_rl_parameters',['../_c_s_c___r_l___case_8hh.html#aec44768de55490268398c01a8e7dd5cd',1,'make_csc_rl_parameters():&#160;CSC_RL_Case.cc'],['../_c_s_c___r_l___case_8cc.html#aec44768de55490268398c01a8e7dd5cd',1,'make_csc_rl_parameters():&#160;CSC_RL_Case.cc']]],
+  ['make_5fequilibrium_5finitial_5fguess_3',['make_equilibrium_initial_guess',['../_equilibrium_8hh.html#a8d049de36ae9e481e1eae45d44e301cf',1,'make_equilibrium_initial_guess(const CSC_RL_Parameters &amp;p, const EquilibriumReferences &amp;ref):&#160;Equilibrium.cc'],['../_equilibrium_8cc.html#a8d049de36ae9e481e1eae45d44e301cf',1,'make_equilibrium_initial_guess(const CSC_RL_Parameters &amp;p, const EquilibriumReferences &amp;ref):&#160;Equilibrium.cc']]],
+  ['mat_5ftype_4',['mat_type',['../namespace_o_d_e.html#abb3488244b9c9598720c7c3e50ffb285',1,'ODE']]],
+  ['matrix2d_5',['Matrix2d',['../_newton_8hh.html#a8ff615c48c74466f2daf4806869f9646',1,'Newton.hh']]],
+  ['matrix3d_6',['Matrix3d',['../_newton_8hh.html#a75664db7262f8acb5c097c819170e66e',1,'Newton.hh']]],
+  ['matrix4d_7',['Matrix4d',['../_newton_8hh.html#a5f212f6beb609815e3cefbf0c75c4ecd',1,'Newton.hh']]],
+  ['matrixxd_8',['MatrixXd',['../_newton_8hh.html#a4e53847462ee658f66d8d9f1a727b5f8',1,'Newton.hh']]],
+  ['md_9',['md',['../struct_control_output.html#a41f85ce11b359417900641ba86f32b41',1,'ControlOutput']]],
+  ['mq_10',['mq',['../struct_control_output.html#a1191c1bb7810bc9dda26c0ab3a4ba772',1,'ControlOutput']]]
 ];

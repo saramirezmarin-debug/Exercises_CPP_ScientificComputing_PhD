@@ -15,8 +15,17 @@ add_executable(${TARGET}
     src/${TARGET}.cc
     src/main.cpp
     src/CSC_RL.cc
+    src/Equilibrium.cc
+    src/CSC_RL_Case.cc
+
     include/${TARGET}.hh
     include/CSC_RL.hh
+    include/CSC_RL_Case.hh
+    include/Equilibrium.hh
+    include/Newton.hh
+    include/dual.hh
+    include/SimulationConfig.hh
+    
 )
 
 target_include_directories(${TARGET} PRIVATE 

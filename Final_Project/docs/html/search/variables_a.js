@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['t0_0',['t0',['../struct_c_s_c___r_l___parameters.html#a586deae2a953e321627a719e9a9aff09',1,'CSC_RL_Parameters']]],
-  ['tf_1',['tf',['../struct_c_s_c___r_l___parameters.html#ad18ac63f0c7bd77b9c9c51b7739d16e5',1,'CSC_RL_Parameters']]],
-  ['theta_5fhat0_2',['theta_hat0',['../struct_c_s_c___r_l___parameters.html#abdc2bfb514d876ba16275d7c1ccd3d7e',1,'CSC_RL_Parameters']]],
-  ['times_3',['times',['../struct_stair_signal.html#afe47ac45f99f007c7cd38e97501fdb7e',1,'StairSignal']]]
+  ['q_5fref_0',['Q_ref',['../struct_c_s_c___r_l___parameters.html#a3ef0171fb1e851ca9a88e9a5ba6738e0',1,'CSC_RL_Parameters::Q_ref'],['../struct_equilibrium_references.html#a287861fa3fc73c797752fb2a232531cf',1,'EquilibriumReferences::Q_ref']]],
+  ['qref_1',['Qref',['../struct_control_output.html#a044dd252edde38d56b58ea556f3b563f',1,'ControlOutput']]]
 ];

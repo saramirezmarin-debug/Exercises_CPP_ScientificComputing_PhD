@@ -1,25 +1,11 @@
 var searchData=
 [
-  ['ia_0',['IA',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95ae578d86b989f74d77e5fc5f6be806f92',1,'CSC_RL.hh']]],
-  ['ib_1',['IB',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95a08e83d43ee6d0a9beca8045296f6637c',1,'CSC_RL.hh']]],
-  ['ic_2',['IC',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95a71f819af1febe12353c9bd1a7aa32196',1,'CSC_RL.hh']]],
-  ['id_3',['ID',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a001479a58fb44c39a29b20d565081a68',1,'CSC_RL.hh']]],
-  ['id0_4',['id0',['../struct_c_s_c___r_l___parameters.html#a4e3634e0bd0bb7c5e4f824e60857c296',1,'CSC_RL_Parameters']]],
-  ['id_5fr_5',['ID_R',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95a70045c258e6d918b3a8c1cda212ac7da',1,'CSC_RL.hh']]],
-  ['idc_5fmin_6',['Idc_min',['../struct_c_s_c___r_l___parameters.html#a9f41733f46a110e2f5fa2f93ba84c8e8',1,'CSC_RL_Parameters']]],
-  ['idc_5fref_7',['IDC_REF',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95a6b0751e1b4816bc916b5a6118fb434d9',1,'CSC_RL.hh']]],
-  ['idc_5fref_8',['idc_ref',['../struct_c_s_c___r_l___parameters.html#a01549133a1ccb64e10a3e6df2ade2079',1,'CSC_RL_Parameters::idc_ref'],['../struct_control_output.html#ab3f2ded7bd98c302d9fc823342301925',1,'ControlOutput::idc_ref']]],
-  ['idr_9',['idr',['../struct_control_output.html#a22f0b5c6cf36eb895157cd6fe419458b',1,'ControlOutput']]],
-  ['igd_10',['IGD',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1ad71eb293a1d5705688fc4713b0612475',1,'CSC_RL.hh']]],
-  ['igd0_11',['igd0',['../struct_c_s_c___r_l___parameters.html#a9d46fe04c857fecb33792007513e5b39',1,'CSC_RL_Parameters']]],
-  ['igq_12',['IGQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a135d3a6ded8069c1bb5fc95518525ce1',1,'CSC_RL.hh']]],
-  ['igq0_13',['igq0',['../struct_c_s_c___r_l___parameters.html#a30fa1f9ce108fad438f38980aae91954',1,'CSC_RL_Parameters']]],
-  ['initial_5fcondition_14',['initial_condition',['../class_c_s_c___r_l.html#a7c5df2a737b9108a578ee703d6eacc17',1,'CSC_RL::initial_condition()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#adcf64c566213c11ddabfb952abb2c538',1,'ODE::ODE_Problem_base::initial_condition()']]],
-  ['integer_15',['integer',['../namespace_o_d_e.html#a24e33dae50d52c48dc1fd998cee17746',1,'ODE']]],
-  ['iq_16',['IQ',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a7608065caa4249ff47a58c32d6f3c531',1,'CSC_RL.hh']]],
-  ['iq0_17',['iq0',['../struct_c_s_c___r_l___parameters.html#a54919879187bfc29fa95dac56a4b1922',1,'CSC_RL_Parameters']]],
-  ['iq_5fr_18',['IQ_R',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95ad53f3f34027210bbf717f7f7b5e0ab03',1,'CSC_RL.hh']]],
-  ['iqr_19',['iqr',['../struct_control_output.html#aad84c8bb1c1b79bd99baa8f1404fc22e',1,'ControlOutput']]],
-  ['istk_20',['ISTK',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a51f9a2d1d84f5703653d21fd1d241273',1,'CSC_RL.hh']]],
-  ['istk0_21',['istk0',['../struct_c_s_c___r_l___parameters.html#a6a4582b23581a60b85946b2917b3f69c',1,'CSC_RL_Parameters']]]
+  ['d_5fdual_5fvec_0',['d_dual_vec',['../class_a_d_1_1_newton_problem_a_d.html#afcf4100b985c7418243e0a34806af8d4',1,'AD::NewtonProblemAD']]],
+  ['d_5fmat_1',['d_mat',['../class_a_d_1_1_newton_problem.html#a4dc33826ed28f303b550cd4f63bc0f8d',1,'AD::NewtonProblem']]],
+  ['d_5fvec_2',['d_vec',['../class_a_d_1_1_newton_problem.html#a5a24c1f1eb5d066c5ab1f18aef63d018',1,'AD::NewtonProblem']]],
+  ['dim_3',['dim',['../class_a_d_1_1_newton_problem.html#a95af42ed8e93c35f6f64e36f06f40e6d',1,'AD::NewtonProblem']]],
+  ['dual_4',['Dual',['../class_a_d_1_1_dual.html',1,'AD::Dual&lt; T &gt;'],['../class_a_d_1_1_dual.html#a4128feb716460aa8c7cc7c9f792eccc1',1,'AD::Dual::Dual() noexcept=default'],['../class_a_d_1_1_dual.html#acf3a414d8d095a09247b687e622a2939',1,'AD::Dual::Dual(Dual const &amp;) noexcept=default'],['../class_a_d_1_1_dual.html#ab158acff0c83075887267b758e0b1d90',1,'AD::Dual::Dual(Dual &amp;&amp;) noexcept=default'],['../class_a_d_1_1_dual.html#a32bdac7651c62963e2a688c4adb06152',1,'AD::Dual::Dual(T value, T dual=T(0)) noexcept']]],
+  ['dual_5',['dual',['../class_a_d_1_1_dual.html#aaea622387a8bcac88d9a36bb7e3f56d7',1,'AD::Dual']]],
+  ['dual_2ehh_6',['dual.hh',['../dual_8hh.html',1,'']]],
+  ['dual_5fhh_7',['DUAL_HH',['../dual_8hh.html#a59c29288d4bc81438dd756e6bb955c5f',1,'dual.hh']]]
 ];

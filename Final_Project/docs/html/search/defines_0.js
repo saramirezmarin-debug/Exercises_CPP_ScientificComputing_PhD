@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['csc_5fhh_0',['CSC_HH',['../_c_s_c_8hh.html#a52ee4f638d87a2332f7cfd9e9f274add',1,'CSC.hh']]]
+  ['dual_5fhh_0',['DUAL_HH',['../dual_8hh.html#a59c29288d4bc81438dd756e6bb955c5f',1,'dual.hh']]]
 ];

@@ -1,7 +1,14 @@
 var searchData=
 [
-  ['solve_5frk4_0',['solve_rk4',['../namespace_o_d_e.html#ab751763d0de7abe289caedd85bc9a206',1,'ODE']]],
-  ['stairsignal_1',['StairSignal',['../struct_stair_signal.html',1,'']]],
-  ['state_5fname_2',['state_name',['../class_c_s_c___r_l.html#ac84965d628b5c8e5f7908bba6a1ba1a6',1,'CSC_RL::state_name()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a83fa3e860dcf5830483e730a3bae26ef',1,'ODE::ODE_Problem_base::state_name()']]],
-  ['stateindex_3',['StateIndex',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1',1,'CSC_RL.hh']]]
+  ['n_0',['n',['../class_c_s_c___r_l.html#a43a7723b27f3286e10665ebdaf53f9e6',1,'CSC_RL::n()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#aa0019900f11f24cd2e89383907c82d9d',1,'ODE::ODE_Problem_base::n()']]],
+  ['n_5foutputs_1',['n_outputs',['../class_c_s_c___r_l.html#ae69b1d22c9d077cb5dbd976c5ed5d4b3',1,'CSC_RL::n_outputs()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a503c7ed69a0a2b60fd1fe3f8214b35f9',1,'ODE::ODE_Problem_base::n_outputs()']]],
+  ['newton_2ehh_2',['Newton.hh',['../_newton_8hh.html',1,'']]],
+  ['newton_5fhh_3',['NEWTON_HH',['../_newton_8hh.html#a2b684e670511877de37f4b121ba3c211',1,'Newton.hh']]],
+  ['newtonproblem_4',['NewtonProblem',['../class_a_d_1_1_newton_problem.html',1,'AD::NewtonProblem&lt; T &gt;'],['../class_a_d_1_1_newton_problem.html#aa1d1fd52f0377a5957acffc1eaa38521',1,'AD::NewtonProblem::NewtonProblem()']]],
+  ['newtonproblem_3c_20ode_3a_3areal_5ftype_20_3e_5',['NewtonProblem&lt; ODE::real_type &gt;',['../class_a_d_1_1_newton_problem.html',1,'AD']]],
+  ['newtonproblemad_6',['NewtonProblemAD',['../class_a_d_1_1_newton_problem_a_d.html',1,'AD::NewtonProblemAD&lt; T &gt;'],['../class_a_d_1_1_newton_problem_a_d.html#a7d844b41fa2584b6dddbcab11ebcb11a',1,'AD::NewtonProblemAD::NewtonProblemAD()']]],
+  ['newtonproblemad_3c_20ode_3a_3areal_5ftype_20_3e_7',['NewtonProblemAD&lt; ODE::real_type &gt;',['../class_a_d_1_1_newton_problem_a_d.html',1,'AD']]],
+  ['newtonsolver_8',['NewtonSolver',['../class_a_d_1_1_newton_solver.html',1,'AD::NewtonSolver&lt; T &gt;'],['../class_a_d_1_1_newton_solver.html#a9cbd50e5a72de1fba93bf1a9474f80ab',1,'AD::NewtonSolver::NewtonSolver()=delete'],['../class_a_d_1_1_newton_solver.html#a6a85b1b94aa407febe0609d645777964',1,'AD::NewtonSolver::NewtonSolver(NewtonProblem&lt; T &gt; const *p)']]],
+  ['noutputs_9',['NOUTPUTS',['../_c_s_c___r_l_8hh.html#aa4fac691e6d6eda74ddcec6f95c8bb95aca5f7a6933cfb97e48d0568efd753656',1,'CSC_RL.hh']]],
+  ['nstates_10',['NSTATES',['../_c_s_c___r_l_8hh.html#a03e177a26876f42936bebd488a3b99d1a88a2151b2be359b325f812fb0ccd0bd7',1,'CSC_RL.hh']]]
 ];

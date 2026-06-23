@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stairsignal_0',['StairSignal',['../struct_stair_signal.html',1,'']]]
+  ['equilibriumreferences_0',['EquilibriumReferences',['../struct_equilibrium_references.html',1,'']]]
 ];

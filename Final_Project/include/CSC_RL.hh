@@ -1,12 +1,5 @@
 #pragma once
-
 #include "ODE4.hh"
-
-#include <algorithm>
-#include <cstddef>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 // ============================================================
 // Generic stair signal
@@ -33,53 +26,8 @@ struct StairSignal
     std::vector<ODE::real_type> times;      // Switching times of the stair signal
     std::vector<ODE::real_type> values;     // Values of the stair signal at the corresponding times
 
-    ODE::real_type value(ODE::real_type t) const
-    {
-        if (times.empty())
-        {
-            return constant_value;
-        }
-
-        if (t < times.front())
-        {
-            return values.front();
-        }
-
-        auto it = std::upper_bound(times.begin(), times.end(), t);
-
-        const std::size_t index =
-            static_cast<std::size_t>(std::distance(times.begin(), it) - 1);
-
-        return values[index];
-    }
-
-    void validate(const std::string& name) const
-    {
-        // Empty vectors are allowed.
-        // In that case the signal behaves as a constant.
-        if (times.empty() && values.empty())
-        {
-            return;
-        }
-
-        // It is invalid to define only times or only values.
-        if (times.empty() || values.empty())
-        {
-            throw std::runtime_error(name + ": times and values must both be empty or both be non-empty");
-        }
-
-        // Each switching time must have one associated value.
-        if (times.size() != values.size())
-        {
-            throw std::runtime_error(name + ": times and values must have the same size");
-        }
-
-        // The stair logic assumes that times are sorted.
-        if (!std::is_sorted(times.begin(), times.end()))
-        {
-            throw std::runtime_error(name + ": times must be sorted in ascending order");
-        }
-    }
+    ODE::real_type value(ODE::real_type t) const;
+    void validate(const std::string& name) const;
 };
 
 struct CSC_RL_Parameters
@@ -87,10 +35,10 @@ struct CSC_RL_Parameters
     // ------------------------------------------------------------
     // PLL parameters
     // ------------------------------------------------------------
-    ODE::real_type w0_pll;      // Nominal angular frequency [rad/s]
-    ODE::real_type kp_pll;      // PLL proportional gain
-    ODE::real_type ki_pll;      // PLL integral gain
-    ODE::real_type Vdq_nom;      // Phase peak voltage used for normalization
+    ODE::real_type w0_pll = 0.0;      // Nominal angular frequency [rad/s]
+    ODE::real_type kp_pll = 0.0;      // PLL proportional gain
+    ODE::real_type ki_pll = 0.0;      // PLL integral gain
+    ODE::real_type Vdq_nom = 1.0;      // Phase peak voltage used for normalization
 
     ODE::real_type theta_hat0; // Initial angle of the PLL's internal oscillator
     ODE::real_type xi_pll0;    // Initial frequency deviation of the PLL's internal oscillator
@@ -98,20 +46,15 @@ struct CSC_RL_Parameters
     // ------------------------------------------------------------
     // CSC AC filter parameters
     // ------------------------------------------------------------
-    ODE::real_type Rf;
-    ODE::real_type Lf;
-    ODE::real_type Cf;
+    ODE::real_type Rf = 0.0;
+    ODE::real_type Lf = 0.0;
+    ODE::real_type Cf = 0.0;
 
     // ------------------------------------------------------------
     // DC-side parameters
     // ------------------------------------------------------------
     ODE::real_type Ldc;
     ODE::real_type RL;  // Load resistance on DC side
-
-    // ------------------------------------------------------------
-    // Synchronous reference frame
-    // ------------------------------------------------------------
-    ODE::real_type omega;
 
     // Grid parameters
     ODE::real_type Lg;
@@ -150,7 +93,7 @@ struct CSC_RL_Parameters
     ODE::real_type kp2;
     ODE::real_type ki2;
 
-    ODE::real_type Idc_min;
+    ODE::real_type Idc_min = 1.0;
 
     // ------------------------------------------------------------
     // Inner loop initial conditions
@@ -166,7 +109,7 @@ struct CSC_RL_Parameters
     // ------------------------------------------------------------
     ODE::real_type kpO;      // Outer-loop proportional gain
     ODE::real_type kiO;      // Outer-loop integral gain
-    ODE::real_type V2_min;
+    ODE::real_type V2_min = 1.0;
 
     StairSignal idc_ref;     // DC current reference [A]
     StairSignal Q_ref;       // Reactive power reference [var]
@@ -182,95 +125,65 @@ struct CSC_RL_Parameters
 
 enum StateIndex
 {
-    IGD = 0,
-    IGQ,
-    ED,
-    EQ,
-    ID,
-    IQ,
-    VD,
-    VQ,
-    ISTK,
-    THETA_HAT,
-    XI_PLL,
-    XI_UCD,
-    XI_UCQ,
-    XI_ISD,
-    XI_ISQ,
-    XI_IDC2,
+    IGD = 0, IGQ, ED, EQ,               // AC Source
+    ID, IQ, VD, VQ, ISTK,               // CSC
+    THETA_HAT, XI_PLL,                  // PLL  
+    XI_UCD, XI_UCQ, XI_ISD, XI_ISQ,     // Inner
+    XI_IDC2,                            // Outer
     NSTATES
 };
 
 enum OutputIndex
 {
-    IA = 0,
-    IB,
-    IC,
-    VA,
-    VB,
-    VC,
-    ID_R,
-    IQ_R,
-    IDC_REF,
-    Q_REF,
-    PREF,
-    P_OUT,
-    Q_OUT,
+    IA = 0, IB, IC, VA, VB, VC,       // Voltage and current in abc
+    ID_R, IQ_R, IDC_REF, Q_REF, PREF, // References
+    P_OUT, Q_OUT,                     // Power
     NOUTPUTS
 };
 
 struct ControlOutput
 {
-    ODE::real_type e_pll;
-    ODE::real_type w_hat;
+    ODE::real_type e_pll = 0.0;
+    ODE::real_type w_hat = 0.0;
 
-    ODE::real_type idc_ref;
-    ODE::real_type Qref;
-    ODE::real_type Pref;
+    ODE::real_type idc_ref = 0.0;
+    ODE::real_type Qref = 0.0;
+    ODE::real_type Pref = 0.0;
 
-    ODE::real_type idr;
-    ODE::real_type iqr;
+    ODE::real_type idr = 0.0;
+    ODE::real_type iqr = 0.0;
 
-    ODE::real_type Eid;
-    ODE::real_type Eiq;
+    ODE::real_type Eid = 0.0;
+    ODE::real_type Eiq = 0.0;
+    ODE::real_type Eidc2 = 0.0;
 
-    ODE::real_type vdr;
-    ODE::real_type vqr;
+    ODE::real_type vdr = 0.0;
+    ODE::real_type vqr = 0.0;
 
-    ODE::real_type Evd;
-    ODE::real_type Evq;
+    ODE::real_type Evd = 0.0;
+    ODE::real_type Evq = 0.0;
 
-    ODE::real_type md;
-    ODE::real_type mq;
-
-    ODE::real_type Eidc2;
+    ODE::real_type md = 0.0;
+    ODE::real_type mq = 0.0;
 };
 
 class CSC_RL : public ODE::ODE_Problem_base
 {
 private:
     CSC_RL_Parameters p_;
-
     void validate_parameters() const;
-
-    // ControlOutput compute_control(ODE::real_type t, const ODE::vec_type& x) const;
+    ControlOutput compute_control(ODE::real_type t, const ODE::vec_type& x) const;
 
 public:
     explicit CSC_RL(const CSC_RL_Parameters& parameters);
 
     ODE::integer n() const override;
-
     ODE::real_type t0() const override;
-
     ODE::real_type tf() const override;
-
     ODE::real_type initial_condition(ODE::integer i) const override;
-
     std::string state_name(ODE::integer i) const override;
 
-    void rhs(ODE::real_type t,
-             const ODE::vec_type& x,
-             ODE::vec_type& dxdt) const override;
+    void rhs(ODE::real_type t, const ODE::vec_type& x, ODE::vec_type& dxdt) const override;
 
     ODE::integer n_outputs() const override; // Number of algebraic outputs
     std::string output_name(ODE::integer i) const override; // Name of algebraic output i

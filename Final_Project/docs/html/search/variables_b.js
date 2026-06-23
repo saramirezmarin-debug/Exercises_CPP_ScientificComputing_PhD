@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['v2_5fmin_0',['V2_min',['../struct_c_s_c___r_l___parameters.html#ae9926dcaab1d9db06e815d68c97c7bdb',1,'CSC_RL_Parameters']]],
-  ['values_1',['values',['../struct_stair_signal.html#a2856ae22f39a35cbfc751098ff8dcf73',1,'StairSignal']]],
-  ['vd0_2',['vd0',['../struct_c_s_c___r_l___parameters.html#abb05e69d3ef693c1b68dcfd76da564d2',1,'CSC_RL_Parameters']]],
-  ['vdq_5fnom_3',['Vdq_nom',['../struct_c_s_c___r_l___parameters.html#aba9ef38b9e72cc2c9261b186f93e412f',1,'CSC_RL_Parameters']]],
-  ['vdr_4',['vdr',['../struct_control_output.html#a9a64351693284ee269c0cf74e53ec095',1,'ControlOutput']]],
-  ['vq0_5',['vq0',['../struct_c_s_c___r_l___parameters.html#aef069872f664e5044716ac67e955c19a',1,'CSC_RL_Parameters']]],
-  ['vqr_6',['vqr',['../struct_control_output.html#a9e35d345b5aeb81bb7ba811a524ef4dd',1,'ControlOutput']]]
+  ['rf_0',['Rf',['../struct_c_s_c___r_l___parameters.html#a1073363dcd9554defdc15e5fd422fe73',1,'CSC_RL_Parameters']]],
+  ['rg_1',['Rg',['../struct_c_s_c___r_l___parameters.html#ad1dc8172d170c2795e472130a346a3b0',1,'CSC_RL_Parameters']]],
+  ['rl_2',['RL',['../struct_c_s_c___r_l___parameters.html#a4fca9f1f03f1501cf2cf17b013014b17',1,'CSC_RL_Parameters']]]
 ];

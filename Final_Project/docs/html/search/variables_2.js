@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['id0_0',['id0',['../struct_c_s_c___r_l___parameters.html#a4e3634e0bd0bb7c5e4f824e60857c296',1,'CSC_RL_Parameters']]],
-  ['idc_5fmin_1',['Idc_min',['../struct_c_s_c___r_l___parameters.html#a9f41733f46a110e2f5fa2f93ba84c8e8',1,'CSC_RL_Parameters']]],
-  ['idc_5fref_2',['idc_ref',['../struct_c_s_c___r_l___parameters.html#a01549133a1ccb64e10a3e6df2ade2079',1,'CSC_RL_Parameters::idc_ref'],['../struct_control_output.html#ab3f2ded7bd98c302d9fc823342301925',1,'ControlOutput::idc_ref']]],
-  ['idr_3',['idr',['../struct_control_output.html#a22f0b5c6cf36eb895157cd6fe419458b',1,'ControlOutput']]],
-  ['igd0_4',['igd0',['../struct_c_s_c___r_l___parameters.html#a9d46fe04c857fecb33792007513e5b39',1,'CSC_RL_Parameters']]],
-  ['igq0_5',['igq0',['../struct_c_s_c___r_l___parameters.html#a30fa1f9ce108fad438f38980aae91954',1,'CSC_RL_Parameters']]],
-  ['iq0_6',['iq0',['../struct_c_s_c___r_l___parameters.html#a54919879187bfc29fa95dac56a4b1922',1,'CSC_RL_Parameters']]],
-  ['iqr_7',['iqr',['../struct_control_output.html#aad84c8bb1c1b79bd99baa8f1404fc22e',1,'ControlOutput']]],
-  ['istk0_8',['istk0',['../struct_c_s_c___r_l___parameters.html#a6a4582b23581a60b85946b2917b3f69c',1,'CSC_RL_Parameters']]]
+  ['e_5fpll_0',['e_pll',['../struct_control_output.html#a0b1b8b9a76cb44f8bacf62e8902a4e9a',1,'ControlOutput']]],
+  ['ed0_1',['ed0',['../struct_c_s_c___r_l___parameters.html#af4b8937f1de8b3eca7d74865df6e94ba',1,'CSC_RL_Parameters']]],
+  ['egd_2',['egd',['../struct_c_s_c___r_l___parameters.html#a69416ab909c5f5d4f497f7a50ebbb010',1,'CSC_RL_Parameters']]],
+  ['egq_3',['egq',['../struct_c_s_c___r_l___parameters.html#aed10a2077d9f1cc6614c0812e53cabfe',1,'CSC_RL_Parameters']]],
+  ['eid_4',['Eid',['../struct_control_output.html#ad1db620a43291d15af895c6d72120bfc',1,'ControlOutput']]],
+  ['eidc2_5',['Eidc2',['../struct_control_output.html#a302443b93a4d73a7fbecd1b25751168c',1,'ControlOutput']]],
+  ['eiq_6',['Eiq',['../struct_control_output.html#ac80c260b6ff33dcfa337924a95884332',1,'ControlOutput']]],
+  ['eq0_7',['eq0',['../struct_c_s_c___r_l___parameters.html#a26b10f9f53c881a38bf4b8042317d0b5',1,'CSC_RL_Parameters']]],
+  ['evd_8',['Evd',['../struct_control_output.html#a432dd96b608bb52ab5f88001a646d68d',1,'ControlOutput']]],
+  ['evq_9',['Evq',['../struct_control_output.html#a7465922aa10c45913ed4c56954e110fa',1,'ControlOutput']]]
 ];

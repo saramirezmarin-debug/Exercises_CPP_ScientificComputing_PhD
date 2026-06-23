@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['n_0',['n',['../class_c_s_c___r_l.html#a43a7723b27f3286e10665ebdaf53f9e6',1,'CSC_RL::n()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#aa0019900f11f24cd2e89383907c82d9d',1,'ODE::ODE_Problem_base::n()']]],
-  ['n_5foutputs_1',['n_outputs',['../class_c_s_c___r_l.html#ae69b1d22c9d077cb5dbd976c5ed5d4b3',1,'CSC_RL::n_outputs()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a503c7ed69a0a2b60fd1fe3f8214b35f9',1,'ODE::ODE_Problem_base::n_outputs()']]]
+  ['has_5fexact_5fsolution_0',['has_exact_solution',['../class_o_d_e_1_1_o_d_e___problem__base.html#a7bf9442482005809b0db351a1d02af79',1,'ODE::ODE_Problem_base']]],
+  ['hypot_1',['hypot',['../namespace_a_d.html#af481700bb2638044a4275c98140e12ec',1,'AD::hypot(Dual&lt; T &gt; const &amp;x, Dual&lt; T &gt; const &amp;y)'],['../namespace_a_d.html#ad3a7e27d91565a5c284c64014b9dbb20',1,'AD::hypot(Dual&lt; T &gt; const &amp;x, T y)'],['../namespace_a_d.html#a026cfe18c077aa77917a6e88accb8277',1,'AD::hypot(T x, Dual&lt; T &gt; const &amp;y)']]]
 ];

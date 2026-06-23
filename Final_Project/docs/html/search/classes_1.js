@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ode_5fproblem_5fbase_0',['ODE_Problem_base',['../class_o_d_e_1_1_o_d_e___problem__base.html',1,'ODE']]]
+  ['dual_0',['Dual',['../class_a_d_1_1_dual.html',1,'AD']]]
 ];

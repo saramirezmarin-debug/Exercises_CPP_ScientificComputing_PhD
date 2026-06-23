@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['t0_0',['t0',['../class_c_s_c___r_l.html#a683a683aa57bbaa36d99c58e2f6e390a',1,'CSC_RL::t0()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a5e229f66b71444f00bcb70b25604236c',1,'ODE::ODE_Problem_base::t0()']]],
-  ['tf_1',['tf',['../class_c_s_c___r_l.html#aa410a6ac373415b924270737c1db704e',1,'CSC_RL::tf()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a8971fa43a46ec639d6837b10c01b2698',1,'ODE::ODE_Problem_base::tf()']]]
+  ['main_0',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
+  ['make_5fcsc_5frl_5fparameters_1',['make_csc_rl_parameters',['../_c_s_c___r_l___case_8hh.html#aec44768de55490268398c01a8e7dd5cd',1,'make_csc_rl_parameters():&#160;CSC_RL_Case.cc'],['../_c_s_c___r_l___case_8cc.html#aec44768de55490268398c01a8e7dd5cd',1,'make_csc_rl_parameters():&#160;CSC_RL_Case.cc']]],
+  ['make_5fequilibrium_5finitial_5fguess_2',['make_equilibrium_initial_guess',['../_equilibrium_8hh.html#a8d049de36ae9e481e1eae45d44e301cf',1,'make_equilibrium_initial_guess(const CSC_RL_Parameters &amp;p, const EquilibriumReferences &amp;ref):&#160;Equilibrium.cc'],['../_equilibrium_8cc.html#a8d049de36ae9e481e1eae45d44e301cf',1,'make_equilibrium_initial_guess(const CSC_RL_Parameters &amp;p, const EquilibriumReferences &amp;ref):&#160;Equilibrium.cc']]]
 ];

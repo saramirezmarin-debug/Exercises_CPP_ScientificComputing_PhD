@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['main_0',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
-  ['main_2ecpp_1',['main.cpp',['../main_8cpp.html',1,'']]],
-  ['make_5fcsc_5frl_5fparameters_2',['make_csc_rl_parameters',['../main_8cpp.html#aec44768de55490268398c01a8e7dd5cd',1,'main.cpp']]],
-  ['mat_5ftype_3',['mat_type',['../namespace_o_d_e.html#abb3488244b9c9598720c7c3e50ffb285',1,'ODE']]],
-  ['md_4',['md',['../struct_control_output.html#a41f85ce11b359417900641ba86f32b41',1,'ControlOutput']]],
-  ['mq_5',['mq',['../struct_control_output.html#a1191c1bb7810bc9dda26c0ab3a4ba772',1,'ControlOutput']]]
+  ['h_0',['h',['../struct_simulation_config.html#a6afe6f4e441996de4cccbf2f05bb266f',1,'SimulationConfig']]],
+  ['has_5fexact_5fsolution_1',['has_exact_solution',['../class_o_d_e_1_1_o_d_e___problem__base.html#a7bf9442482005809b0db351a1d02af79',1,'ODE::ODE_Problem_base']]],
+  ['hypot_2',['hypot',['../namespace_a_d.html#af481700bb2638044a4275c98140e12ec',1,'AD::hypot(Dual&lt; T &gt; const &amp;x, Dual&lt; T &gt; const &amp;y)'],['../namespace_a_d.html#ad3a7e27d91565a5c284c64014b9dbb20',1,'AD::hypot(Dual&lt; T &gt; const &amp;x, T y)'],['../namespace_a_d.html#a026cfe18c077aa77917a6e88accb8277',1,'AD::hypot(T x, Dual&lt; T &gt; const &amp;y)']]]
 ];

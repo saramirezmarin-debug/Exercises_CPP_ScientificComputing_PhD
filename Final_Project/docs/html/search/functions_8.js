@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['solve_5frk4_0',['solve_rk4',['../namespace_o_d_e.html#ab751763d0de7abe289caedd85bc9a206',1,'ODE']]],
-  ['state_5fname_1',['state_name',['../class_c_s_c___r_l.html#ac84965d628b5c8e5f7908bba6a1ba1a6',1,'CSC_RL::state_name()'],['../class_o_d_e_1_1_o_d_e___problem__base.html#a83fa3e860dcf5830483e730a3bae26ef',1,'ODE::ODE_Problem_base::state_name()']]]
+  ['ldexp_0',['ldexp',['../namespace_a_d.html#a0519d97dfdf610b782d365d5b25f60df',1,'AD']]],
+  ['log_1',['log',['../namespace_a_d.html#a65ceb7a8b84aa78b56e8c4e99eef45f6',1,'AD']]],
+  ['log10_2',['log10',['../namespace_a_d.html#a41d530f62b11b03960d5cd59b60ed3d5',1,'AD']]],
+  ['log1p_3',['log1p',['../namespace_a_d.html#aa93c98566448d42017dc9effb6c0eb79',1,'AD']]],
+  ['log2_4',['log2',['../namespace_a_d.html#a34b8aff401414822d16e89e7d4d60646',1,'AD']]]
 ];
