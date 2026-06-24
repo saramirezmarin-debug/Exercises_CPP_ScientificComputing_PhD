@@ -8,19 +8,88 @@
 #include <iostream>
 #include <stdexcept>
 
+/**
+ * @file CSC_RL_Model.hh
+ * @brief Dynamic model, control laws, and equilibrium formulation for the CSC-RL system.
+ *
+ * @details
+ * This file contains the mathematical core of the simulation. The class
+ * CSC_RL_Model evaluates the right-hand side of the nonlinear ODE system used
+ * by the RK4 solver and by the Newton-based equilibrium calculation.
+ *
+ * The model represents a grid-connected PWM-CSC with:
+ *
+ * - grid-side equivalent impedance and PCC capacitance,
+ * - AC-side filter,
+ * - DC-link inductor,
+ * - equivalent DC-side resistive load,
+ * - PLL,
+ * - outer DC-current loop,
+ * - inner current loop,
+ * - inner capacitor-voltage loop.
+ *
+ */
+
+ /**
+ * @brief Evaluator of the CSC-RL equations and control laws.
+ *
+ * @details
+ * All physical parameters and controller gains are supplied through
+ * CSC_RL_Parameters. The model itself stores no internal state.
+ *
+ */
+
 class CSC_RL_Model
 {
 public:
 
-    template <typename T>
-    struct Input
+    /**
+     * @brief External inputs and references evaluated at a given time.
+     *
+     * @tparam T Scalar type. It can be ODE::real_type or AD::Dual<ODE::real_type>.
+     */
+
+    template <typename T> struct Input
     {
         T idc_ref;
         T Q_ref;
     };
 
-    template <typename T>
-    struct Control
+    /**
+     * @brief Algebraic variables produced by the PLL and control system.
+     *
+     * @details
+     * This structure stores intermediate control variables. These variables are
+     * computed from the current state and references, but they are not dynamic
+     * states themselves.
+     *
+     * The PLL frequency estimate is
+     *
+     * \f[
+     * \hat{\omega}
+     * =
+     * \omega_0
+     * +
+     * k_{p,\mathrm{pll}} e_{\mathrm{pll}}
+     * +
+     * k_{i,\mathrm{pll}} \xi_{\mathrm{pll}}.
+     * \f]
+     *
+     * The outer loop generates the active-power reference:
+     *
+     * \f[
+     * P_{\mathrm{ref}}
+     * =
+     * k_{pO}
+     * \left(i_{dc,\mathrm{ref}}^2-i_{stk}^2\right)
+     * +
+     * k_{iO}\xi_{\mathrm{idc2}}.
+     * \f]
+     *
+     * @tparam T Scalar type used for the algebraic variables.
+     */
+
+    template <typename T> struct Control
     {
         T e_pll;
         T w_hat;
@@ -46,6 +115,16 @@ public:
         T mq;
     };
 
+    /**
+     * @brief Evaluates stair references from the parameter structure.
+     *
+     * @param p Complete CSC-RL parameter set.
+     * @param t Current simulation time.
+     * @return Input<T> DC-current and reactive-power references at time @p t.
+     *
+     * @tparam T Scalar type used in the returned input structure.
+     */
+
     template <typename T>
     Input<T> input_from_parameters(const CSC_RL_Parameters& p,
                                    ODE::real_type t) const
@@ -57,6 +136,76 @@ public:
 
         return input;
     }
+
+    /**
+     * @brief Computes PLL, outer-loop, current-loop, and voltage-loop variables.
+     *
+     * @details
+     * The PLL error is
+     *
+     * \f[
+     * e_{\mathrm{pll}}=\frac{e_q}{V_{\mathrm{dq,nom}}}.
+     * \f]
+     *
+     * The estimated angular frequency is
+     *
+     * \f[
+     * \hat{\omega}
+     * =
+     * \omega_0
+     * +
+     * k_{p,\mathrm{pll}} e_{\mathrm{pll}}
+     * +
+     * k_{i,\mathrm{pll}} \xi_{\mathrm{pll}}.
+     * \f]
+     *
+     * The outer DC-current loop uses
+     *
+     * \f[
+     * E_{\mathrm{idc2}}
+     * =
+     * i_{dc,\mathrm{ref}}^2
+     * -
+     * i_{stk}^2,
+     * \f]
+     *
+     * \f[
+     * P_{\mathrm{ref}}
+     * =
+     * k_{pO}E_{\mathrm{idc2}}
+     * +
+     * k_{iO}\xi_{\mathrm{idc2}}.
+     * \f]
+     *
+     * The AC current references are obtained from the synchronous-frame power
+     * equations:
+     *
+     * \f[
+     * i_d^*
+     * =
+     * \frac{
+     * e_dP_{\mathrm{ref}}+e_qQ_{\mathrm{ref}}
+     * }{
+     * e_d^2+e_q^2
+     * },
+     * \f]
+     *
+     * \f[
+     * i_q^*
+     * =
+     * \frac{
+     * e_qP_{\mathrm{ref}}-e_dQ_{\mathrm{ref}}
+     * }{
+     * e_d^2+e_q^2
+     * }.
+     * \f]
+     *
+     * @param p Complete CSC-RL parameter set.
+     * @param x Current state vector.
+     * @param input External references evaluated at the current time.
+     * @return Control<typename Vec::Scalar> Controller algebraic variables.
+     *
+     */
 
     template <typename Vec>
     Control<typename Vec::Scalar>
@@ -129,6 +278,147 @@ public:
         return c;
     }
 
+    /**
+     * @brief Evaluates the nonlinear right-hand side of the CSC-RL model.
+     *
+     * @details
+     * This function evaluates
+     *
+     * \f[
+     * \frac{dx}{dt}=f(t,x).
+     * \f]
+     *
+     * The grid-side current equations are
+     *
+     * \f[
+     * \frac{d i_{gd}}{dt}
+     * =
+     * \frac{
+     * e_{gd}
+     * -
+     * R_g i_{gd}
+     * -
+     * e_d
+     * +
+     * \hat{\omega}L_g i_{gq}
+     * }{L_g},
+     * \f]
+     *
+     * \f[
+     * \frac{d i_{gq}}{dt}
+     * =
+     * \frac{
+     * e_{gq}
+     * -
+     * R_g i_{gq}
+     * -
+     * e_q
+     * -
+     * \hat{\omega}L_g i_{gd}
+     * }{L_g}.
+     * \f]
+     *
+     * The PCC voltage equations are
+     *
+     * \f[
+     * \frac{d e_d}{dt}
+     * =
+     * \frac{
+     * i_{gd}
+     * -
+     * i_d
+     * +
+     * \hat{\omega}C_g e_q
+     * }{C_g},
+     * \f]
+     *
+     * \f[
+     * \frac{d e_q}{dt}
+     * =
+     * \frac{
+     * i_{gq}
+     * -
+     * i_q
+     * -
+     * \hat{\omega}C_g e_d
+     * }{C_g}.
+     * \f]
+     *
+     * The PWM-CSC equations are
+     *
+     * \f[
+     * \frac{d i_d}{dt}
+     * =
+     * \frac{
+     * e_d
+     * -
+     * v_d
+     * -
+     * R_f i_d
+     * +
+     * \hat{\omega}L_f i_q
+     * }{L_f},
+     * \f]
+     *
+     * \f[
+     * \frac{d i_q}{dt}
+     * =
+     * \frac{
+     * e_q
+     * -
+     * v_q
+     * -
+     * R_f i_q
+     * -
+     * \hat{\omega}L_f i_d
+     * }{L_f},
+     * \f]
+     *
+     * \f[
+     * \frac{d v_d}{dt}
+     * =
+     * \frac{
+     * i_d
+     * -
+     * m_d i_{stk}
+     * +
+     * \hat{\omega}C_f v_q
+     * }{C_f},
+     * \f]
+     *
+     * \f[
+     * \frac{d v_q}{dt}
+     * =
+     * \frac{
+     * i_q
+     * -
+     * m_q i_{stk}
+     * -
+     * \hat{\omega}C_f v_d
+     * }{C_f},
+     * \f]
+     *
+     * \f[
+     * \frac{d i_{stk}}{dt}
+     * =
+     * \frac{
+     * m_dv_d
+     * +
+     * m_qv_q
+     * -
+     * R_L i_{stk}
+     * }{L_{dc}}.
+     * \f]
+     *
+     * @param p Complete CSC-RL parameter set.
+     * @param t Current simulation time.
+     * @param x Current state vector.
+     * @param dxdt Output vector for state derivatives.
+     * @param input References used during this evaluation.
+     *
+     * @tparam Vec Eigen vector type.
+     */
+
     template <typename Vec>
     void rhs(const CSC_RL_Parameters& p,
              ODE::real_type t,
@@ -189,6 +479,21 @@ public:
         dxdt(XI_IDC2) = c.Eidc2;
     }
 
+    /**
+     * @brief Evaluates the right-hand side using references stored in the parameter set.
+     *
+     * @details
+     * This overload first evaluates the stair references at time @p t and then
+     * calls the full rhs overload.
+     *
+     * @param p Complete CSC-RL parameter set.
+     * @param t Current simulation time.
+     * @param x Current state vector.
+     * @param dxdt Output vector for state derivatives.
+     *
+     * @tparam Vec Eigen vector type.
+     */
+
     template <typename Vec>
     void rhs(const CSC_RL_Parameters& p,
              ODE::real_type t,
@@ -199,6 +504,19 @@ public:
         rhs(p, t, x, dxdt, input);
     }
 };
+
+/**
+ * @brief Internal namespace for the reduced equilibrium vector indexing.
+ *
+ * @details
+ * The equilibrium vector excludes the PLL angle because
+ *
+ * \f[
+ * \frac{d\hat{\theta}}{dt}=\hat{\omega}\neq 0
+ * \f]
+ *
+ * during synchronous steady-state operation.
+ */
 
 namespace CSC_RL_Equilibrium_Detail
 {
@@ -222,6 +540,37 @@ namespace CSC_RL_Equilibrium_Detail
         Z_N
     };
 }
+
+/**
+ * @brief Builds the initial guess for the reduced Newton equilibrium problem.
+ *
+ * @details
+ * The initial active power is approximated from the resistive DC-side load:
+ *
+ * \f[
+ * P_0=R_L i_{dc,\mathrm{ref}}^2.
+ * \f]
+ *
+ * Assuming the voltage vector is initially aligned with the d-axis,
+ *
+ * \f[
+ * e_d^0=V_{\mathrm{dq,nom}},
+ * \qquad
+ * e_q^0=0,
+ * \f]
+ *
+ * the initial current estimates are
+ *
+ * \f[
+ * i_d^0=\frac{P_0}{e_d^0},
+ * \qquad
+ * i_q^0=-\frac{Q_{\mathrm{ref}}}{e_d^0}.
+ * \f]
+ *
+ * @param p Complete CSC-RL parameter set.
+ * @param ref References imposed at the equilibrium point.
+ * @return Initial reduced vector for Newton.
+ */
 
 inline ODE::vec_type make_csc_rl_equilibrium_initial_guess(const CSC_RL_Parameters& p,
                                                            const EquilibriumReferences& ref)
@@ -264,6 +613,37 @@ inline ODE::vec_type make_csc_rl_equilibrium_initial_guess(const CSC_RL_Paramete
     return z0;
 }
 
+/**
+ * @brief Builds the initial guess for the reduced Newton equilibrium problem.
+ *
+ * @details
+ * The initial active power is approximated from the resistive DC-side load:
+ *
+ * \f[
+ * P_0=R_L i_{dc,\mathrm{ref}}^2.
+ * \f]
+ *
+ * Assuming the voltage vector is initially aligned with the d-axis,
+ *
+ * \f[
+ * e_d^0=V_{\mathrm{dq,nom}},
+ * \qquad
+ * e_q^0=0,
+ * \f]
+ *
+ * the initial current estimates are
+ *
+ * \f[
+ * i_d^0=\frac{P_0}{e_d^0},
+ * \qquad
+ * i_q^0=-\frac{Q_{\mathrm{ref}}}{e_d^0}.
+ * \f]
+ *
+ * @param p Complete CSC-RL parameter set.
+ * @param ref References imposed at the equilibrium point.
+ * @return Initial reduced vector for Newton.
+ */
+
 class CSC_RL_EquilibriumProblem : public AD::NewtonProblemAD<ODE::real_type>
 {
 public:
@@ -274,6 +654,25 @@ public:
 
     static constexpr int Z_N = CSC_RL_Equilibrium_Detail::Z_N;
 
+    /**
+     * @brief Newton problem used to compute a CSC-RL steady-state operating point.
+     *
+     * @details
+     * This class defines the residual
+     *
+     * \f[
+     * F(z)=0,
+     * \f]
+     *
+     * where \f$z\f$ is the reduced state vector. The reduced vector excludes the
+     * PLL angle \f$\hat{\theta}\f$ but includes the remaining physical and
+     * controller states.
+     *
+     * The reduced vector is expanded to the full CSC-RL state vector, the same
+     * rhs() function used by the RK4 solver is evaluated, and the residual is
+     * formed by enforcing zero derivatives for the selected states.
+     */
+
     CSC_RL_EquilibriumProblem(const CSC_RL_Model& model,
                               const CSC_RL_Parameters& p,
                               const EquilibriumReferences& ref)
@@ -283,6 +682,18 @@ public:
     {
         this->_x0 = make_csc_rl_equilibrium_initial_guess(p_, ref_);
     }
+
+    /**
+     * @brief Evaluates the equilibrium residual using dual numbers.
+     *
+     * @details
+     * Because the residual is evaluated with AD::Dual numbers, the base class can
+     * construct the Jacobian automatically by injecting one dual perturbation per
+     * unknown.
+     *
+     * @param X Reduced equilibrium vector represented with dual-number scalars.
+     * @return Residual vector with dual components carrying derivative information.
+     */
 
     d_dual_vec F(d_dual_vec const& X) const override
     {
@@ -369,6 +780,14 @@ private:
     EquilibriumReferences ref_;
 };
 
+/**
+ * @brief Expands the reduced Newton solution into the full state vector.
+ *
+ * @param z Reduced Newton solution.
+ * @param p Parameter set used to recover the fixed PLL angle.
+ * @return Full CSC-RL state vector with NSTATES entries.
+ */
+
 inline ODE::vec_type expand_csc_rl_equilibrium_to_full_state(const ODE::vec_type& z,
                                                              const CSC_RL_Parameters& p)
 {
@@ -409,6 +828,18 @@ inline ODE::vec_type expand_csc_rl_equilibrium_to_full_state(const ODE::vec_type
     return x0;
 }
 
+/**
+ * @brief Stores a full equilibrium state into the parameter structure.
+ *
+ * @details
+ * If Newton converges, this function replaces CSC_RL_Parameters::x0 with the
+ * equilibrium point. Therefore, the RK4 simulation starts from a consistent
+ * operating point and avoids artificial start-up dynamics.
+ *
+ * @param p Parameter set to update.
+ * @param x0_full Full equilibrium state.
+ */
+
 inline void apply_csc_rl_equilibrium_to_parameters(CSC_RL_Parameters& p,
                                                    const ODE::vec_type& x0_full)
 {
@@ -440,7 +871,7 @@ inline bool compute_csc_rl_equilibrium(const CSC_RL_Model& model,
     {
         std::cout << "Computing CSC_RL equilibrium point...\n";
         std::cout << "idc_ref = " << eq_ref.idc_ref << " A\n";
-        std::cout << "Q_ref   = " << eq_ref.Q_ref << " var\n";
+        std::cout << "Q_ref   = " << eq_ref.Q_ref << " var\n\n";
     }
 
     CSC_RL_EquilibriumProblem eq_problem(model, p, eq_ref);

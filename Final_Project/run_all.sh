@@ -27,18 +27,27 @@ echo "=============================="
 echo "Generating Doxygen docs..."
 echo "=============================="
 
-cmake --build build --target docs
+cmake --build build --target doc
 
 echo ""
 echo "=============================="
 echo "Opening documentation..."
 echo "=============================="
 
-start docs/html/index.html
+DOC_INDEX="$PWD/build/docs/html/index.html"
+
+if [ -f "$DOC_INDEX" ]; then
+    WIN_DOC_INDEX=$(cygpath -w "$DOC_INDEX")
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath '$WIN_DOC_INDEX'"
+else
+    echo "Documentation index not found at:"
+    echo "$DOC_INDEX"
+    exit 1
+fi
 
 echo ""
 echo "=============================="
 echo "Running executable..."
 echo "=============================="
 
-./exe/ODE4.exe
+./exe/CSC.exe

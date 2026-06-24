@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set( TARGET ODE4)
+set( TARGET CSC)
 
 project(${TARGET} VERSION 1.0.0 LANGUAGES CXX)
 
@@ -12,13 +12,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/eigen-5.0.1")
 
 add_executable(${TARGET}
-    src/${TARGET}.cc
+    src/ODE4.cc
     src/main.cpp
     src/CSC_RL.cc
     src/Equilibrium.cc
     src/CSC_RL_Case.cc
 
-    include/${TARGET}.hh
+    include/ODE4.hh
     include/CSC_RL.hh
     include/CSC_RL_Case.hh
     include/Equilibrium.hh
@@ -42,33 +42,48 @@ endif()
 find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
+
   set(DOXYGEN_PROJECT_NAME           "${PROJECT_NAME}")
   set(DOXYGEN_PROJECT_BRIEF          "Current source converter dynamic simulation")
   set(DOXYGEN_PROJECT_NUMBER         "${PROJECT_VERSION}")
-  set(DOXYGEN_OUTPUT_DIRECTORY       "${CMAKE_CURRENT_SOURCE_DIR}/docs")
+
+  # Output folder for generated documentation.
+  # It is better to keep generated files outside the source docs/ folder.
+  set(DOXYGEN_OUTPUT_DIRECTORY       "${CMAKE_CURRENT_BINARY_DIR}/docs")
+
   set(DOXYGEN_CREATE_SUBDIRS         NO)
   set(DOXYGEN_GENERATE_HTML          YES)
   set(DOXYGEN_GENERATE_LATEX         NO)
+
+  # Mathematical equations.
   set(DOXYGEN_USE_MATHJAX            YES)
   set(DOXYGEN_HTML_FORMULA_FORMAT    svg)
+
+  # General extraction options.
   set(DOXYGEN_RECURSIVE              YES)
   set(DOXYGEN_EXTRACT_ALL            YES)
   set(DOXYGEN_EXTRACT_PRIVATE        NO)
   set(DOXYGEN_EXTRACT_STATIC         YES)
-  set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "")
+
+  # Path formatting.
   set(DOXYGEN_FULL_PATH_NAMES        YES)
   set(DOXYGEN_STRIP_FROM_PATH        "${CMAKE_CURRENT_SOURCE_DIR}")
-  set(DOXYGEN_QUIET                  YES)
+
+  # Warnings.
+  set(DOXYGEN_QUIET                  NO)
   set(DOXYGEN_WARN_IF_UNDOCUMENTED   NO)
+  set(DOXYGEN_WARN_IF_DOC_ERROR      YES)
 
   doxygen_add_docs(
-    docs
+    doc
+    "${CMAKE_CURRENT_SOURCE_DIR}/docs/mainpage.dox"
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
     COMMENT "Generating API documentation with Doxygen"
   )
+
 else()
-  message(STATUS "Doxygen not found: target 'docs' will not be available")
+  message(STATUS "Doxygen not found: target 'doc' will not be available")
 endif()
 
 # post build command, copy the executable to ${CMAKE_SOURCE_DIR}/exe

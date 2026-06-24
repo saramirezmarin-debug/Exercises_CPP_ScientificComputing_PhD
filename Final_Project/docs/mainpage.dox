@@ -1,0 +1,763 @@
+/**
+ * @mainpage CSC-RL RK4 Simulation Code Documentation
+ *
+ * @section overview Overview
+ *
+ * This project implements a time-domain simulation framework for a
+ * grid-connected PWM current source converter (PWM-CSC) feeding an equivalent
+ * DC-side resistive load. The model is formulated in synchronous dq coordinates
+ * and solved with a fixed-step fourth-order Runge-Kutta method.
+ *
+ * The implemented system can be interpreted as a simplified converter-side
+ * benchmark of a PWM-CSC interface for low-voltage, high-current DC loads.
+ * In this version, the DC-side electrochemical load is not included explicitly.
+ * Instead, the converter feeds a resistive load:
+ *
+ * \f[
+ * v_{\mathrm{dc}} = R_L i_{\mathrm{stk}}.
+ * \f]
+ *
+ * Therefore, the DC-link equation used in the code is
+ *
+ * \f[
+ * \frac{d i_{\mathrm{stk}}}{dt}
+ * =
+ * \frac{m_d v_d + m_q v_q - R_L i_{\mathrm{stk}}}{L_{\mathrm{dc}}}.
+ * \f]
+ *
+ * This simplification is useful for validating:
+ *
+ * - the averaged PWM-CSC dynamic model,
+ * - the PLL and synchronous dq transformation,
+ * - the cascaded control structure,
+ * - the DC-current regulation loop,
+ * - the reactive-power regulation loop,
+ * - the RK4 solver,
+ * - and the Newton-based equilibrium calculation.
+ *
+ * Before starting the time-domain simulation, the program computes a consistent
+ * steady-state operating point using a damped Newton method. This equilibrium
+ * point is then used as the initial condition of the RK4 simulation. Starting
+ * from this point avoids artificial start-up transients caused by arbitrary or
+ * inconsistent initial conditions. As a result, the simulated transients are
+ * mainly produced by the programmed reference changes.
+ *
+ * @section code_structure Code organization
+ *
+ * The code is organized around the following responsibilities:
+ *
+ * - ODE4.hh / ODE4.cc:
+ *   generic ODE interface, stair-signal utility, fixed-step RK4 solver,
+ *   and CSV export.
+ *
+ * - CSC_RL.hh / CSC_RL.cc:
+ *   ODE wrapper that exposes the CSC-RL model to the generic RK4 solver.
+ *   It provides state names, output names, initial conditions, derivative
+ *   evaluation, and algebraic outputs.
+ *
+ * - CSC_RL_Model.hh:
+ *   mathematical core of the simulation. It contains the PLL equations,
+ *   reference evaluation, cascaded control laws, PWM-CSC averaged equations,
+ *   and the model-specific equilibrium residual.
+ *
+ * - CSC_RL_Case.hh / CSC_RL_Case.cc:
+ *   nominal parameter set for the CSC-RL case, including base quantities,
+ *   grid parameters, filter parameters, controller gains, references, and
+ *   initial conditions.
+ *
+ * - Equilibrium.hh / Equilibrium.cc:
+ *   generic equilibrium-solver interface used to compute a consistent
+ *   steady-state initial condition before time-domain simulation.
+ *
+ * - Newton.hh / dual.hh:
+ *   damped Newton solver and forward-mode automatic differentiation through
+ *   dual numbers.
+ *
+ * - main.cpp:
+ *   executable entry point. It builds the model, modifies the case references,
+ *   computes the equilibrium point, runs RK4, and exports the CSV file.
+ *
+ * @section state_vector Dynamic state vector
+ *
+ * The state vector is ordered as
+ *
+ * \f[
+ * x =
+ * \begin{bmatrix}
+ * i_{gd} &
+ * i_{gq} &
+ * e_d &
+ * e_q &
+ * i_d &
+ * i_q &
+ * v_d &
+ * v_q &
+ * i_{\mathrm{stk}} &
+ * \hat{\theta} &
+ * \xi_{\mathrm{pll}} &
+ * \xi_{ucd} &
+ * \xi_{ucq} &
+ * \xi_{isd} &
+ * \xi_{isq} &
+ * \xi_{idc2}
+ * \end{bmatrix}^{\top}.
+ * \f]
+ *
+ * The physical interpretation is:
+ *
+ * - \f$i_{gd}, i_{gq}\f$: grid-side inductor currents.
+ * - \f$e_d, e_q\f$: PCC voltage components.
+ * - \f$i_d, i_q\f$: PWM-CSC AC-side filter currents.
+ * - \f$v_d, v_q\f$: PWM-CSC AC-side capacitor voltages.
+ * - \f$i_{\mathrm{stk}}\f$: DC-side current through the inductor and resistive load.
+ * - \f$\hat{\theta}\f$: PLL-estimated electrical angle.
+ * - \f$\xi_{\mathrm{pll}}\f$: PLL integral state.
+ * - \f$\xi_{ucd}, \xi_{ucq}\f$: voltage-controller integral states.
+ * - \f$\xi_{isd}, \xi_{isq}\f$: current-controller integral states.
+ * - \f$\xi_{idc2}\f$: outer DC-current-loop integral state.
+ *
+ * The corresponding indexes are defined by StateIndex.
+ *
+ * @section output_vector Algebraic output vector
+ *
+ * In addition to the dynamic states, the simulation exports algebraic variables
+ * to the CSV file. These include:
+ *
+ * - reconstructed three-phase currents,
+ * - reconstructed three-phase capacitor voltages,
+ * - d- and q-axis current references,
+ * - DC-current reference,
+ * - reactive-power reference,
+ * - active-power reference,
+ * - measured active power,
+ * - measured reactive power.
+ *
+ * The synchronous-frame, power-invariant, power expressions used for the
+ * exported powers are
+ *
+ * \f[
+ * P = e_d i_d + e_q i_q,
+ * \f]
+ *
+ * \f[
+ * Q = e_q i_d - e_d i_q.
+ * \f]
+ *
+ * The algebraic-output indexes are defined by OutputIndex.
+ *
+ * @section model_assumptions Modelling assumptions
+ *
+ * The implemented model assumes:
+ *
+ * - balanced three-phase operation,
+ * - zero-sequence-free variables,
+ * - averaged PWM-CSC behaviour,
+ * - synchronous dq formulation,
+ * - fixed-step numerical integration,
+ * - ideal modulation signals inside the averaged model,
+ * - DC-side load represented by an equivalent resistance \f$R_L\f$,
+ * - no explicit switching ripple in the dynamic equations,
+ * - no explicit electrolyser electrochemical dynamics.
+ *
+ * The present CSC-RL model is therefore not a switching model and not yet a
+ * PEM electrolyser model. It is a converter-control benchmark that can later
+ * be extended by replacing
+ *
+ * \f[
+ * v_{\mathrm{dc}} = R_L i_{\mathrm{stk}}
+ * \f]
+ *
+ * with a more detailed DC-load model, for example a PEM equivalent electrical
+ * circuit.
+ *
+ * @section pll PLL model
+ *
+ * The phase-locked loop (PLL) estimates the grid voltage angle used by the
+ * synchronous dq reference frame. The PLL is based on the q-axis component of
+ * the PCC voltage. When the PLL is synchronized, the q-axis voltage component
+ * tends to zero and the d-axis component is aligned with the PCC voltage vector.
+ *
+ * The normalized PLL error is defined as
+ *
+ * \f[
+ * e_{\mathrm{pll}}
+ * =
+ * \frac{e_q}{V_{\mathrm{dq,nom}}},
+ * \f]
+ *
+ * where \f$e_q\f$ is the q-axis PCC voltage and \f$V_{\mathrm{dq,nom}}\f$ is
+ * the nominal dq voltage used for normalization.
+ *
+ * The estimated angular frequency is obtained from a PI controller:
+ *
+ * \f[
+ * \hat{\omega}
+ * =
+ * \omega_0
+ * +
+ * k_{p,\mathrm{pll}} e_{\mathrm{pll}}
+ * +
+ * k_{i,\mathrm{pll}} \xi_{\mathrm{pll}}.
+ * \f]
+ *
+ * The PLL dynamic equations are
+ *
+ * \f[
+ * \frac{d\hat{\theta}}{dt}
+ * =
+ * \hat{\omega},
+ * \f]
+ *
+ * \f[
+ * \frac{d\xi_{\mathrm{pll}}}{dt}
+ * =
+ * e_{\mathrm{pll}}.
+ * \f]
+ *
+ * Therefore, \f$\hat{\theta}\f$ is the estimated electrical angle and
+ * \f$\xi_{\mathrm{pll}}\f$ is the PLL integral state. The estimated angle is
+ * used to transform variables between abc and dq coordinates and to reconstruct
+ * three-phase quantities for CSV output.
+ *
+ * @section grid_model Grid and PCC dynamics
+ *
+ * The grid-side equivalent includes a series resistance \f$R_g\f$, a series
+ * inductance \f$L_g\f$, and a shunt capacitance \f$C_g\f$ at the PCC. The grid
+ * source is represented by the dq voltage components \f$e_{gd}\f$ and
+ * \f$e_{gq}\f$.
+ *
+ * The grid-side current equations are
+ *
+ * \f[
+ * \frac{d i_{gd}}{dt}
+ * =
+ * \frac{
+ * e_{gd}
+ * -
+ * R_g i_{gd}
+ * -
+ * e_d
+ * +
+ * \hat{\omega} L_g i_{gq}
+ * }{L_g},
+ * \f]
+ *
+ * \f[
+ * \frac{d i_{gq}}{dt}
+ * =
+ * \frac{
+ * e_{gq}
+ * -
+ * R_g i_{gq}
+ * -
+ * e_q
+ * -
+ * \hat{\omega} L_g i_{gd}
+ * }{L_g}.
+ * \f]
+ *
+ * The PCC voltage equations are
+ *
+ * \f[
+ * \frac{d e_d}{dt}
+ * =
+ * \frac{
+ * i_{gd}
+ * -
+ * i_d
+ * +
+ * \hat{\omega} C_g e_q
+ * }{C_g},
+ * \f]
+ *
+ * \f[
+ * \frac{d e_q}{dt}
+ * =
+ * \frac{
+ * i_{gq}
+ * -
+ * i_q
+ * -
+ * \hat{\omega} C_g e_d
+ * }{C_g}.
+ * \f]
+ *
+ * @section csc_model Averaged PWM-CSC model
+ *
+ * The PWM-CSC AC-side filter is represented by \f$R_f\f$, \f$L_f\f$, and
+ * \f$C_f\f$. The DC side includes the inductor \f$L_{\mathrm{dc}}\f$ and the
+ * equivalent load resistance \f$R_L\f$.
+ *
+ * The AC-side current equations are
+ *
+ * \f[
+ * \frac{d i_d}{dt}
+ * =
+ * \frac{
+ * e_d
+ * -
+ * v_d
+ * -
+ * R_f i_d
+ * +
+ * \hat{\omega} L_f i_q
+ * }{L_f},
+ * \f]
+ *
+ * \f[
+ * \frac{d i_q}{dt}
+ * =
+ * \frac{
+ * e_q
+ * -
+ * v_q
+ * -
+ * R_f i_q
+ * -
+ * \hat{\omega} L_f i_d
+ * }{L_f}.
+ * \f]
+ *
+ * The AC capacitor-voltage equations are
+ *
+ * \f[
+ * \frac{d v_d}{dt}
+ * =
+ * \frac{
+ * i_d
+ * -
+ * m_d i_{\mathrm{stk}}
+ * +
+ * \hat{\omega} C_f v_q
+ * }{C_f},
+ * \f]
+ *
+ * \f[
+ * \frac{d v_q}{dt}
+ * =
+ * \frac{
+ * i_q
+ * -
+ * m_q i_{\mathrm{stk}}
+ * -
+ * \hat{\omega} C_f v_d
+ * }{C_f}.
+ * \f]
+ *
+ * The DC-side current equation is
+ *
+ * \f[
+ * \frac{d i_{\mathrm{stk}}}{dt}
+ * =
+ * \frac{
+ * m_d v_d
+ * +
+ * m_q v_q
+ * -
+ * R_L i_{\mathrm{stk}}
+ * }{L_{\mathrm{dc}}}.
+ * \f]
+ *
+ * In a future PEM-electrolyser extension, the term \f$R_L i_{\mathrm{stk}}\f$
+ * would be replaced by the stack-voltage model \f$v_{\mathrm{stk}}\f$.
+ *
+ * @section control_structure Cascaded control structure
+ *
+ * The control objective is to regulate the DC-side current \f$i_{\mathrm{stk}}\f$
+ * while independently tracking a reactive-power reference \f$Q_{\mathrm{ref}}\f$.
+ *
+ * The code uses a cascaded structure:
+ *
+ * - outer DC-current loop,
+ * - active/reactive power to AC-current-reference mapping,
+ * - inner AC-current loop,
+ * - inner capacitor-voltage loop,
+ * - modulation-signal generation.
+ *
+ * @subsection outer_loop Outer DC-current loop
+ *
+ * The outer loop uses a squared-current error:
+ *
+ * \f[
+ * E_{idc2}
+ * =
+ * i_{\mathrm{dc,ref}}^{2}
+ * -
+ * i_{\mathrm{stk}}^{2}.
+ * \f]
+ *
+ * The active-power reference is
+ *
+ * \f[
+ * P_{\mathrm{ref}}
+ * =
+ * k_{pO} E_{idc2}
+ * +
+ * k_{iO} \xi_{idc2}.
+ * \f]
+ *
+ * The corresponding integral state is
+ *
+ * \f[
+ * \frac{d\xi_{idc2}}{dt}
+ * =
+ * E_{idc2}.
+ * \f]
+ *
+ * @subsection current_references AC current references
+ *
+ * The d- and q-axis current references are computed from the active-power and
+ * reactive-power references:
+ *
+ * \f[
+ * i_d^*
+ * =
+ * \frac{
+ * e_d P_{\mathrm{ref}}
+ * +
+ * e_q Q_{\mathrm{ref}}
+ * }{
+ * e_d^2 + e_q^2
+ * },
+ * \f]
+ *
+ * \f[
+ * i_q^*
+ * =
+ * \frac{
+ * e_q P_{\mathrm{ref}}
+ * -
+ * e_d Q_{\mathrm{ref}}
+ * }{
+ * e_d^2 + e_q^2
+ * }.
+ * \f]
+ *
+ * This maps the active- and reactive-power references into synchronous-frame
+ * current references.
+ *
+ * @subsection current_controller Inner current controller
+ *
+ * The current errors are
+ *
+ * \f[
+ * E_{id}=i_d^*-i_d,
+ * \qquad
+ * E_{iq}=i_q^*-i_q.
+ * \f]
+ *
+ * The capacitor-voltage references are
+ *
+ * \f[
+ * v_d^*
+ * =
+ * e_d
+ * +
+ * \hat{\omega} L_f i_q
+ * -
+ * R_f i_d
+ * -
+ * k_{p2} E_{id}
+ * -
+ * k_{i2} \xi_{isd},
+ * \f]
+ *
+ * \f[
+ * v_q^*
+ * =
+ * e_q
+ * -
+ * \hat{\omega} L_f i_d
+ * -
+ * R_f i_q
+ * -
+ * k_{p2} E_{iq}
+ * -
+ * k_{i2} \xi_{isq}.
+ * \f]
+ *
+ * The current-controller integral states are
+ *
+ * \f[
+ * \frac{d\xi_{isd}}{dt}=E_{id},
+ * \qquad
+ * \frac{d\xi_{isq}}{dt}=E_{iq}.
+ * \f]
+ *
+ * @subsection voltage_controller Capacitor-voltage controller
+ *
+ * The voltage errors are
+ *
+ * \f[
+ * E_{vd}=v_d^*-v_d,
+ * \qquad
+ * E_{vq}=v_q^*-v_q.
+ * \f]
+ *
+ * The modulation signals are computed as
+ *
+ * \f[
+ * m_d
+ * =
+ * \frac{
+ * i_d
+ * +
+ * \hat{\omega} C_f v_q
+ * -
+ * k_{p1} E_{vd}
+ * -
+ * k_{i1} \xi_{ucd}
+ * }{
+ * i_{\mathrm{stk}}
+ * },
+ * \f]
+ *
+ * \f[
+ * m_q
+ * =
+ * \frac{
+ * i_q
+ * -
+ * \hat{\omega} C_f v_d
+ * -
+ * k_{p1} E_{vq}
+ * -
+ * k_{i1} \xi_{ucq}
+ * }{
+ * i_{\mathrm{stk}}
+ * }.
+ * \f]
+ *
+ * The voltage-controller integral states are
+ *
+ * \f[
+ * \frac{d\xi_{ucd}}{dt}=E_{vd},
+ * \qquad
+ * \frac{d\xi_{ucq}}{dt}=E_{vq}.
+ * \f]
+ *
+ * The implementation includes numerical protection thresholds to avoid
+ * divisions by excessively small values of \f$i_{\mathrm{stk}}\f$ and
+ * \f$e_d^2+e_q^2\f$.
+ *
+ * @section rk4_solver RK4 solver
+ *
+ * The RK4 solver integrates a generic ODE problem of the form
+ *
+ * \f[
+ * \frac{d x}{dt}=f(t,x),
+ * \qquad
+ * x(t_0)=x_0.
+ * \f]
+ *
+ * The classical fourth-order Runge-Kutta stages are
+ *
+ * \f[
+ * k_1=f(t_k,x_k),
+ * \f]
+ *
+ * \f[
+ * k_2=f\left(t_k+\frac{h}{2},x_k+\frac{h}{2}k_1\right),
+ * \f]
+ *
+ * \f[
+ * k_3=f\left(t_k+\frac{h}{2},x_k+\frac{h}{2}k_2\right),
+ * \f]
+ *
+ * \f[
+ * k_4=f(t_k+h,x_k+h k_3).
+ * \f]
+ *
+ * The state is advanced as
+ *
+ * \f[
+ * x_{k+1}
+ * =
+ * x_k
+ * +
+ * \frac{h}{6}
+ * \left(
+ * k_1 + 2k_2 + 2k_3 + k_4
+ * \right).
+ * \f]
+ *
+ * Solver configuration is provided through ODE::SolverOptions.
+ *
+ * @section equilibrium Equilibrium calculation and initialization
+ *
+ * Before the time-domain simulation, the program computes a consistent
+ * steady-state operating point using a damped Newton method. The purpose is to
+ * initialize the dynamic model directly at an operating point compatible with
+ * the selected DC-current reference, reactive-power reference, controller
+ * integrator states, PLL state, grid variables, and converter variables.
+ *
+ * This avoids artificial start-up dynamics. If the simulation were started
+ * from arbitrary initial conditions, the first part of the response would
+ * contain numerical and control transients associated with the mismatch between
+ * the initial state and the selected operating point. By starting from the
+ * Newton equilibrium, the simulated transients are mainly caused by the
+ * programmed reference changes, not by inconsistent initial conditions.
+ *
+ * The equilibrium problem solves
+ *
+ * \f[
+ * F(z)=0,
+ * \f]
+ *
+ * where \f$z\f$ is a reduced vector containing all dynamic states except the
+ * absolute PLL angle \f$\hat{\theta}\f$.
+ *
+ * The PLL angle is excluded because, in synchronous steady-state operation,
+ *
+ * \f[
+ * \frac{d\hat{\theta}}{dt} = \hat{\omega} \neq 0.
+ * \f]
+ *
+ * Therefore, the absolute angle is not a constant equilibrium variable.
+ * Instead, the equilibrium residual enforces zero derivatives for the remaining
+ * states:
+ *
+ * \f[
+ * F(z)=\frac{d x_{\mathrm{red}}}{dt}(z).
+ * \f]
+ *
+ * The reduced vector is expanded internally into the full state vector before
+ * evaluating the same model equations used by the RK4 solver. Therefore, the
+ * equilibrium calculation and the time-domain simulation are consistent with
+ * the same CSC-RL dynamics and control laws.
+ *
+ * The Jacobian is obtained by forward-mode automatic differentiation using
+ * AD::Dual numbers. The Newton iteration solves
+ *
+ * \f[
+ * J_F(z_k)\Delta z_k = -F(z_k),
+ * \f]
+ *
+ * and updates the solution using a damped step:
+ *
+ * \f[
+ * z_{k+1}=z_k+\alpha \Delta z_k,
+ * \qquad 0 < \alpha \leq 1.
+ * \f]
+ *
+ * If Newton converges, the computed full equilibrium state replaces
+ * CSC_RL_Parameters::x0. The RK4 solver therefore starts from this equilibrium
+ * point. If Newton does not converge, the program prints a warning and uses the
+ * manually specified initial condition.
+ *
+ * @section csv_output CSV output
+ *
+ * The RK4 solver writes the simulation results to a CSV file. The file contains:
+ *
+ * - simulation time,
+ * - dynamic states,
+ * - optional exact-solution errors, if available,
+ * - algebraic outputs.
+ *
+ * For the CSC-RL case, the default output file is
+ *
+ * @code
+ * results/csc_rl.csv
+ * @endcode
+ *
+ * The CSV file can be post-processed in MATLAB, Python, GNU Octave, or any
+ * plotting tool.
+ *
+ * @section basic_usage Basic usage
+ *
+ * A typical simulation workflow is:
+ *
+ * 1. Build the model object.
+ * 2. Create the default CSC-RL parameter set.
+ * 3. Modify the simulation time interval.
+ * 4. Modify the DC-current and reactive-power references.
+ * 5. Configure the RK4 solver.
+ * 6. Compute a consistent equilibrium point using Newton.
+ * 7. Replace p.x0 with the computed equilibrium state if Newton converges.
+ * 8. Wrap the model as an ODE problem.
+ * 9. Run the RK4 solver from the equilibrium initial condition.
+ *
+ * Example:
+ *
+ * @code{.cpp}
+ * CSC_RL_Model model;
+ * CSC_RL_Parameters p = make_csc_rl_case();
+ *
+ * p.t0 = 0.0;
+ * p.tf = 5.0;
+ *
+ * p.idc_ref.times  = {0.0, 0.5, 2.0, 3.0, 4.0};
+ * p.idc_ref.values = {200.0, 250.0, 200.0, 150.0, 100.0};
+ *
+ * p.Q_ref.times  = {0.0, 1.7, 3.4};
+ * p.Q_ref.values = {30000.0, -30000.0, 0.0};
+ *
+ * ODE::SolverOptions sim;
+ * sim.h = 1e-5;
+ * sim.save_every = 20;
+ * sim.output_file = "results/csc_rl.csv";
+ *
+ * EquilibriumOptions eq_opt;
+ * eq_opt.tolerance = 1e-8;
+ * eq_opt.max_iter = 80;
+ * eq_opt.max_sub_iter = 30;
+ * eq_opt.damp_factor = 0.6;
+ * eq_opt.verbose = true;
+ * eq_opt.newton_verbose = true;
+ *
+ * const bool eq_ok = compute_csc_rl_equilibrium(model, p, eq_opt);
+ *
+ * if (!eq_ok)
+ * {
+ *     std::cerr << "Warning: equilibrium was not found.\n";
+ * }
+ *
+ * CSC_RL problem(model, p);
+ * ODE::solve_rk4(problem, sim);
+ * @endcode
+ *
+ * @section extension_to_pem Possible extension to a PEM electrolyser model
+ *
+ * The present implementation uses the resistive approximation
+ *
+ * \f[
+ * v_{\mathrm{dc}}=R_L i_{\mathrm{stk}}.
+ * \f]
+ *
+ * A future PEM-electrolyser version can replace this relation with a dynamic
+ * equivalent electrical circuit. A typical converter-level PEM representation
+ * introduces a stack voltage of the form
+ *
+ * \f[
+ * v_{\mathrm{stk}}=v_{oc}+r_{ohm}i_{\mathrm{stk}}+v_{cdl},
+ * \f]
+ *
+ * with double-layer dynamics
+ *
+ * \f[
+ * \frac{d v_{cdl}}{dt}
+ * =
+ * -
+ * \frac{1}{r_{pol}C_{dl}}v_{cdl}
+ * +
+ * \frac{1}{C_{dl}}i_{\mathrm{stk}}.
+ * \f]
+ *
+ * In that case, the CSC-RL state vector would need one additional state
+ * \f$v_{cdl}\f$, and the DC-link equation would become
+ *
+ * \f[
+ * \frac{d i_{\mathrm{stk}}}{dt}
+ * =
+ * \frac{
+ * m_d v_d
+ * +
+ * m_q v_q
+ * -
+ * v_{\mathrm{stk}}
+ * }{L_{\mathrm{dc}}}.
+ * \f]
+ *
+ * Therefore, the current CSC-RL implementation can be understood as the
+ * first step toward a more complete CSC-PEM dynamic model.
+ */

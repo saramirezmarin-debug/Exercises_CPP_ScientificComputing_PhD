@@ -1,9 +1,9 @@
 # ninja log v7
-26	987	8039355569428498	CMakeFiles/ODE4.dir/src/CSC_RL_Case.cc.obj	28edfbae541c700a
-13	1115	8039355569295185	CMakeFiles/ODE4.dir/src/ODE4.cc.obj	b4b818b27a4a50f9
-19	1245	8039355569355664	CMakeFiles/ODE4.dir/src/CSC_RL.cc.obj	d13b2df3200053c4
-16	1292	8039355569325667	CMakeFiles/ODE4.dir/src/main.cpp.obj	93dd21a3fc09a8ec
-22	2198	8039355569385664	CMakeFiles/ODE4.dir/src/Equilibrium.cc.obj	9f68780fd03dac16
-2198	2426	8039355591144845	ODE4.exe	c6cb7b09988f1c91
-28	254	8039355595053182	CMakeFiles/docs	c6dd55c7e92f1705
-28	254	8039355595053182	C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/docs	c6dd55c7e92f1705
+27	832	8040406110357291	CMakeFiles/CSC.dir/src/CSC_RL_Case.cc.obj	5aa3fdeaffc935d2
+16	1020	8040406110254644	CMakeFiles/CSC.dir/src/ODE4.cc.obj	9ba538e263b27c39
+22	1113	8040406110304959	CMakeFiles/CSC.dir/src/CSC_RL.cc.obj	20355bf3162e5805
+20	1188	8040406110279936	CMakeFiles/CSC.dir/src/main.cpp.obj	756bf9a1d772bddb
+24	1977	8040406110324971	CMakeFiles/CSC.dir/src/Equilibrium.cc.obj	3cd2e5ead048d2ae
+1978	2214	8040406129860755	CSC.exe	c854bf876d58b3bf
+36	308	8040406133913907	CMakeFiles/doc	61b3fc863b0c41f7
+36	308	8040406133913907	C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/doc	61b3fc863b0c41f7

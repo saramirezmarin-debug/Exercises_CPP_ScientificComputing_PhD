@@ -1,4 +1,4 @@
-C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/ODE4.dir
-C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/docs.dir
+C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/CSC.dir
+C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/doc.dir
 C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/edit_cache.dir
 C:/CPP_Projects/CPP_Course/Exercises/Final_Project/build/CMakeFiles/rebuild_cache.dir
