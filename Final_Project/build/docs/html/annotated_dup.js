@@ -1,0 +1,26 @@
+var annotated_dup =
+[
+    [ "AD", "namespace_a_d.html", [
+      [ "Dual", "class_a_d_1_1_dual.html", "class_a_d_1_1_dual" ],
+      [ "NewtonOptions", "struct_a_d_1_1_newton_options.html", "struct_a_d_1_1_newton_options" ],
+      [ "NewtonProblem", "class_a_d_1_1_newton_problem.html", "class_a_d_1_1_newton_problem" ],
+      [ "NewtonProblemAD", "class_a_d_1_1_newton_problem_a_d.html", "class_a_d_1_1_newton_problem_a_d" ],
+      [ "NewtonSolver", "class_a_d_1_1_newton_solver.html", "class_a_d_1_1_newton_solver" ]
+    ] ],
+    [ "ODE", "namespace_o_d_e.html", [
+      [ "SolverOptions", "struct_o_d_e_1_1_solver_options.html", "struct_o_d_e_1_1_solver_options" ],
+      [ "StairSignal", "struct_o_d_e_1_1_stair_signal.html", "struct_o_d_e_1_1_stair_signal" ],
+      [ "ODE_Problem_base", "class_o_d_e_1_1_o_d_e___problem__base.html", "class_o_d_e_1_1_o_d_e___problem__base" ]
+    ] ],
+    [ "ControlOutput", "struct_control_output.html", "struct_control_output" ],
+    [ "CSC_RL", "class_c_s_c___r_l.html", "class_c_s_c___r_l" ],
+    [ "CSC_RL_EquilibriumProblem", "class_c_s_c___r_l___equilibrium_problem.html", "class_c_s_c___r_l___equilibrium_problem" ],
+    [ "CSC_RL_Model", "class_c_s_c___r_l___model.html", "class_c_s_c___r_l___model" ],
+    [ "CSC_RL_Parameters", "struct_c_s_c___r_l___parameters.html", "struct_c_s_c___r_l___parameters" ],
+    [ "EquilibriumOptions", "struct_equilibrium_options.html", "struct_equilibrium_options" ],
+    [ "EquilibriumReferences", "struct_equilibrium_references.html", "struct_equilibrium_references" ],
+    [ "InnerLoopOutput", "struct_inner_loop_output.html", "struct_inner_loop_output" ],
+    [ "OuterLoopOutput", "struct_outer_loop_output.html", "struct_outer_loop_output" ],
+    [ "PLLOutput", "struct_p_l_l_output.html", "struct_p_l_l_output" ],
+    [ "ReferenceOutput", "struct_reference_output.html", "struct_reference_output" ]
+];

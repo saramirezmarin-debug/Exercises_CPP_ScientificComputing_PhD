@@ -49,7 +49,7 @@ if(DOXYGEN_FOUND)
 
   # Output folder for generated documentation.
   # It is better to keep generated files outside the source docs/ folder.
-  set(DOXYGEN_OUTPUT_DIRECTORY       "${CMAKE_CURRENT_BINARY_DIR}/docs")
+  set(DOXYGEN_OUTPUT_DIRECTORY       "docs")
 
   set(DOXYGEN_CREATE_SUBDIRS         NO)
   set(DOXYGEN_GENERATE_HTML          YES)
@@ -72,7 +72,7 @@ if(DOXYGEN_FOUND)
   # Warnings.
   set(DOXYGEN_QUIET                  NO)
   set(DOXYGEN_WARN_IF_UNDOCUMENTED   NO)
-  set(DOXYGEN_WARN_IF_DOC_ERROR      YES)
+  set(DOXYGEN_WARN_IF_DOC_ERROR      NO)
 
   doxygen_add_docs(
     doc
